@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nusa Siaga — Petualangan Mitigasi Tsunami</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="deco" aria-hidden="true">
+  <span class="sun"></span>
+  <span class="cloud c1"></span>
+  <span class="cloud c2"></span>
+  <span class="cloud c3"></span>
+  <div class="waves"></div>
+</div>
+
+<header class="topbar">
+  <button class="logo" id="logoBtn" type="button"><span class="logo-ico" data-ico="wave" aria-hidden="true"></span> Nusa Siaga</button>
+  <div class="top-right">
+    <span class="pill" title="Total bintang"><span data-ico="star" aria-hidden="true"></span> <b id="starTotal">0</b>/<span id="starMax">0</span></span>
+    <button class="pill icon" id="soundBtn" type="button" aria-pressed="true" aria-label="Suara"></button>
+  </div>
+</header>
+
+<main id="app" tabindex="-1"></main>
+
+<footer class="site-foot">
+  Materi disarikan dari panduan umum kesiapsiagaan tsunami (BMKG &amp; BNPB).
+  Cocokkan lagi dengan sumber resmi sebelum dipakai untuk pembelajaran formal.
+</footer>
+
+<div id="feedback" class="feedback" role="status" aria-live="polite"></div>
+<div id="modal" class="modal"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="icons.js"></script>
+<script src="intro.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
