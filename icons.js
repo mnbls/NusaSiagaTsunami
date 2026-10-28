@@ -238,7 +238,24 @@
     'pier': { body: `${seaBand(48)}<path d="M10 40 V56 M24 40 V56 M38 40 V56" stroke-width="3.5"/><rect x="4" y="33" width="40" height="7" rx="1.5" fill="${C.brown}"/>
       <path d="M40 38 H61 L56 47 H45 Z" fill="${C.coral}"/><path d="M50 38 V24" stroke-width="2.5"/><path d="M51 25 L59 35 H51 Z" fill="${C.white}" stroke-width="2.5"/>` },
     'park': { body: `<rect x="17" y="34" width="6" height="22" fill="${C.brown}"/><circle cx="20" cy="24" r="14" fill="${C.grass}"/><circle cx="14" cy="20" r="3" fill="${C.grassD}" stroke="none"/>
-      <path d="M34 42 H60 M36 49 H58" stroke="${C.brown}" stroke-width="4"/><path d="M38 49 V57 M56 49 V57" stroke-width="3"/><path d="M4 57 H62" stroke="${C.grassD}"/>` }
+      <path d="M34 42 H60 M36 49 H58" stroke="${C.brown}" stroke-width="4"/><path d="M38 49 V57 M56 49 V57" stroke-width="3"/><path d="M4 57 H62" stroke="${C.grassD}"/>` },
+
+    /* ---------- Pulau Ilmu: proses terjadinya tsunami ---------- */
+    'plates': { body: `<rect x="4" y="6" width="56" height="20" rx="3" fill="${C.seaL}"/>
+      <rect x="4" y="30" width="27" height="26" rx="2" fill="${C.brown}"/><rect x="33" y="30" width="27" height="26" rx="2" fill="#c9965f"/>
+      <path d="M8 43 H22 M17 38 L22 43 L17 48 M56 43 H42 M47 38 L42 43 L47 48" stroke="${C.white}" stroke-width="3.5"/>
+      <path d="M32 28 L27 20 M32 28 L37 20 M32 28 V18" stroke="${C.sun}" stroke-width="3"/>` },
+    'uplift': { body: `<path d="M4 34 C16 34 22 15 32 15 C42 15 48 34 60 34 V46 H4 Z" fill="${C.sea}"/><path d="M22 22 C25 18 29 17 33 17" stroke="${C.white}" stroke-width="3"/>
+      <rect x="4" y="46" width="28" height="12" rx="2" fill="${C.brown}"/><rect x="32" y="40" width="28" height="18" rx="2" fill="#c9965f"/>
+      <path d="M46 55 V45 M42 49 L46 45 L50 49" stroke="${C.white}" stroke-width="3"/>` },
+    'ripple': { body: `<rect x="3" y="14" width="58" height="40" rx="9" fill="${C.seaL}"/>
+      <ellipse cx="32" cy="34" rx="26" ry="15" stroke="${C.white}" stroke-width="3"/><ellipse cx="32" cy="34" rx="17" ry="10" stroke="${C.white}" stroke-width="3"/><ellipse cx="32" cy="34" rx="8" ry="5" stroke="${C.white}" stroke-width="3"/>
+      <rect x="3" y="14" width="58" height="40" rx="9"/><circle cx="32" cy="34" r="3.5" fill="${C.coral}" stroke-width="2"/>` },
+    'shoal': { body: `<path d="M2 58 H62 V30 C46 38 26 50 2 54 Z" fill="${C.sand}"/>
+      <path d="M2 42 C8 40 12 40 16 42 C21 44 25 37 31 32 C37 22 46 16 54 20 C60 23 58 30 54 30 C52 27 48 27 47 30 C46 34 46 39 48 41 C34 46 18 50 2 52 Z" fill="${C.sea}"/>
+      <path d="M36 27 C39 22 43 20 47 20" stroke="${C.white}" stroke-width="3"/>` },
+    'magnifier': { body: `<path d="M40 40 L56 56" stroke-width="11"/><path d="M40 40 L56 56" stroke="${C.brown}" stroke-width="6"/>
+      <circle cx="27" cy="27" r="19" fill="${C.sky}"/><circle cx="27" cy="27" r="12" stroke="${C.seaL}" stroke-width="3"/><path d="M18 22 C19 18 22 16 26 15" stroke="${C.white}" stroke-width="3.5"/>` }
   };
 
   /* Ilustrasi besar (bukan ikon 64×64): pulau-pulau di peta dan peta jalur evakuasi. */
@@ -247,6 +264,14 @@
     <ellipse cx="100" cy="100" rx="88" ry="22" fill="${C.sand}"/><ellipse cx="100" cy="92" rx="72" ry="17" fill="${C.grass}"/>${inner}`;
   const tinyHouse = (x, y, roof) => `<rect x="${x}" y="${y}" width="16" height="13" fill="${C.paper}"/><path d="M${x - 3} ${y + 1} L${x + 8} ${y - 9} L${x + 19} ${y + 1} Z" fill="${roof}"/>`;
   const ART = {
+    'island-basic': { vb: '0 0 200 130', body: isle(`
+      <circle cx="46" cy="46" r="6" fill="${C.grey}"/><circle cx="56" cy="38" r="5" fill="${C.grey}"/><circle cx="52" cy="50" r="4" fill="${C.grey}"/>
+      <path d="M26 94 L44 58 H58 L76 94 Z" fill="#8a6a5a"/><path d="M44 58 C46 64 49 62 51 68 C53 62 56 64 58 58 Z" fill="${C.orange}"/>
+      <rect x="98" y="72" width="38" height="20" fill="${C.white}"/><path d="M98 72 C98 52 136 52 136 72 Z" fill="${C.seaL}"/><path d="M117 56 V45" stroke-width="3"/><circle cx="117" cy="43" r="3.5" fill="${C.coral}"/>
+      <rect x="111" y="80" width="12" height="12" fill="${C.sun}"/>
+      <path d="M174 58 L190 74" stroke-width="10"/><path d="M174 58 L190 74" stroke="${C.brown}" stroke-width="5"/>
+      <circle cx="162" cy="46" r="17" fill="${C.sky}"/><path d="M152 44 C155 39 160 37 165 37" stroke="${C.white}" stroke-width="3"/>
+      <path d="M154 50 C158 46 162 46 166 50 S174 54 172 48" stroke="${C.sea}" stroke-width="3"/>`) },
     'island-struct': { vb: '0 0 200 130', body: isle(`
       <rect x="44" y="121" width="18" height="7" rx="2" fill="${C.greyD}"/><rect x="92" y="124" width="18" height="7" rx="2" fill="${C.greyD}"/><rect x="140" y="121" width="18" height="7" rx="2" fill="${C.greyD}"/>
       <path d="M26 104 Q100 128 174 104" stroke="${C.ink}" stroke-width="11"/><path d="M26 104 Q100 128 174 104" stroke="${C.grey}" stroke-width="6"/>

@@ -78,7 +78,7 @@
     {
       key: 'ready', tag: 'Ayo mulai!', phase: '',
       title: 'Siap jadi Pahlawan Siaga?',
-      text: 'Sekarang saatnya mempraktikkan semua yang kamu pelajari. Jelajahi 3 pulau: Pulau Benteng (mitigasi struktural), Pulau Siaga Warga (mitigasi non-struktural), dan Pulau Tanggap (sebelum, saat, dan sesudah tsunami).',
+      text: 'Sekarang saatnya mempraktikkan semua yang kamu pelajari. Jelajahi 4 pulau: Pulau Ilmu (mengenal tsunami), Pulau Benteng (mitigasi struktural), Pulau Siaga Warga (mitigasi non-struktural), dan Pulau Tanggap (sebelum, saat, dan sesudah tsunami).',
       credit: 'Sumber materi: presentasi "Tsunami Awareness: Understanding, Preparing, and Staying Safe" (UPN "Veteran" Yogyakarta).'
     }
   ];

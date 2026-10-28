@@ -1,4 +1,4 @@
-/* Nusa Siaga — game edukasi mitigasi bencana tsunami (3 pulau, 15 misi). */
+/* Nusa Siaga — game edukasi mitigasi bencana tsunami (4 pulau, 20 misi). */
 (() => {
   'use strict';
 
@@ -6,16 +6,78 @@
 
   const ISLANDS = [
     {
-      id: 'struct', no: 1, name: 'Pulau Benteng', theme: 'Mitigasi Struktural', tag: 'struct', art: 'island-struct',
+      id: 'basic', no: 1, name: 'Pulau Ilmu', theme: 'Mengenal Tsunami', tag: 'basic', art: 'island-basic',
+      desc: 'Pengetahuan dasar: pengertian tsunami, proses terjadinya, penyebab, syarat gempa pemicu, dan dampaknya.'
+    },
+    {
+      id: 'struct', no: 2, name: 'Pulau Benteng', theme: 'Mitigasi Struktural', tag: 'struct', art: 'island-struct',
       desc: 'Bangunan dan alam yang melindungi pesisir: tanggul, pemecah gelombang, mangrove, bangunan tahan gempa, dan menara evakuasi.'
     },
     {
-      id: 'nonstruct', no: 2, name: 'Pulau Siaga Warga', theme: 'Mitigasi Non-Struktural', tag: 'nonstruct', art: 'island-nonstruct',
+      id: 'nonstruct', no: 3, name: 'Pulau Siaga Warga', theme: 'Mitigasi Non-Struktural', tag: 'nonstruct', art: 'island-nonstruct',
       desc: 'Upaya tanpa membangun: peringatan dini, tata ruang pesisir, peta jalur evakuasi, latihan rutin, dan edukasi warga.'
     },
     {
-      id: 'response', no: 3, name: 'Pulau Tanggap', theme: 'Sebelum, Saat, dan Sesudah', tag: 'pre', art: 'island-response',
+      id: 'response', no: 4, name: 'Pulau Tanggap', theme: 'Sebelum, Saat, dan Sesudah', tag: 'pre', art: 'island-response',
       desc: 'Langkah menyelamatkan diri: kenali tanda alam, siapkan tas siaga, evakuasi, dan tetap waspada setelah gelombang.'
+    }
+  ];
+
+  const BASIC_LEVELS = [
+    {
+      id: 'b1', island: 'basic', phaseKey: 'basic', phase: 'Mengenal tsunami', icon: 'book', type: 'truefalse',
+      title: 'Apa Itu Tsunami?',
+      mission: 'Baca setiap pernyataan tentang tsunami, lalu tentukan benar atau salah.',
+      how: ['Baca pernyataan di kartu.', 'Pilih Benar atau Salah. Pilihan yang keliru mengurangi 1 nyawa.', 'Nilai semua pernyataan untuk menang!'],
+      recap: [
+        'Tsunami adalah gelombang besar yang menyapu kawasan pantai.',
+        'Tsunami terjadi karena dasar laut terangkat atau turun mendadak sehingga air laut terganggu.',
+        'Ombak biasa disebabkan angin, sedangkan tsunami disebabkan gangguan di dasar laut.'
+      ]
+    },
+    {
+      id: 'b2', island: 'basic', phaseKey: 'basic', phase: 'Mengenal tsunami', icon: 'uplift', type: 'formation',
+      title: 'Proses Terjadinya Tsunami',
+      mission: 'Susun tahapan terjadinya tsunami, dari dasar laut sampai gelombang menyapu pantai.',
+      how: ['Ketuk kartu tahapan sesuai urutan, mulai dari yang pertama.', 'Urutan yang salah mengurangi 1 nyawa.', 'Susun keenam tahapan untuk menang!'],
+      recap: [
+        'Lempeng di dasar laut bergeser tiba-tiba dan memicu gempa bawah laut.',
+        'Dasar laut yang terangkat atau turun mendorong massa air dan membentuk gelombang.',
+        'Di laut dalam gelombang melaju sangat cepat, lalu melambat dan meninggi saat mendekati pantai yang dangkal.'
+      ]
+    },
+    {
+      id: 'b3', island: 'basic', phaseKey: 'basic', phase: 'Mengenal tsunami', icon: 'magnifier', type: 'causes',
+      title: 'Detektif Penyebab',
+      mission: 'Pasangkan setiap penyebab tsunami dengan penjelasannya.',
+      how: ['Ketuk satu penyebab, lalu ketuk penjelasan yang cocok.', 'Pasangan yang salah mengurangi 1 nyawa.', 'Pasangkan keempat penyebab untuk menang!'],
+      recap: [
+        'Penyebab tsunami: gempa tektonik bawah laut, letusan gunung berapi, longsor bawah laut, dan hantaman meteor.',
+        'Gempa bawah laut adalah penyebab yang paling sering terjadi.',
+        'Semuanya sama-sama memindahkan massa air laut secara tiba-tiba.'
+      ]
+    },
+    {
+      id: 'b4', island: 'basic', phaseKey: 'basic', phase: 'Mengenal tsunami', icon: 'tectonic', type: 'lab',
+      title: 'Lab Gempa Pemicu',
+      mission: 'Atur lokasi, kekuatan, kedalaman, dan gerakan gempa untuk menyelesaikan 3 tantangan.',
+      how: ['Atur lokasi, magnitudo, kedalaman, dan gerakan lempeng.', 'Tekan Picu gempa! lalu lihat hasilnya.', 'Percobaan yang tidak sesuai tantangan mengurangi 1 nyawa.'],
+      recap: [
+        'Gempa pemicu tsunami umumnya terjadi di laut, dangkal (kurang dari 60–70 km), dan kuat (lebih dari 7,0).',
+        'Gerakan lempeng naik-turun (vertikal) mendorong massa air dan membentuk tsunami.',
+        'Gempa yang dalam atau bergeser mendatar umumnya tidak memicu tsunami, tetapi tetap waspada dan ikuti info BMKG.'
+      ]
+    },
+    {
+      id: 'b5', island: 'basic', phaseKey: 'basic', phase: 'Mengenal tsunami', icon: 'heart-broken', type: 'quizImpact',
+      title: 'Kuis Dampak Tsunami',
+      mission: 'Jawab pertanyaan tentang dampak tsunami bagi manusia dan lingkungan.',
+      how: ['Baca situasinya, lalu pilih jawaban terbaik.', 'Tidak ada batas waktu, jadi pikirkan baik-baik.', 'Jawaban salah mengurangi 1 nyawa.'],
+      recap: [
+        'Tsunami dapat menimbulkan korban jiwa karena waktu evakuasi yang terbatas.',
+        'Air laut merusak lahan pertanian, mencemari air, dan merusak ekosistem laut.',
+        'Dalam kondisi tertentu, tsunami juga membentuk habitat baru dan menjadi bahan penelitian mitigasi.'
+      ]
     }
   ];
 
@@ -194,7 +256,7 @@
   ];
 
   RESPONSE_LEVELS.forEach(lv => { lv.island = 'response'; });
-  const LEVELS = [...STRUCT_LEVELS, ...NONSTRUCT_LEVELS, ...RESPONSE_LEVELS];
+  const LEVELS = [...BASIC_LEVELS, ...STRUCT_LEVELS, ...NONSTRUCT_LEVELS, ...RESPONSE_LEVELS];
   const LEVEL_BY_ID = Object.fromEntries(LEVELS.map(lv => [String(lv.id), lv]));
   const MAX_STARS = LEVELS.length * 3;
   const islandOf = lv => ISLANDS.find(is => is.id === lv.island);
@@ -304,6 +366,109 @@
         { ok: true, ic: 'phone-call', text: 'Kabari kerabat bahwa kalian selamat, lalu ikuti arahan petugas', why: 'Hebat! Keluarga jadi tenang, dan petugas tahu langkah selanjutnya.' },
         { ic: 'broom', text: 'Langsung pulang dan membersihkan rumah sendirian', why: 'Tunggu sampai daerahmu dinyatakan aman oleh petugas.' },
         { ic: 'swim', text: 'Bermain di genangan air', why: 'Genangan setelah tsunami bisa berisi puing tajam dan kotoran. Jauhi!' }
+      ]
+    }
+  ];
+
+  /* --- Pulau Ilmu (mengenal tsunami) --- */
+
+  const TF_ITEMS = [
+    { ic: 'wave', short: 'Gelombang besar', label: 'Tsunami adalah gelombang besar yang menyapu kawasan pantai.', zone: 'true', why: 'Benar! Tsunami adalah gelombang besar yang menyapu kawasan pantai.' },
+    { ic: 'uplift', short: 'Dasar laut bergerak', label: 'Tsunami terjadi karena dasar laut terangkat atau turun secara mendadak.', zone: 'true', why: 'Benar! Pergerakan mendadak di dasar laut mengganggu air laut dan membentuk gelombang besar.' },
+    { ic: 'gull', short: 'Karena angin', label: 'Tsunami disebabkan oleh angin kencang di permukaan laut.', zone: 'false', why: 'Salah. Ombak biasa disebabkan angin, sedangkan tsunami disebabkan gangguan di dasar laut.' },
+    { ic: 'ripple', short: 'Hanya 1 gelombang', label: 'Tsunami hanya terdiri dari satu gelombang.', zone: 'false', why: 'Salah. Tsunami bisa datang berkali-kali, dan gelombang pertama belum tentu yang terbesar.' },
+    { ic: 'tectonic', short: 'Paling sering: gempa', label: 'Gempa bawah laut adalah penyebab tsunami yang paling sering terjadi.', zone: 'true', why: 'Benar! Sebagian besar tsunami dipicu oleh gempa tektonik bawah laut.' },
+    { ic: 'rain', short: 'Hanya saat badai', label: 'Tsunami hanya bisa terjadi saat cuaca buruk.', zone: 'false', why: 'Salah. Tsunami tidak bergantung pada cuaca dan bisa datang saat langit cerah.' },
+    { ic: 'no-entry', short: 'Lewat muara sungai', label: 'Gelombang tsunami bisa merambat naik lewat muara sungai.', zone: 'true', why: 'Benar! Karena itu, jauhi sungai dan muara saat evakuasi.' }
+  ];
+  const TF_CFG = {
+    left: { key: 'true', label: 'Benar', sub: 'pernyataan tepat', ic: 'verified', cls: 'z-safe', btn: 'green' },
+    right: { key: 'false', label: 'Salah', sub: 'pernyataan keliru', ic: 'no-entry', cls: 'z-risk', btn: 'red' },
+    unit: 'Pernyataan', statement: true
+  };
+
+  const FORM_STEPS = [
+    { ic: 'plates', text: 'Lempeng di dasar laut saling menekan dan menumpuk tekanan', hint: 'Awalnya, tekanan menumpuk di antara lempeng dasar laut.' },
+    { ic: 'tectonic', text: 'Lempeng bergeser tiba-tiba sehingga terjadi gempa bawah laut', hint: 'Tekanan yang menumpuk akhirnya lepas sebagai gempa bawah laut.' },
+    { ic: 'uplift', text: 'Dasar laut terangkat atau turun dan mendorong air di atasnya', hint: 'Gempa membuat dasar laut bergerak dan mendorong massa air.' },
+    { ic: 'ripple', text: 'Gelombang menyebar ke segala arah dengan sangat cepat di laut dalam', hint: 'Air yang terdorong menyebar sebagai gelombang ke segala arah.' },
+    { ic: 'shoal', text: 'Di dekat pantai yang dangkal, gelombang melambat dan makin tinggi', hint: 'Saat laut makin dangkal, gelombang melambat dan meninggi.' },
+    { ic: 'house', text: 'Gelombang besar menyapu kawasan pantai', hint: 'Terakhir, gelombang tinggi itu menyapu daratan pantai.' }
+  ];
+
+  const CAUSE_PAIRS = [
+    { ic: 'tectonic', name: 'Gempa tektonik bawah laut', fn: 'Lempeng bergeser vertikal di kedalaman dangkal (kurang dari 60–70 km) dengan magnitudo besar (lebih dari 7,0).' },
+    { ic: 'volcano', name: 'Letusan gunung berapi', fn: 'Erupsi atau runtuhnya kaldera gunung api di laut atau dekat pantai mendesak massa air.' },
+    { ic: 'landslide', name: 'Longsor bawah laut', fn: 'Sedimen atau lereng dasar laut runtuh mendadak, umumnya dipicu gempa atau erupsi.' },
+    { ic: 'meteor', name: 'Hantaman meteor', fn: 'Benda luar angkasa berukuran besar jatuh ke laut dan memindahkan air seketika.' }
+  ];
+
+  // Syarat (disederhanakan) gempa pemicu tsunami, sesuai materi: di laut, dangkal, kuat, vertikal.
+  const LAB_GOALS = [
+    {
+      text: 'Buat gempa yang memicu tsunami.',
+      check: r => r.tsunami,
+      hint: 'Tsunami butuh gempa di laut, dangkal (kurang dari 70 km), kuat (lebih dari 7,0), dan lempeng bergerak naik-turun.'
+    },
+    {
+      text: 'Buat gempa kuat (lebih dari 7,0) di laut yang TIDAK memicu tsunami karena pusatnya terlalu dalam.',
+      check: r => !r.tsunami && r.sea && r.mag > 7 && r.vertical && r.depth >= 70,
+      hint: 'Tetap di laut, magnitudo di atas 7,0, dan gerakan vertikal. Lalu geser kedalaman menjadi 70 km atau lebih.'
+    },
+    {
+      text: 'Buat gempa kuat dan dangkal di laut yang TIDAK memicu tsunami karena lempengnya bergeser mendatar.',
+      check: r => !r.tsunami && r.sea && r.mag > 7 && r.depth < 70 && !r.vertical,
+      hint: 'Tetap di laut, magnitudo di atas 7,0, kedalaman kurang dari 70 km, lalu pilih gerakan mendatar.'
+    }
+  ];
+
+  const IMPACT_QS = [
+    {
+      ic: 'heart-broken', text: 'Mengapa tsunami bisa menimbulkan banyak korban jiwa?',
+      options: [
+        { ok: true, ic: 'timer', text: 'Waktu evakuasi terbatas sehingga banyak orang tidak sempat menyelamatkan diri', why: 'Tepat! Korban bisa tenggelam, tertimpa reruntuhan, atau terluka.' },
+        { ic: 'sun', text: 'Karena tsunami selalu datang saat cuaca panas', why: 'Tsunami tidak bergantung pada cuaca.' },
+        { ic: 'gull', text: 'Karena gelombangnya kecil dan pelan', why: 'Justru gelombangnya besar dan kuat.' }
+      ]
+    },
+    {
+      ic: 'crop', text: 'Air laut masuk ke sawah dan kebun setelah tsunami. Apa akibatnya?',
+      options: [
+        { ok: true, ic: 'crop', text: 'Kadar garam tanah naik sehingga pertanian terganggu', why: 'Benar! Air laut menaikkan kadar garam pada tanah dan sumber air.' },
+        { ic: 'sprout', text: 'Tanah jadi lebih subur', why: 'Garam dari air laut justru merusak tanaman.' },
+        { ic: 'check', text: 'Tidak ada pengaruhnya', why: 'Air laut berdampak besar pada lahan pertanian.' }
+      ]
+    },
+    {
+      ic: 'water', text: 'Mengapa risiko penyakit meningkat setelah tsunami?',
+      options: [
+        { ok: true, ic: 'water', text: 'Sumber air bersih tercemar', why: 'Tepat! Pencemaran air meningkatkan risiko penyakit.' },
+        { ic: 'rain', text: 'Karena cuaca menjadi dingin', why: 'Penyebab utamanya adalah air yang tercemar.' },
+        { ic: 'fish', text: 'Karena banyak ikan terdampar', why: 'Penyebab utamanya adalah sumber air bersih yang tercemar.' }
+      ]
+    },
+    {
+      ic: 'radiation', text: 'Apa yang terjadi di Fukushima, Jepang, tahun 2011 akibat tsunami?',
+      options: [
+        { ok: true, ic: 'radiation', text: 'Fasilitas nuklir rusak sehingga terjadi pencemaran radiasi', why: 'Benar! Kerusakan fasilitas nuklir menyebabkan pencemaran radiasi.' },
+        { ic: 'mountain', text: 'Terbentuk gunung baru', why: 'Yang terjadi adalah kerusakan fasilitas nuklir dan pencemaran radiasi.' },
+        { ic: 'check', text: 'Tidak ada kerusakan apa pun', why: 'Tsunami 2011 menimbulkan kerusakan besar, termasuk di fasilitas nuklir.' }
+      ]
+    },
+    {
+      ic: 'fish', text: 'Apa dampak tsunami bagi ekosistem laut?',
+      options: [
+        { ok: true, ic: 'fish', text: 'Terumbu karang rusak dan laut tercemar limbah serta bahan beracun', why: 'Tepat! Ekosistem laut ikut rusak dan tercemar.' },
+        { ic: 'sprout', text: 'Terumbu karang tumbuh lebih cepat', why: 'Tsunami justru merusak terumbu karang.' },
+        { ic: 'boat', text: 'Laut menjadi lebih bersih', why: 'Tsunami membawa limbah dan bahan beracun ke laut.' }
+      ]
+    },
+    {
+      ic: 'sprout', text: 'Dalam kondisi tertentu, tsunami juga bisa berdampak positif. Contohnya?',
+      options: [
+        { ok: true, ic: 'sprout', text: 'Terbentuk habitat baru dan ekosistem pulih, seperti di Chile tahun 2010', why: 'Benar! Perubahan bentuk pantai bisa menciptakan habitat baru, dan peristiwanya menjadi bahan penelitian mitigasi.' },
+        { ic: 'house', text: 'Rumah warga menjadi lebih kuat', why: 'Tsunami merusak bangunan. Dampak positifnya hanya pada kondisi tertentu, misalnya bagi ekosistem.' },
+        { ic: 'water', text: 'Air bersih menjadi lebih banyak', why: 'Tsunami justru mencemari sumber air bersih.' }
       ]
     }
   ];
@@ -492,13 +657,24 @@
     }
   ];
 
+  const ZONE_CFG = {
+    left: { key: 'risk', label: 'Zona rawan', sub: 'dekat pantai', ic: 'wave', cls: 'z-risk', btn: 'red' },
+    right: { key: 'safe', label: 'Zona aman', sub: 'tinggi / jauh dari pantai', ic: 'mountain', cls: 'z-safe', btn: 'green' },
+    unit: 'Bangunan'
+  };
+
   const PLAY = {
-    match: playMatch,
+    truefalse: lv => playSort(lv, TF_ITEMS, TF_CFG),
+    formation: lv => playSequence(lv, FORM_STEPS, 0),
+    causes: lv => playMatch(lv, CAUSE_PAIRS, { hint: 'Ketuk satu penyebab di kiri, lalu ketuk penjelasannya di kanan.', wrong: 'Penjelasan' }),
+    lab: playLab,
+    quizImpact: lv => playQuiz(lv, IMPACT_QS, 0),
+    match: lv => playMatch(lv, PAIRS, { hint: 'Ketuk satu bangunan di kiri, lalu ketuk fungsinya di kanan.', wrong: 'Fungsi' }),
     mangrove: playMangrove,
     builder: playBuilder,
     quizStruct: lv => playQuiz(lv, STRUCT_QS, 0),
     ews: lv => playSequence(lv, EWS_STEPS, 0),
-    sort: playSort,
+    sort: lv => playSort(lv, ZONE_ITEMS, ZONE_CFG),
     quizMap: lv => playQuiz(lv, MAP_QS, 0),
     drill: lv => playSequence(lv, DRILL_STEPS, 45),
     quizEdu: lv => playQuiz(lv, EDU_QS, 0),
@@ -638,7 +814,8 @@
     return i === 0 || starsOf(list[i - 1]) > 0;
   }
   const allDone = () => LEVELS.every(lv => starsOf(lv) > 0);
-  const shortTag = lv => (lv.island === 'response' ? lv.phase : lv.phaseKey === 'struct' ? 'Struktural' : 'Non-struktural');
+  const SHORT_TAG = { basic: 'Dasar', struct: 'Struktural', nonstruct: 'Non-struktural' };
+  const shortTag = lv => SHORT_TAG[lv.phaseKey] || lv.phase;
   function updateHeader() {
     $('#starTotal').textContent = totalStars();
     $('#starMax').textContent = MAX_STARS;
@@ -706,7 +883,7 @@
         <div class="hero-text">
           <p class="kicker">Petualangan mitigasi tsunami</p>
           <h1>Nusa Siaga</h1>
-          <p class="lead">Halo, aku <b>Tuti si Penyu</b>! Ayo jelajahi <b>3 pulau</b> dan selesaikan
+          <p class="lead">Halo, aku <b>Tuti si Penyu</b>! Ayo jelajahi <b>${ISLANDS.length} pulau</b> dan selesaikan
             <b>${LEVELS.length} misi</b> tentang mitigasi bencana tsunami.</p>
           <div class="row">
             <button class="btn big" id="playBtn" type="button">${ic('play')} Main sekarang</button>
@@ -949,9 +1126,9 @@
           <h3>Pahlawan Siaga Tsunami</h3>
           <p>diberikan kepada</p>
           <p class="cert-name" id="certName">${esc(name())}</p>
-          <p>yang telah menjelajahi 3 pulau, menyelesaikan ${LEVELS.length} misi mitigasi bencana tsunami, dan meraih <b>${total}</b> ${ic('star')}</p>
+          <p>yang telah menjelajahi ${ISLANDS.length} pulau, menyelesaikan ${LEVELS.length} misi mitigasi bencana tsunami, dan meraih <b>${total}</b> ${ic('star')}</p>
           <div class="cert-badges">
-            <span>${ic('seawall')} Mitigasi struktural</span><span>${ic('siren')} Mitigasi non-struktural</span>
+            <span>${ic('magnifier')} Ilmu tsunami</span><span>${ic('seawall')} Mitigasi struktural</span><span>${ic('siren')} Mitigasi non-struktural</span>
             <span>${ic('lifebuoy')} Tanggap bencana</span>
           </div>
         </div>
@@ -973,14 +1150,14 @@
     $('#mapBtn').onclick = showMap;
   }
 
-  /* ================= Pulau Benteng: pasangkan bangunan & fungsi ================= */
+  /* ================= Mesin "pasangkan": nama di kiri, penjelasan di kanan ================= */
 
-  function playMatch(lv) {
-    const left = shuffle(PAIRS.map((p, k) => Object.assign({ k }, p)));
-    const right = shuffle(PAIRS.map((p, k) => Object.assign({ k }, p)));
+  function playMatch(lv, pairs, opts) {
+    const left = shuffle(pairs.map((p, k) => Object.assign({ k }, p)));
+    const right = shuffle(pairs.map((p, k) => Object.assign({ k }, p)));
     let selL = null, selR = null, matched = 0, over = false;
     $('#stage').innerHTML = `
-      <p class="stage-hint">Ketuk satu bangunan di kiri, lalu ketuk fungsinya di kanan.</p>
+      <p class="stage-hint">${esc(opts.hint)}</p>
       <div class="match">
         <div class="match-col">
           ${left.map(p => `<button class="match-card m-left card" data-k="${p.k}" type="button">
@@ -998,18 +1175,18 @@
       selL = selR = null;
       a.classList.remove('selected');
       b.classList.remove('selected');
-      const p = PAIRS[Number(a.dataset.k)];
+      const p = pairs[Number(a.dataset.k)];
       if (a.dataset.k === b.dataset.k) {
         matched++;
         [a, b].forEach(el => { el.classList.add('matched'); el.disabled = true; $('.m-badge', el).textContent = matched; });
         sfx.good();
         showFeedback({ good: true, title: `${p.name}: cocok!`, text: p.fn });
-        if (matched === PAIRS.length) { over = true; later(() => finishLevel(lv, lives), 1700); }
+        if (matched === pairs.length) { over = true; later(() => finishLevel(lv, lives), 1700); }
       } else {
         [a, b].forEach(el => { el.classList.remove('wrong'); void el.offsetWidth; el.classList.add('wrong'); });
         sfx.bad();
         setLives(lives - 1);
-        showFeedback({ good: false, title: 'Belum cocok', text: `Fungsi ${p.name.toLowerCase()}: ${p.fn.charAt(0).toLowerCase()}${p.fn.slice(1)}` });
+        showFeedback({ good: false, title: 'Belum cocok', text: `${opts.wrong} ${p.name.toLowerCase()}: ${p.fn.charAt(0).toLowerCase()}${p.fn.slice(1)}` });
         if (lives <= 0) { over = true; later(() => failLevel(lv), 1700); }
       }
     }
@@ -1249,48 +1426,48 @@
     }
   }
 
-  /* ================= Pulau Siaga Warga: tata ruang pesisir ================= */
+  /* ================= Mesin "pilah": satu kartu, dua pilihan ================= */
 
-  function playSort(lv) {
-    const items = shuffle(ZONE_ITEMS);
+  function playSort(lv, list, cfg) {
+    const items = shuffle(list);
+    const sides = [cfg.left, cfg.right];
     let i = 0, over = false;
+    const zone = s => `
+        <div class="sort-zone ${s.cls}">
+          <div class="sz-head">${ic(s.ic)}<div><b>${esc(s.label)}</b><span>${esc(s.sub)}</span></div></div>
+          <div class="sz-pile" data-pile="${s.key}"></div>
+        </div>`;
     $('#stage').innerHTML = `
       <div class="sort">
-        <div class="sort-zone z-risk">
-          <div class="sz-head">${ic('wave')}<div><b>Zona rawan</b><span>dekat pantai</span></div></div>
-          <div class="sz-pile" id="pileRisk"></div>
-        </div>
+        ${zone(cfg.left)}
         <div class="sort-center">
           <p class="q-count" id="sortCount"></p>
-          <div class="sort-card card" id="sortCard" aria-live="polite"></div>
+          <div class="sort-card card ${cfg.statement ? 'statement' : ''}" id="sortCard" aria-live="polite"></div>
           <div class="sort-btns">
-            <button class="btn sort-btn" data-zone="risk" type="button">${ic('arrow-left')} Zona rawan</button>
-            <button class="btn green sort-btn" data-zone="safe" type="button">Zona aman ${ic('arrow-right')}</button>
+            <button class="btn ${cfg.left.btn} sort-btn" data-zone="${cfg.left.key}" type="button">${ic('arrow-left')} ${esc(cfg.left.label)}</button>
+            <button class="btn ${cfg.right.btn} sort-btn" data-zone="${cfg.right.key}" type="button">${esc(cfg.right.label)} ${ic('arrow-right')}</button>
           </div>
         </div>
-        <div class="sort-zone z-safe">
-          <div class="sz-head">${ic('mountain')}<div><b>Zona aman</b><span>tinggi / jauh dari pantai</span></div></div>
-          <div class="sz-pile" id="pileSafe"></div>
-        </div>
+        ${zone(cfg.right)}
       </div>`;
 
     function showCard() {
       const it = items[i];
-      $('#sortCount').textContent = `Bangunan ${i + 1} dari ${items.length}`;
+      $('#sortCount').textContent = `${cfg.unit} ${i + 1} dari ${items.length}`;
       const card = $('#sortCard');
       card.innerHTML = `${ic(it.ic)}<b>${esc(it.label)}</b>`;
       card.classList.remove('pop');
       void card.offsetWidth;
       card.classList.add('pop');
     }
-    function choose(zone) {
+    function choose(key) {
       if (over) return;
       const it = items[i];
       const card = $('#sortCard');
-      if (zone === it.zone) {
+      if (key === it.zone) {
         sfx.good();
-        $(zone === 'risk' ? '#pileRisk' : '#pileSafe').insertAdjacentHTML('beforeend',
-          `<span class="pile-item" title="${esc(it.label)}">${ic(it.ic)}<small>${esc(it.label)}</small></span>`);
+        $(`[data-pile="${key}"]`).insertAdjacentHTML('beforeend',
+          `<span class="pile-item" title="${esc(it.label)}">${ic(it.ic)}<small>${esc(it.short || it.label)}</small></span>`);
         showFeedback({ good: true, title: 'Tepat!', text: it.why });
         i++;
         if (i === items.length) { over = true; card.innerHTML = ic('check', 'done'); later(() => finishLevel(lv, lives), 1700); }
@@ -1308,12 +1485,141 @@
     $$('.sort-btn').forEach(b => b.addEventListener('click', () => choose(b.dataset.zone)));
     const onKey = e => {
       if ($('#modal').classList.contains('open')) return;
-      if (e.code === 'ArrowLeft') { e.preventDefault(); choose('risk'); }
-      if (e.code === 'ArrowRight') { e.preventDefault(); choose('safe'); }
+      if (e.code === 'ArrowLeft') { e.preventDefault(); choose(sides[0].key); }
+      if (e.code === 'ArrowRight') { e.preventDefault(); choose(sides[1].key); }
     };
     window.addEventListener('keydown', onKey);
     onCleanup(() => window.removeEventListener('keydown', onKey));
     showCard();
+  }
+
+  /* ================= Pulau Ilmu: lab gempa pemicu ================= */
+
+  function playLab(lv) {
+    const st = { sea: true, mag: 6.5, depth: 120, vertical: true };
+    let goal = 0, busy = false, over = false;
+    const fmtMag = m => m.toFixed(1).replace('.', ',');
+    const star = 'M0 -11 L3.2 -3.5 L11 -3.4 L5 1.8 L7 9.6 L0 5.2 L-7 9.6 L-5 1.8 L-11 -3.4 L-3.2 -3.5 Z';
+    $('#stage').innerHTML = `
+      <div class="lab card">
+        <div class="lab-goal"><span class="lab-goal-n" id="labGoalN"></span><p id="labGoal"></p></div>
+        <div class="lab-scene" id="labScene">
+          <svg class="lab-svg" viewBox="0 0 600 260" role="img" aria-label="Penampang laut, dasar laut, dan daratan pantai">
+            <rect x="0" y="0" width="600" height="260" fill="#d6efff"/>
+            <rect x="0" y="70" width="440" height="112" fill="#2f8ee0"/>
+            <g class="lab-bump"><path d="M-70 70 C-36 70 -24 34 0 34 C24 34 36 70 70 70 Z" fill="#1565b8" stroke="#23263a" stroke-width="3"/>
+              <path d="M-14 40 C-6 36 4 36 12 40" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/></g>
+            <path d="M0 70 H440" stroke="#fff" stroke-width="3"/>
+            <g class="plate-a"><rect x="-20" y="180" width="272" height="100" fill="#b07a4f" stroke="#23263a" stroke-width="3"/></g>
+            <g class="plate-b">
+              <path d="M232 180 H420 L444 70 H620 V280 H232 Z" fill="#c9965f" stroke="#23263a" stroke-width="3" stroke-linejoin="round"/>
+              <path d="M444 70 H620 V84 H441 Z" fill="#7cd35a" stroke="#23263a" stroke-width="3" stroke-linejoin="round"/>
+              <rect x="476" y="50" width="22" height="20" fill="#fffaf0" stroke="#23263a" stroke-width="3"/><path d="M472 52 L487 38 L502 52 Z" fill="#ff6b6b" stroke="#23263a" stroke-width="3" stroke-linejoin="round"/>
+              <rect x="536" y="50" width="22" height="20" fill="#fffaf0" stroke="#23263a" stroke-width="3"/><path d="M532 52 L547 38 L562 52 Z" fill="#ffc93c" stroke="#23263a" stroke-width="3" stroke-linejoin="round"/>
+            </g>
+            <g class="lab-epi" id="labEpi">
+              <circle class="lab-ring" r="14" fill="none" stroke="#ff6b6b" stroke-width="3"/>
+              <circle class="lab-ring r2" r="14" fill="none" stroke="#ff6b6b" stroke-width="3"/>
+              <path d="${star}" fill="#ffc93c" stroke="#23263a" stroke-width="2.5" stroke-linejoin="round"/>
+            </g>
+            <g font-size="15" font-weight="700" fill="#fff"><text x="24" y="100">LAUT</text><text x="24" y="210">DASAR LAUT</text></g>
+            <text x="520" y="150" font-size="15" font-weight="700" fill="#23263a" text-anchor="middle">DARAT</text>
+          </svg>
+          <p class="lab-result" id="labResult" aria-live="polite"></p>
+        </div>
+        <div class="lab-controls">
+          <div class="lab-ctl"><span class="lab-lbl">Lokasi pusat gempa</span>
+            <div class="seg" role="group" aria-label="Lokasi pusat gempa">
+              <button type="button" data-k="sea" data-v="1">${ic('wave')} Di laut</button><button type="button" data-k="sea" data-v="0">${ic('house')} Di darat</button>
+            </div></div>
+          <div class="lab-ctl"><span class="lab-lbl">Gerakan lempeng</span>
+            <div class="seg" role="group" aria-label="Gerakan lempeng">
+              <button type="button" data-k="vertical" data-v="1">${ic('arrow-up')} Naik-turun</button><button type="button" data-k="vertical" data-v="0">${ic('arrow-right')} Mendatar</button>
+            </div></div>
+          <label class="lab-ctl"><span class="lab-lbl">Magnitudo: <b id="magV"></b></span>
+            <input type="range" id="magIn" min="5" max="9.5" step="0.1" value="${st.mag}"><span class="lab-scale"><span>5,0</span><span>9,5</span></span></label>
+          <label class="lab-ctl"><span class="lab-lbl">Kedalaman pusat gempa: <b id="depV"></b></span>
+            <input type="range" id="depIn" min="10" max="300" step="10" value="${st.depth}"><span class="lab-scale"><span>10 km</span><span>300 km</span></span></label>
+        </div>
+        <ul class="lab-checks" id="labChecks" hidden></ul>
+        <div class="row center"><button class="btn big" id="quakeBtn" type="button">${ic('tectonic')} Picu gempa!</button></div>
+      </div>`;
+
+    const scene = $('#labScene');
+    function sync() {
+      $('#magV').textContent = fmtMag(st.mag);
+      $('#depV').textContent = `${st.depth} km`;
+      $$('.seg button').forEach(b => b.setAttribute('aria-pressed', String(st[b.dataset.k] === (b.dataset.v === '1'))));
+      const x = st.sea ? 232 : 520;
+      const y = st.sea ? 186 + (st.depth - 10) / 290 * 64 : 96 + (st.depth - 10) / 290 * 150;
+      $('#labEpi').setAttribute('transform', `translate(${x} ${Math.round(y)})`);
+    }
+    function showGoal() {
+      $('#labGoalN').textContent = `Tantangan ${goal + 1} dari ${LAB_GOALS.length}`;
+      $('#labGoal').textContent = LAB_GOALS[goal].text;
+    }
+    $$('.seg button').forEach(b => b.addEventListener('click', () => {
+      if (busy || over) return;
+      st[b.dataset.k] = b.dataset.v === '1';
+      sfx.click();
+      sync();
+    }));
+    $('#magIn').addEventListener('input', e => { st.mag = Number(e.target.value); sync(); });
+    $('#depIn').addEventListener('input', e => { st.depth = Number(e.target.value); sync(); });
+
+    function checks(r) {
+      const row = (ok, label, yes, no) => `<li class="${ok ? 'ok' : 'no'}">${ic(ok ? 'check' : 'cross')}<span><b>${label}:</b> ${ok ? yes : no}</span></li>`;
+      return [
+        row(r.sea, 'Lokasi', 'di laut, sehingga air laut bisa terdorong', 'di darat, sehingga air laut tidak terdorong'),
+        row(r.mag > 7, `Magnitudo ${fmtMag(r.mag)}`, 'cukup kuat (lebih dari 7,0)', 'kurang kuat (7,0 atau kurang)'),
+        row(r.depth < 70, `Kedalaman ${r.depth} km`, 'dangkal (kurang dari 70 km)', 'terlalu dalam (70 km atau lebih)'),
+        row(r.vertical, 'Gerakan', 'naik-turun, mendorong massa air', 'mendatar, air hampir tidak terdorong')
+      ].join('');
+    }
+
+    $('#quakeBtn').addEventListener('click', () => {
+      if (busy || over) return;
+      busy = true;
+      const r = Object.assign({}, st);
+      r.tsunami = r.sea && r.mag > 7 && r.depth < 70 && r.vertical;
+      scene.className = 'lab-scene';
+      void scene.offsetWidth;
+      scene.classList.add('shake', r.vertical ? 'lift' : 'slide');
+      if (r.tsunami) scene.classList.add('tsunami');
+      $('#labResult').textContent = '';
+      $('#labResult').className = 'lab-result';
+      $('#labChecks').hidden = true;
+      $('#quakeBtn').disabled = true;
+      sfx.bad();
+      later(() => {
+        $('#labResult').textContent = r.tsunami ? 'Tsunami terbentuk!' : 'Tidak terjadi tsunami.';
+        $('#labResult').className = 'lab-result ' + (r.tsunami ? 'yes' : 'no');
+        $('#labChecks').innerHTML = checks(r);
+        $('#labChecks').hidden = false;
+        const g = LAB_GOALS[goal];
+        if (g.check(r)) {
+          sfx.good();
+          goal++;
+          if (goal === LAB_GOALS.length) {
+            over = true;
+            showFeedback({ good: true, title: 'Semua tantangan selesai!', text: 'Kamu sudah memahami syarat gempa yang bisa memicu tsunami.' });
+            later(() => finishLevel(lv, lives), 2200);
+          } else {
+            showFeedback({ good: true, title: 'Tantangan berhasil!', text: 'Lihat daftar di bawah untuk tahu alasannya, lalu lanjut ke tantangan berikutnya.' });
+            showGoal();
+          }
+        } else {
+          setLives(lives - 1);
+          showFeedback({ good: false, title: 'Belum sesuai tantangan', text: g.hint });
+          if (lives <= 0) { over = true; later(() => failLevel(lv), 1900); }
+        }
+        busy = false;
+        $('#quakeBtn').disabled = over;
+      }, 2300);
+    });
+
+    sync();
+    showGoal();
   }
 
   /* ================= Level 1: Tanda alam ================= */
