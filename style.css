@@ -848,6 +848,195 @@ body.intro-open { overflow: hidden; }
   .intro-nav .btn { font-size: 16px; padding: 9px 16px; }
 }
 
+/* ===== Animasi penjelasan pulau ===== */
+body.xp-open { overflow: hidden; }
+.xp {
+  position: fixed; inset: 0; z-index: 90; display: none; flex-direction: column;
+  background: linear-gradient(180deg, var(--sky-1), var(--sky-3));
+}
+.xp.open { display: flex; }
+.xp-top { display: flex; align-items: center; gap: 12px; width: 100%; max-width: 1180px; margin: 0 auto; padding: 14px 16px 0; }
+.xp-main {
+  flex: 1; min-height: 0; width: 100%; max-width: 1180px; margin: 0 auto; padding: 14px 16px 22px;
+  display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(300px, 1fr); gap: 20px;
+}
+.xp-stage { display: flex; flex-direction: column; align-self: center; margin: 0; padding: 0; overflow: hidden; background: var(--sky-2); }
+.xp-scene { aspect-ratio: 16 / 9; width: 100%; }
+.xp-svg { display: block; width: 100%; height: 100%; }
+.xp-stagebar {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;
+  padding: 8px 12px; background: #fff; border-top: 3px solid var(--ink);
+}
+.xp-hint { font-size: 14.5px; color: var(--muted); }
+.xp-progress .seg { min-height: 0; height: 14px; border-width: 2.5px; box-shadow: none; }
+@media (max-width: 560px) {
+  .xp-hint { display: none; }
+  .xp-stagebar { justify-content: flex-end; padding: 6px 10px; }
+}
+.xp-panel .intro-nav { padding: 12px 14px 16px; gap: 8px; }
+.xp-panel .intro-nav .btn { padding: 10px 16px; font-size: 17px; }
+.xp-panel { display: flex; flex-direction: column; min-height: 0; padding: 0; overflow: hidden; }
+.xp-svg text { font-family: inherit; font-weight: 600; }
+.xp-svg .o { stroke: var(--ink); stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
+:where(.xp-svg) [class*="xp-"] { transform-box: fill-box; transform-origin: 50% 50%; }
+.island-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+@media (max-width: 820px) {
+  .xp-top { padding: 10px 12px 0; }
+  .xp-main { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); gap: 12px; padding: 12px 12px 14px; }
+  .xp-stage { align-self: start; }
+}
+
+/* Gerak umum */
+.xp-pop { animation: xp-pop .55s cubic-bezier(.3, 1.4, .5, 1) var(--d, 0s) both; }
+@keyframes xp-pop { from { opacity: 0; transform: scale(.4) translateY(10px); } }
+.xp-sea { animation: xp-sea 2.4s linear infinite; }
+@keyframes xp-sea { to { transform: translateX(-40px); } }
+.xp-drift { animation: xp-drift 9s ease-in-out infinite alternate; }
+@keyframes xp-drift { to { transform: translateX(16px); } }
+.xp-bob { animation: xp-bob 3s ease-in-out infinite; }
+@keyframes xp-bob { 50% { transform: translateY(-4px); } }
+.xp-shake { animation: xp-shake .16s linear infinite; }
+@keyframes xp-shake { 25% { transform: translate(-2px, 1px); } 75% { transform: translate(2px, -1px); } }
+.xp-dash { animation: xp-dash 1s linear var(--d, 0s) infinite; }
+@keyframes xp-dash { to { stroke-dashoffset: calc(var(--p, 12px) * -1); } }
+.xp-ringc { opacity: 0; animation: xp-ringc 2.6s ease-out var(--d, 0s) infinite; }
+@keyframes xp-ringc { from { opacity: .8; transform: scale(.8); } to { opacity: 0; transform: scale(1.5); } }
+.xp-glow { opacity: 0; animation: xp-glow 7.5s ease-out var(--d, 0s) infinite; }
+@keyframes xp-glow { 0% { opacity: 0; transform: scale(.85); } 6% { opacity: 1; transform: scale(1); } 20%, 100% { opacity: 0; transform: scale(1.25); } }
+
+/* Pulau Ilmu */
+.xp-b1-up { animation: xp-b1-up 8s ease-in-out infinite; }
+@keyframes xp-b1-up { 0%, 12% { transform: none; } 26%, 80% { transform: translateY(-18px); } 92%, 100% { transform: none; } }
+.xp-b1-bulge { transform-origin: 50% 100%; animation: xp-b1-bulge 8s ease-in-out infinite; }
+@keyframes xp-b1-bulge { 0%, 16% { transform: scaleY(0); } 34%, 80% { transform: scaleY(1); } 92%, 100% { transform: scaleY(0); } }
+.xp-b1-arc { opacity: 0; animation: xp-b1-arc 8s ease-out infinite; }
+@keyframes xp-b1-arc { 0%, 34% { opacity: 0; transform: none; } 40% { opacity: 1; } 70%, 100% { opacity: 0; transform: translateX(calc(var(--dir) * 110px)); } }
+.xp-b1-arrow { opacity: 0; animation: xp-b1-arrow 8s ease-in-out infinite; }
+@keyframes xp-b1-arrow { 0%, 10% { opacity: 0; transform: translateY(14px); } 20%, 44% { opacity: 1; transform: none; } 56%, 100% { opacity: 0; transform: translateY(-10px); } }
+.xp-b1-ring { opacity: 0; animation: xp-b1-ring 8s ease-out var(--d, 0s) infinite; }
+@keyframes xp-b1-ring { 0%, 11% { opacity: 0; transform: scale(.3); } 12% { opacity: .95; transform: scale(.3); } 30%, 100% { opacity: 0; transform: scale(2.4); } }
+
+.xp-b2-crest { transform-origin: 50% 100%; opacity: 0; animation: xp-b2-crest 8s linear infinite; }
+@keyframes xp-b2-crest {
+  0% { opacity: 0; transform: translateX(-110px) scaleY(.35); }
+  6% { opacity: 1; }
+  62% { transform: translateX(250px) scaleY(1.2); }
+  84% { transform: translateX(322px) scaleY(2.3); }
+  92% { opacity: 1; transform: translateX(336px) scaleY(2.3); }
+  97%, 100% { opacity: 0; transform: translateX(340px) scaleY(2.3); }
+}
+.xp-b2-foam { opacity: 0; animation: xp-b2-foam 8s ease-out infinite; }
+@keyframes xp-b2-foam { 0%, 84% { opacity: 0; transform: scale(.3); } 90% { opacity: 1; transform: scale(1.2) translateY(-6px); } 98%, 100% { opacity: 0; transform: scale(1.4) translateY(-14px); } }
+
+.xp-b3-house { animation: xp-shake .16s linear infinite; }
+.xp-b3-fill { animation: xp-b3-fill 5s linear infinite; }
+@keyframes xp-b3-fill { from { stroke-dashoffset: 100; } 80%, 100% { stroke-dashoffset: 0; } }
+.xp-b3-sea { animation: xp-b3-sea 8s ease-in-out infinite; }
+@keyframes xp-b3-sea { 0%, 14% { transform: none; } 40%, 80% { transform: translateX(190px); } 94%, 100% { transform: none; } }
+.xp-b3-fish { opacity: 0; animation: xp-b3-fish 8s ease-in-out var(--d, 0s) infinite; }
+@keyframes xp-b3-fish {
+  0%, 40% { opacity: 0; transform: rotate(0); }
+  46% { opacity: 1; transform: rotate(-14deg); } 52% { transform: rotate(12deg); } 58% { transform: rotate(-12deg); } 64% { transform: rotate(8deg); }
+  70%, 80% { opacity: 1; transform: rotate(0); } 88%, 100% { opacity: 0; transform: rotate(0); }
+}
+
+/* Pulau Benteng */
+.xp-s2-crest { transform-origin: 50% 100%; opacity: 0; animation: xp-s2-crest 10s linear infinite; }
+@keyframes xp-s2-crest {
+  0% { opacity: 0; transform: translateX(-120px) scaleY(1.6); }
+  5% { opacity: 1; }
+  26% { transform: translateX(30px) scaleY(1.6); }
+  38% { transform: translateX(100px) scaleY(1); }
+  48% { opacity: 1; transform: translateX(136px) scaleY(.85); }
+  52%, 100% { opacity: 0; transform: translateX(140px) scaleY(.8); }
+}
+.xp-s2-surge { transform-origin: 50% 100%; opacity: 0; animation: xp-s2-surge 10s ease-out infinite; }
+@keyframes xp-s2-surge {
+  0%, 46% { opacity: 0; transform: scaleY(.1); }
+  50% { opacity: 1; transform: scaleY(1.3); }
+  60% { transform: scaleY(.8); }
+  72% { opacity: 1; transform: scaleY(.55); }
+  80%, 100% { opacity: 0; transform: scaleY(.1); }
+}
+.xp-s2-sp1, .xp-s2-sp2, .xp-s2-sp3 { opacity: 0; }
+.xp-s2-sp1 { animation: xp-s2-sp1 10s ease-out infinite; }
+.xp-s2-sp2 { animation: xp-s2-sp2 10s ease-out infinite; }
+.xp-s2-sp3 { animation: xp-s2-sp3 10s ease-out infinite; }
+@keyframes xp-s2-sp1 { 0%, 32% { opacity: 0; transform: scale(.3); } 38% { opacity: 1; transform: scale(1.2) translateY(-8px); } 46%, 100% { opacity: 0; transform: scale(1.3) translateY(-16px); } }
+@keyframes xp-s2-sp2 { 0%, 52% { opacity: 0; transform: scale(.3); } 58% { opacity: 1; transform: scale(1.2) translateY(-8px); } 66%, 100% { opacity: 0; transform: scale(1.3) translateY(-16px); } }
+@keyframes xp-s2-sp3 { 0%, 62% { opacity: 0; transform: scale(.3); } 68% { opacity: 1; transform: scale(1.2) translateY(-8px); } 76%, 100% { opacity: 0; transform: scale(1.3) translateY(-16px); } }
+.xp-s2-ok { opacity: 0; animation: xp-s2-ok 10s ease-out infinite; }
+@keyframes xp-s2-ok { 0%, 80% { opacity: 0; transform: scale(.3); } 86% { opacity: 1; transform: scale(1.1); } 92%, 97% { opacity: 1; transform: scale(1); } 100% { opacity: 0; } }
+
+.xp-s3-weak { transform-origin: 0% 100%; opacity: 0; animation: xp-s3-weak 8s ease-in-out infinite; }
+@keyframes xp-s3-weak {
+  0% { opacity: 0; transform: none; }
+  4%, 12% { opacity: 1; transform: none; }
+  14%, 18%, 22%, 26% { transform: translateX(-3px); }
+  16%, 20%, 24%, 28% { transform: translateX(3px); }
+  30% { transform: none; }
+  44% { transform: rotate(-3deg); }
+  58% { transform: translate(-8px, 12px) rotate(-14deg); }
+  90% { opacity: 1; transform: translate(-8px, 12px) rotate(-14deg); }
+  96%, 100% { opacity: 0; transform: translate(-8px, 12px) rotate(-14deg); }
+}
+.xp-s3-crack { opacity: 0; animation: xp-s3-crack 8s linear infinite; }
+@keyframes xp-s3-crack { 0%, 38% { opacity: 0; } 42%, 100% { opacity: 1; } }
+.xp-s3-dust { opacity: 0; animation: xp-s3-dust 8s ease-out infinite; }
+@keyframes xp-s3-dust { 0%, 50% { opacity: 0; transform: scale(.4); } 60% { opacity: .9; transform: scale(1); } 82%, 100% { opacity: 0; transform: scale(1.5) translateY(-10px); } }
+.xp-s3-strong { animation: xp-s3-strong 8s ease-in-out infinite; }
+@keyframes xp-s3-strong {
+  0%, 12%, 30%, 100% { transform: none; }
+  14%, 18%, 22%, 26% { transform: translateX(-2px); }
+  16%, 20%, 24%, 28% { transform: translateX(2px); }
+}
+.xp-s3-stamp { opacity: 0; animation: xp-s3-stamp 8s ease-out infinite; }
+@keyframes xp-s3-stamp { 0%, 60% { opacity: 0; transform: scale(.2) rotate(-20deg); } 66% { opacity: 1; transform: scale(1.25); } 70%, 92% { opacity: 1; transform: scale(1); } 98%, 100% { opacity: 0; transform: scale(1); } }
+
+.xp-s4-flood { animation: xp-s4-flood 9s ease-in-out infinite; }
+@keyframes xp-s4-flood { 0%, 34% { transform: translateY(64px); } 52%, 72% { transform: translateY(0); } 88%, 100% { transform: translateY(64px); } }
+
+/* Pulau Tanggap */
+.xp-bag { transform-origin: 50% 100%; animation: xp-bag 2.6s ease-in-out infinite; }
+@keyframes xp-bag { 50% { transform: translateY(-5px) rotate(-1.5deg); } }
+.xp-fly { animation: xp-fly 7s ease-in-out var(--d, 0s) infinite; }
+@keyframes xp-fly {
+  0%, 12% { opacity: 1; transform: none; }
+  34% { opacity: 1; transform: translate(var(--tx), var(--ty)) scale(.4); }
+  38% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(.2); }
+  39%, 88% { opacity: 0; transform: none; }
+  100% { opacity: 1; transform: none; }
+}
+.xp-r2-sea { animation: xp-r2-sea 8s ease-in-out infinite; }
+@keyframes xp-r2-sea { 0%, 22% { transform: none; } 82% { transform: translateY(-14px); } 100% { transform: none; } }
+.xp-r2-house { animation: xp-r2-house 8s linear infinite; }
+@keyframes xp-r2-house {
+  0%, 18%, 100% { transform: none; }
+  2%, 6%, 10%, 14% { transform: translateX(-2px); }
+  4%, 8%, 12%, 16% { transform: translateX(2px); }
+}
+.xp-r3-crest { transform-origin: 50% 100%; opacity: 0; animation: xp-r3-crest 12s linear var(--d, 0s) infinite; }
+@keyframes xp-r3-crest {
+  0% { opacity: 0; transform: translateX(-110px) scaleY(calc(var(--s) * .6)); }
+  4% { opacity: 1; }
+  26% { opacity: 1; transform: translateX(150px) scaleY(var(--s)); }
+  30%, 100% { opacity: 0; transform: translateX(160px) scaleY(var(--s)); }
+}
+.xp-r3-badge { opacity: 0; animation: xp-r3-badge 12s linear var(--d, 0s) infinite; }
+@keyframes xp-r3-badge {
+  0% { opacity: 0; transform: translateX(-110px); }
+  4% { opacity: 1; }
+  26% { opacity: 1; transform: translateX(150px); }
+  30%, 100% { opacity: 0; transform: translateX(160px); }
+}
+.xp-r3-ok { opacity: 0; animation: xp-r3-ok 12s ease-out infinite; }
+@keyframes xp-r3-ok { 0%, 82% { opacity: 0; transform: scale(.3); } 88% { opacity: 1; transform: scale(1.15); } 92%, 98% { opacity: 1; transform: scale(1); } 100% { opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .xp-svg [class*="xp-"] { animation: none !important; opacity: 1 !important; }
+  .xp-replay { display: none; }
+}
+
 /* ===== Konfeti ===== */
 .confetti {
   position: fixed; top: -20px; z-index: 80; width: 12px; height: 18px; border-radius: 3px;

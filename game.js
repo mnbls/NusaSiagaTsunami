@@ -1336,9 +1336,14 @@
   function loadSave() {
     try {
       const s = JSON.parse(localStorage.getItem(SAVE_KEY));
-      if (s && typeof s.stars === 'object') return { stars: s.stars, sound: s.sound !== false, name: s.name || '', introSeen: !!s.introSeen };
+      if (s && typeof s.stars === 'object') {
+        return {
+          stars: s.stars, sound: s.sound !== false, name: s.name || '', introSeen: !!s.introSeen,
+          explained: s.explained && typeof s.explained === 'object' ? s.explained : {}
+        };
+      }
     } catch (e) { /* penyimpanan tidak tersedia */ }
-    return { stars: {}, sound: true, name: '', introSeen: false };
+    return { stars: {}, sound: true, name: '', introSeen: false, explained: {} };
   }
   function persist() {
     try { localStorage.setItem(SAVE_KEY, JSON.stringify(save)); } catch (e) { /* abaikan */ }
@@ -1558,6 +1563,20 @@
     });
   }
 
+  // Animasi penjelasan di awal tiap pulau; tampil otomatis sekali, lalu bisa diputar ulang dari halaman pulau.
+  function openExplain(id) {
+    if (!window.SiagaExplain || !window.SiagaExplain.has(id)) return;
+    window.SiagaExplain.open({
+      island: id,
+      mascot,
+      click: () => sfx.click(),
+      onClose: () => {
+        save.explained[id] = true;
+        persist();
+      }
+    });
+  }
+
   function showHowTo() {
     openModal(`<h2>Cara main</h2>
       <ul class="how icon-list">
@@ -1613,7 +1632,10 @@
     const list = levelsOf(id);
     render(`<section class="screen">
       <div class="island-head card ${is.tag}">
-        <button class="btn ghost small" id="backWorld" type="button">${ic('arrow-left')} Peta Kepulauan</button>
+        <div class="island-actions">
+          <button class="btn ghost small" id="backWorld" type="button">${ic('arrow-left')} Peta Kepulauan</button>
+          <button class="btn blue small" id="explainBtn" type="button">${ic('play')} Animasi penjelasan</button>
+        </div>
         <div class="island-head-main">
           <span class="island-head-art" aria-hidden="true">${art(is.art)}</span>
           <div>
@@ -1640,11 +1662,13 @@
       </ol>
     </section>`);
     $('#backWorld').onclick = showMap;
+    $('#explainBtn').onclick = () => { sfx.click(); openExplain(id); };
     $$('.node').forEach(b => b.addEventListener('click', () => {
       const lv = LEVEL_BY_ID[b.dataset.id];
       if (isUnlocked(lv)) { sfx.click(); startLevel(lv.id); }
       else showFeedback({ good: false, title: 'Masih terkunci', text: 'Selesaikan misi sebelumnya di pulau ini dulu, ya!' });
     }));
+    if (!save.explained[id]) openExplain(id);
   }
 
   let lives = 3;

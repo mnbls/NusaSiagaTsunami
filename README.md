@@ -8,6 +8,8 @@ Game edukasi berbasis web tentang **mitigasi bencana tsunami**. Pemain ditemani 
 
 **Cerita pembuka 3D.** Sembilan adegan animasi tentang definisi, penyebab, dan dampak tsunami, langkah pra-bencana, saat bencana, pascabencana, dan mitigasi.
 
+**Animasi penjelasan di awal tiap pulau.** Sebelum misi pertama dibuka, pemain melihat 3–4 slide beranimasi yang menerangkan topik pulau itu: penyebab dan tanda tsunami (Pulau Ilmu), pelindung pantai, bangunan tahan gempa, dan menara evakuasi (Pulau Benteng), peringatan dini, peta evakuasi, latihan, dan info resmi (Pulau Siaga Warga), serta tas siaga, lari ke tempat tinggi, dan menunggu kabar resmi (Pulau Tanggap). Animasi tampil otomatis sekali per pulau dan bisa diputar ulang lewat tombol **Animasi penjelasan** di halaman pulau.
+
 | Pulau | Tema | Misi |
 |---|---|---|
 | 1. Pulau Ilmu | Mengenal tsunami | Apa Itu Tsunami?, Proses Terjadinya Tsunami, Detektif Penyebab, Lab Gempa Pemicu, Kuis Dampak Tsunami, Laut Dalam vs Pantai, Ombak Biasa atau Tsunami?, Kamus Tsunami, Jejak Tsunami di Indonesia, Ujian Ilmu Tsunami |
@@ -37,6 +39,7 @@ Pada kunjungan pertama dibutuhkan internet untuk memuat font Fredoka dan Three.j
 | `style.css` | Tampilan bergaya kartun dan tata letak responsif |
 | `icons.js` | Ikon dan ilustrasi SVG buatan sendiri |
 | `intro.js` | Cerita pembuka dengan dunia 3D (Three.js) |
+| `explain.js` | Animasi penjelasan di awal tiap pulau (SVG + CSS, tanpa pustaka tambahan) |
 | `music.js` | Musik latar yang disusun langsung dengan Web Audio (tanpa file lagu) |
 | `game.js` | Data pulau dan misi, serta seluruh logika permainan |
 
