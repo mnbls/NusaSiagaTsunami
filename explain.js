@@ -24,9 +24,10 @@
   const pop = (d, inner) => `<g class="xp-pop" style="--d:${d}s">${inner}</g>`;
 
   // Label bulat kecil; lebar diperkirakan dari panjang teks.
-  const chip = (x, y, s, d = 0, bg = '#fff') => {
-    const w = Math.round(s.length * 7.4 + 24);
-    return pop(d, `<g transform="translate(${x} ${y})"><rect class="o" x="${-w / 2}" y="-14" width="${w}" height="28" rx="14" fill="${bg}"/>${text(0, 5, s, 14.5)}</g>`);
+  const chip = (x, y, s, d = 0, bg = '#fff', animate = true) => {
+    const w = Math.round(s.length * 8.2 + 24);
+    const body = `<g transform="translate(${x} ${y})"><rect class="o" x="${-w / 2}" y="-15" width="${w}" height="30" rx="15" fill="${bg}"/>${text(0, 5.5, s, 16)}</g>`;
+    return animate ? pop(d, body) : body;
   };
 
   // Ikon 64×64 dari icons.js ditempatkan langsung di dalam SVG adegan.
@@ -105,7 +106,7 @@
       <g class="xp-b1-arrow"><path d="M360 186 V150 M347 164 L360 148 L373 164" stroke="${K.coral}" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g>
       ${[0, .22, .44].map(d => `<circle class="xp-b1-ring" cx="233" cy="238" r="16" fill="none" stroke="${K.coral}" stroke-width="4" style="--d:${d}s"/>`).join('')}
       ${chip(118, 158, 'Gempa di dasar laut', .5)}
-      ${chip(372, 238, 'Dasar laut naik mendadak', 1.3)}
+      ${chip(364, 238, 'Dasar laut naik mendadak', 1.3)}
       ${chip(346, 24, 'Air di atasnya ikut terangkat', 2.4)}`);
   }
 
@@ -123,8 +124,8 @@
         <path d="M22 -12 Q45 -28 68 -12" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".85"/>
       </g></g>
       ${splash(414, 104, 'xp-b2-foam')}
-      ${chip(120, 158, 'Laut dalam: rendah & cepat', .4)}
-      ${chip(332, 32, 'Dekat pantai: melambat, menjulang', 1.2)}`);
+      ${chip(122, 158, 'Laut dalam: rendah & cepat', .4)}
+      ${chip(328, 32, 'Dekat pantai: melambat, menjulang', 1.2)}`);
   }
 
   function sceneSigns() {
@@ -155,7 +156,7 @@
       ${chip(176, 70, 'Pemecah gelombang', .9, '#ffd9b8')}
       ${chip(258, 104, 'Mangrove', 1.8, '#b8f0a0')}
       ${chip(352, 104, 'Tanggul', 2.7, '#ffd9b8')}
-      ${chip(360, 232, 'Alami', 3.6, '#b8f0a0')}${chip(430, 232, 'Buatan', 3.7, '#ffd9b8')}`);
+      ${chip(360, 232, 'Alami', 3.6, '#b8f0a0')}${chip(434, 232, 'Buatan', 3.7, '#ffd9b8')}`);
   }
 
   function sceneBreak() {
@@ -169,7 +170,7 @@
         <path d="M24 -14 Q50 -36 76 -14" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".85"/>
       </g></g></g>
       ${splash(176, 156, 'xp-s2-sp1')}${splash(258, 150, 'xp-s2-sp2')}${splash(300, 140, 'xp-s2-sp3')}
-      <g class="xp-s2-ok">${icoG('verified', 380, 62, 38)}${chip(400, 44, 'Permukiman aman', 0, '#dcf7cf').replace('class="xp-pop"', 'class=""')}</g>
+      <g class="xp-s2-ok">${icoG('verified', 380, 62, 38)}${chip(400, 44, 'Permukiman aman', 0, '#dcf7cf', false)}</g>
       ${chip(176, 70, 'Lapis 1', 0, '#ffd9b8')}${chip(258, 104, 'Lapis 2', 0, '#b8f0a0')}${chip(352, 104, 'Lapis 3', 0, '#ffd9b8')}`);
   }
 
@@ -216,7 +217,7 @@
       ${walker('M388 206 L358 98', 9, 2, 3.6, K.grassD, [352, 98])}
       <g clip-path="url(#xpc-tower)"><g class="xp-s4-flood"><path d="M184 206 C190 164 202 150 224 150 H482 V274 H184 Z" fill="${K.sea}" opacity=".82"/><path d="M184 206 C190 164 202 150 224 150 H482" stroke="${K.seaD}" stroke-width="3" fill="none"/>${waveLine(166, .6)}</g></g>
       <path d="M224 150 H482" stroke="${K.coral}" stroke-width="3" stroke-dasharray="7 6" fill="none"/>
-      ${chip(404, 134, 'Tinggi gelombang', 1.4, '#ffe0e0')}
+      ${chip(398, 134, 'Tinggi gelombang', 1.4, '#ffe0e0')}
       ${chip(214, 24, 'Lantai atas lebih tinggi dari gelombang', .6, '#fff4c2')}`);
   }
 
@@ -250,7 +251,7 @@
       ${nodes.map(([name, x, label, step], i) => pop(i * .5, `
         <circle class="xp-glow" cx="${x}" cy="130" r="44" fill="none" stroke="${K.coral}" stroke-width="5" style="--d:${i * 2}s"/>
         <circle class="o" cx="${x}" cy="130" r="36" fill="#fff"/>${icoG(name, x - 24, 106, 48)}
-        ${text(x, 196, label, 15)}`) + chip(x, 66, step, i * .5 + .2, '#fff')).join('')}
+        ${text(x, 196, label, 16)}`) + chip(x, 66, step, i * .5 + .2, '#fff')).join('')}
       ${dot}`);
   }
 
@@ -317,12 +318,12 @@
       <path class="o" d="M446 80 V48" fill="none"/><path class="o" d="M447 49 H466 L460 56 L466 63 H447 Z" fill="${K.coral}" style="stroke-width:2.5"/>
       <rect class="o" x="294" y="164" width="28" height="18" rx="3" fill="${K.ok}"/><path d="M299 173 H315 M309 167 L316 173 L309 179" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path class="o" d="M308 182 V198" fill="none"/>
       ${walker(path, 8, 1.8, 4.4, K.coral, [446, 80])}${walker(path, 8, 2.3, 4.4, K.sea, [440, 84])}
-      ${chip(110, 40, 'Gempa kuat atau air surut?', .3, '#ffe0e0')}${chip(360, 40, 'Langsung ke tempat tinggi!', 1.4, '#dcf7cf')}`);
+      ${chip(112, 40, 'Gempa kuat / air surut?', .3, '#ffe0e0')}${chip(344, 40, 'Lari ke tempat tinggi!', 1.4, '#dcf7cf')}`);
   }
 
   function sceneSurges() {
-    const badge = (n, i) => `<g class="xp-r3-badge" style="--d:${i * 3.6}s"><g transform="translate(40 -16)"><circle class="o" r="12" fill="#fff"/>${text(0, 5, n, 14)}</g></g>`;
-    const crest = (s, i) => `<g class="xp-r3-crest" style="--s:${s};--d:${i * 3.6}s"><path d="M0 0 Q40 -50 80 0 Z" fill="${K.sea}"/><path d="M0 0 Q40 -50 80 0" fill="none" stroke="${K.seaD}" stroke-width="3"/><path d="M18 -12 Q40 -30 62 -12" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".85"/></g>`;
+    const badge = (n, i) => `<g class="xp-r3-badge" style="--d:${i * 3.6}s;--x:${i * 70}px"><g transform="translate(40 -16)"><circle class="o" r="12" fill="#fff"/>${text(0, 5, n, 14)}</g></g>`;
+    const crest = (s, i) => `<g class="xp-r3-crest" style="--s:${s};--d:${i * 3.6}s;--x:${i * 70}px"><path d="M0 0 Q40 -50 80 0 Z" fill="${K.sea}"/><path d="M0 0 Q40 -50 80 0" fill="none" stroke="${K.seaD}" stroke-width="3"/><path d="M18 -12 Q40 -30 62 -12" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".85"/></g>`;
     return svg(`${clipDef('xpc-r3', 'M0 204 H240 V274 H0 Z')}${sky()}${cloud(30, 24)}${cloud(280, 20, .7)}
       <path d="M0 204 H240 V274 H0 Z" fill="${K.sea}"/><path d="M0 204 H240" stroke="${K.seaD}" stroke-width="3" fill="none"/>${clipped('xpc-r3', waveLine(222, .45) + waveLine(248, .3))}
       <path class="o" d="M226 274 V236 C234 214 246 194 266 190 H340 C360 190 372 154 392 122 C410 96 450 88 482 88 V274 Z" fill="${K.grass}"/>
@@ -331,15 +332,15 @@
       <g transform="translate(262 156)">${icoG('radio', 0, 0, 34)}</g>
       <g transform="translate(0 204)">${[1, 1.6, 1.15].map((s, i) => crest(s, i)).join('')}${[1, 2, 3].map((n, i) => badge(n, i)).join('')}</g>
       <g class="xp-r3-ok">${icoG('verified', 396, 128, 38)}</g>
-      ${chip(150, 30, 'Gelombang bisa datang berkali-kali', .3, '#ffe0e0')}
-      <g class="xp-r3-ok">${chip(396, 108, 'Tunggu info resmi', 0, '#dcf7cf').replace('class="xp-pop"', 'class=""')}</g>`);
+      ${chip(160, 30, 'Gelombang bisa datang berkali-kali', .3, '#ffe0e0')}
+      <g class="xp-r3-ok">${chip(396, 108, 'Tunggu info resmi', 0, '#dcf7cf', false)}</g>`);
   }
 
   /* ================= Naskah per pulau ================= */
 
   const ISLAND_DATA = {
     basic: {
-      name: 'Pulau Ilmu', theme: 'Mengenal Tsunami', tag: 'basic',
+      name: 'Pulau Ilmu', theme: 'Mengenal Tsunami',
       slides: [
         {
           tag: 'Penyebab', phase: 'basic', title: 'Dari mana tsunami datang?', scene: sceneQuake,
@@ -372,7 +373,7 @@
     },
 
     struct: {
-      name: 'Pulau Benteng', theme: 'Mitigasi Struktural', tag: 'struct',
+      name: 'Pulau Benteng', theme: 'Mitigasi Struktural',
       slides: [
         {
           tag: 'Mitigasi struktural', phase: 'struct', title: 'Membangun untuk melindungi', scene: sceneLayers,
@@ -412,7 +413,7 @@
     },
 
     nonstruct: {
-      name: 'Pulau Siaga Warga', theme: 'Mitigasi Non-Struktural', tag: 'nonstruct',
+      name: 'Pulau Siaga Warga', theme: 'Mitigasi Non-Struktural',
       slides: [
         {
           tag: 'Mitigasi non-struktural', phase: 'nonstruct', title: 'Siap tanpa membangun', scene: sceneOrbit,
@@ -443,7 +444,7 @@
     },
 
     response: {
-      name: 'Pulau Tanggap', theme: 'Sebelum, Saat, dan Sesudah', tag: 'pre',
+      name: 'Pulau Tanggap', theme: 'Sebelum, Saat, dan Sesudah',
       slides: [
         {
           tag: 'Sebelum', phase: 'pre', title: 'Siapkan tas siaga', scene: sceneBag,
@@ -516,7 +517,20 @@
       if (e.key === 'ArrowRight') { e.preventDefault(); $('.xp-next').click(); }
       else if (e.key === 'ArrowLeft') { e.preventDefault(); if (idx > 0) $('.xp-prev').click(); }
       else if (e.key === 'Escape') { e.preventDefault(); close('skip'); }
+      else if (e.key === 'Tab') trapFocus(e);
     });
+  }
+
+  // Selama penjelasan terbuka, fokus keyboard tidak boleh keluar ke halaman di belakangnya.
+  function trapFocus(e) {
+    const items = Array.from(root.querySelectorAll('button:not([disabled])')).filter(b => b.offsetParent !== null);
+    if (!items.length) return;
+    const first = items[0];
+    const last = items[items.length - 1];
+    const active = document.activeElement;
+    if (!root.contains(active)) { e.preventDefault(); first.focus(); }
+    else if (e.shiftKey && active === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && active === last) { e.preventDefault(); first.focus(); }
   }
 
   function click() { if (opts.click) opts.click(); }

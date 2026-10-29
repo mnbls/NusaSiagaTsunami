@@ -895,7 +895,6 @@ body.xp-open { overflow: hidden; }
 @keyframes xp-drift { to { transform: translateX(16px); } }
 .xp-bob { animation: xp-bob 3s ease-in-out infinite; }
 @keyframes xp-bob { 50% { transform: translateY(-4px); } }
-.xp-shake { animation: xp-shake .16s linear infinite; }
 @keyframes xp-shake { 25% { transform: translate(-2px, 1px); } 75% { transform: translate(2px, -1px); } }
 .xp-dash { animation: xp-dash 1s linear var(--d, 0s) infinite; }
 @keyframes xp-dash { to { stroke-dashoffset: calc(var(--p, 12px) * -1); } }
@@ -1032,8 +1031,16 @@ body.xp-open { overflow: hidden; }
 .xp-r3-ok { opacity: 0; animation: xp-r3-ok 12s ease-out infinite; }
 @keyframes xp-r3-ok { 0%, 82% { opacity: 0; transform: scale(.3); } 88% { opacity: 1; transform: scale(1.15); } 92%, 98% { opacity: 1; transform: scale(1); } 100% { opacity: 0; } }
 
+/* Kurangi gerakan: tiap adegan menjadi gambar diam yang menunjukkan keadaan paling bermakna. */
 @media (prefers-reduced-motion: reduce) {
-  .xp-svg [class*="xp-"] { animation: none !important; opacity: 1 !important; }
+  .xp-svg [class*="xp-"] { animation: none !important; }
+  .xp-b1-up { transform: translateY(-18px); }
+  .xp-b3-sea { transform: translateX(190px); }
+  .xp-s3-weak { transform: translate(-8px, 12px) rotate(-14deg); }
+  .xp-r3-crest { transform: translateX(var(--x)) scaleY(var(--s)); }
+  .xp-r3-badge { transform: translateX(var(--x)); }
+  .xp-b1-arrow, .xp-b2-crest, .xp-b3-fish, .xp-s2-crest, .xp-s2-ok, .xp-s3-weak, .xp-s3-crack, .xp-s3-stamp,
+  .xp-r3-crest, .xp-r3-badge, .xp-r3-ok { opacity: 1; }
   .xp-replay { display: none; }
 }
 
