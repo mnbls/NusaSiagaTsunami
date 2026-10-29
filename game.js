@@ -1348,7 +1348,7 @@
   function tone(freqs, dur = 0.12, type = 'triangle', vol = 0.16) {
     if (!save.sound) return;
     try {
-      actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+      actx = actx || (window.SiagaMusic && window.SiagaMusic.context()) || new (window.AudioContext || window.webkitAudioContext)();
       freqs.forEach((f, i) => {
         const o = actx.createOscillator();
         const g = actx.createGain();
@@ -1405,8 +1405,10 @@
     cleanups = [];
     hideFeedback();
   }
+  const music = window.SiagaMusic || { play() {}, stop() {}, mood() {} };
   function render(html) {
     clearScreen();
+    music.mood('calm');
     closeModal();
     app.innerHTML = html;
     window.scrollTo(0, 0);
@@ -1683,7 +1685,7 @@
       <p class="intro-mission"><b>Misi:</b> ${esc(lv.mission)}</p>
       <ol class="how">${lv.how.map(h => `<li>${esc(h)}</li>`).join('')}</ol>
       <button class="btn big green" id="goBtn" type="button">Ayo mulai! ${ic('play')}</button>`);
-    $('#goBtn').onclick = () => { closeModal(); sfx.click(); PLAY[lv.type](lv); };
+    $('#goBtn').onclick = () => { closeModal(); sfx.click(); music.mood('mission'); PLAY[lv.type](lv); };
   }
 
   function finishLevel(lv, stars) {
@@ -3048,7 +3050,16 @@
     persist();
     updateHeader();
     sfx.click();
+    if (save.sound) music.play(); else music.stop();
   });
+  // Browser hanya mengizinkan suara setelah pemain menyentuh layar, jadi musik dimulai di sentuhan pertama.
+  const firstTouch = () => {
+    window.removeEventListener('pointerdown', firstTouch, true);
+    window.removeEventListener('keydown', firstTouch, true);
+    if (save.sound) music.play();
+  };
+  window.addEventListener('pointerdown', firstTouch, true);
+  window.addEventListener('keydown', firstTouch, true);
   updateHeader();
   showHome();
   if (!save.introSeen) openIntro();

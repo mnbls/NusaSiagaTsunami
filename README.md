@@ -37,6 +37,7 @@ Pada kunjungan pertama dibutuhkan internet untuk memuat font Fredoka dan Three.j
 | `style.css` | Tampilan bergaya kartun dan tata letak responsif |
 | `icons.js` | Ikon dan ilustrasi SVG buatan sendiri |
 | `intro.js` | Cerita pembuka dengan dunia 3D (Three.js) |
+| `music.js` | Musik latar yang disusun langsung dengan Web Audio (tanpa file lagu) |
 | `game.js` | Data pulau dan misi, serta seluruh logika permainan |
 
 ## Sumber materi
