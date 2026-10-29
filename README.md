@@ -2,7 +2,7 @@
 
 **Petualangan Mitigasi Tsunami.** Jelajahi pulau, kuasai mitigasi, selamatkan diri.
 
-Game edukasi berbasis web tentang **mitigasi bencana tsunami**. Pemain ditemani **Tuti si Penyu**, menjelajahi 4 pulau, dan menyelesaikan 20 misi: mulai dari mengenal tsunami, cara mengurangi risikonya, sampai cara menyelamatkan diri.
+Game edukasi berbasis web tentang **mitigasi bencana tsunami**. Pemain ditemani **Tuti si Penyu**, menjelajahi 4 pulau, dan menyelesaikan 40 misi (10 misi di setiap pulau): mulai dari mengenal tsunami, cara mengurangi risikonya, sampai cara menyelamatkan diri.
 
 ## Isi game
 
@@ -10,12 +10,12 @@ Game edukasi berbasis web tentang **mitigasi bencana tsunami**. Pemain ditemani 
 
 | Pulau | Tema | Misi |
 |---|---|---|
-| 1. Pulau Ilmu | Mengenal tsunami | Apa Itu Tsunami?, Proses Terjadinya Tsunami, Detektif Penyebab, Lab Gempa Pemicu, Kuis Dampak Tsunami |
-| 2. Pulau Benteng | Mitigasi struktural | Kenali Bangunan Pelindung, Tanam Sabuk Mangrove, Susun Benteng Pantai, Kuis Insinyur Pantai |
-| 3. Pulau Siaga Warga | Mitigasi non-struktural | Rantai Peringatan Dini, Atur Tata Ruang Pesisir, Baca Peta Evakuasi, Latihan Evakuasi Rutin, Kuis Duta Edukasi |
-| 4. Pulau Tanggap | Sebelum, saat, dan sesudah tsunami | Kenali Tanda Alam, Siapkan Tas Siaga, Cari Jalur Evakuasi, Saat Gempa Terjadi, Lari ke Bukit, Setelah Gelombang |
+| 1. Pulau Ilmu | Mengenal tsunami | Apa Itu Tsunami?, Proses Terjadinya Tsunami, Detektif Penyebab, Lab Gempa Pemicu, Kuis Dampak Tsunami, Laut Dalam vs Pantai, Ombak Biasa atau Tsunami?, Kamus Tsunami, Jejak Tsunami di Indonesia, Ujian Ilmu Tsunami |
+| 2. Pulau Benteng | Mitigasi struktural | Kenali Bangunan Pelindung, Tanam Sabuk Mangrove, Susun Benteng Pantai, Kuis Insinyur Pantai, Rumah Tahan Gempa, Menara Evakuasi Ideal, Rawat Benteng Pantai, Lari ke Menara Evakuasi, Kuis Kilat Benteng, Masalah dan Solusi |
+| 3. Pulau Siaga Warga | Mitigasi non-struktural | Rantai Peringatan Dini, Atur Tata Ruang Pesisir, Baca Peta Evakuasi, Latihan Evakuasi Rutin, Kuis Duta Edukasi, Kenali Rambu Evakuasi, Resmi atau Hoaks?, Rencana Siaga Keluarga, Evakuasi dari Sekolah, Ujian Duta Siaga |
+| 4. Pulau Tanggap | Sebelum, saat, dan sesudah tsunami | Kenali Tanda Alam, Siapkan Tas Siaga, Cari Jalur Evakuasi, Saat Gempa Terjadi, Lari ke Bukit, Setelah Gelombang, Tas Siaga Keluarga, Evakuasi Malam Hari, Bantu Sesama, Ujian Tanggap Darurat |
 
-- Setiap misi memberi 3 nyawa, dan sisa nyawa menjadi jumlah bintang (maksimal 60 bintang).
+- Setiap misi memberi 3 nyawa, dan sisa nyawa menjadi jumlah bintang (maksimal 120 bintang).
 - Setiap jawaban disertai penjelasan, dan setiap misi ditutup dengan rangkuman.
 - Setelah semua pulau tuntas, pemain bisa mencetak sertifikat.
 - Progres tersimpan otomatis di browser.

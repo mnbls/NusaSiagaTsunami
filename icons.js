@@ -255,7 +255,35 @@
       <path d="M2 42 C8 40 12 40 16 42 C21 44 25 37 31 32 C37 22 46 16 54 20 C60 23 58 30 54 30 C52 27 48 27 47 30 C46 34 46 39 48 41 C34 46 18 50 2 52 Z" fill="${C.sea}"/>
       <path d="M36 27 C39 22 43 20 47 20" stroke="${C.white}" stroke-width="3"/>` },
     'magnifier': { body: `<path d="M40 40 L56 56" stroke-width="11"/><path d="M40 40 L56 56" stroke="${C.brown}" stroke-width="6"/>
-      <circle cx="27" cy="27" r="19" fill="${C.sky}"/><circle cx="27" cy="27" r="12" stroke="${C.seaL}" stroke-width="3"/><path d="M18 22 C19 18 22 16 26 15" stroke="${C.white}" stroke-width="3.5"/>` }
+      <circle cx="27" cy="27" r="19" fill="${C.sky}"/><circle cx="27" cy="27" r="12" stroke="${C.seaL}" stroke-width="3"/><path d="M18 22 C19 18 22 16 26 15" stroke="${C.white}" stroke-width="3.5"/>` },
+
+    /* ---------- Bangunan & benda untuk misi tambahan ---------- */
+    'rebar': { body: `<path d="M10 58 H54" stroke-width="3.5"/><rect x="21" y="6" width="22" height="52" rx="2" fill="${C.grey}"/>
+      <path d="M27 9 V55 M37 9 V55" stroke="${C.coral}" stroke-width="3"/><path d="M23 18 H41 M23 30 H41 M23 42 H41" stroke="${C.greyD}" stroke-width="2.5"/>` },
+    'foundation': { body: `<rect x="16" y="22" width="32" height="20" fill="${C.paper}"/><path d="M10 24 L32 8 L54 24 Z" fill="${C.sea}"/><rect x="28" y="30" width="8" height="12" fill="${C.orange}" stroke-width="2.5"/>
+      <rect x="10" y="42" width="44" height="9" rx="1.5" fill="${C.greyD}"/><path d="M4 56 H60" stroke="${C.brown}"/><rect x="14" y="51" width="8" height="8" fill="${C.grey}" stroke-width="2.5"/><rect x="42" y="51" width="8" height="8" fill="${C.grey}" stroke-width="2.5"/>` },
+    'roof-light': { body: `<rect x="14" y="31" width="36" height="25" fill="${C.paper}"/><path d="M8 33 L32 12 L56 33 Z" fill="${C.seaL}"/>
+      <path d="M20 26 L22 33 M32 16 V33 M44 26 L42 33" stroke="${C.white}" stroke-width="2.5"/><rect x="27" y="41" width="10" height="15" fill="${C.orange}" stroke-width="2.5"/>
+      <path d="M50 8 C54 8 56 11 56 14" stroke="${C.grassD}" stroke-width="3"/><path d="M55 8 L50 6" stroke="${C.grassD}" stroke-width="3"/>` },
+    'crack': { body: `<rect x="8" y="10" width="48" height="44" rx="2" fill="#f0a57a"/>
+      <path d="M8 21 H56 M8 32 H56 M8 43 H56 M20 10 V21 M44 10 V21 M14 21 V32 M38 21 V32 M20 32 V43 M48 32 V43 M30 43 V54" stroke="#c97a52" stroke-width="2.5"/>
+      <path d="M33 10 L27 22 L36 30 L28 42 L34 54" stroke-width="4"/>` },
+    'stairs': { body: `<path d="M8 56 V46 H20 V36 H32 V26 H44 V16 H56 V56 Z" fill="${C.sand}"/><path d="M8 38 L52 6" stroke-width="3"/><path d="M14 34 V44 M26 25 V34 M38 16 V24" stroke-width="2.5"/>` },
+    'trash': { body: `<path d="M27 12 V7 H37 V12" stroke-width="3"/><rect x="13" y="12" width="38" height="7" rx="2" fill="${C.greyD}"/>
+      <path d="M17 19 H47 L44 57 H20 Z" fill="${C.grey}"/><path d="M26 27 V49 M32 27 V49 M38 27 V49" stroke="${C.greyD}" stroke-width="2.5"/>` },
+    'bottle': { body: `<path d="M27 11 C27 3 37 3 37 11 Z" fill="${C.sun}"/><rect x="23" y="11" width="18" height="7" rx="2" fill="${C.seaL}"/>
+      <rect x="21" y="18" width="22" height="40" rx="7" fill="${C.white}"/><path d="M21.5 34 H42.5 V51 C42.5 55 40 57 36 57 H28 C24 57 21.5 55 21.5 51 Z" fill="#fff1d6" stroke="none"/>
+      <rect x="21" y="18" width="22" height="40" rx="7"/><path d="M36 26 H41 M36 33 H41 M36 40 H41" stroke="${C.seaL}" stroke-width="2.5"/>` },
+    'glasses': { body: `<path d="M9 31 L4 24 M55 31 L60 24" stroke-width="3"/><circle cx="20" cy="35" r="11" fill="${C.sky}"/><circle cx="44" cy="35" r="11" fill="${C.sky}"/>
+      <path d="M31 33 C31 30 33 30 33 33" stroke-width="3"/><path d="M14 31 C15 28 17 27 20 27 M38 31 C39 28 41 27 44 27" stroke="${C.white}" stroke-width="2.5"/>` },
+    'cash': { body: `<rect x="14" y="14" width="44" height="26" rx="3" fill="#a6e38a"/><rect x="6" y="22" width="44" height="26" rx="3" fill="${C.grass}"/>
+      <circle cx="28" cy="35" r="6.5" fill="${C.grassD}" stroke-width="2.5"/><circle cx="50" cy="50" r="9" fill="${C.sun}"/><path d="M50 46 V54" stroke-width="2.5"/>` },
+    'mask': { body: `<path d="M12 26 C4 26 4 40 12 40 M52 26 C60 26 60 40 52 40" stroke-width="2.5"/>
+      <path d="M12 24 C22 19 42 19 52 24 V40 C42 48 22 48 12 40 Z" fill="${C.white}"/><path d="M16 30 H48 M16 36 H48" stroke="${C.seaL}" stroke-width="2.5"/>` },
+    'battery': { body: `<rect x="27" y="5" width="10" height="6" rx="1.5" fill="${C.grey}" stroke-width="2.5"/><rect x="14" y="10" width="36" height="48" rx="7" fill="#4b4f68"/>
+      <path d="M35 18 L24 35 H32 L28 50 L41 31 H33 Z" fill="${C.sun}" stroke-width="2.5"/>` },
+    'suitcase': { body: `<path d="M24 15 V9 H40 V15" stroke-width="3.5"/><path d="M14 15 C14 8 22 7 24 12 M40 12 C44 6 52 9 50 15" fill="${C.seaL}" stroke-width="2.5"/>
+      <rect x="8" y="15" width="48" height="40" rx="5" fill="${C.purple}"/><path d="M20 15 V55 M44 15 V55" stroke-width="3"/><circle cx="16" cy="57" r="2.5" fill="${C.ink}"/><circle cx="48" cy="57" r="2.5" fill="${C.ink}"/>` }
   };
 
   /* Ilustrasi besar (bukan ikon 64×64): pulau-pulau di peta dan peta jalur evakuasi. */

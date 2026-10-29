@@ -78,6 +78,61 @@
         'Air laut merusak lahan pertanian, mencemari air, dan merusak ekosistem laut.',
         'Dalam kondisi tertentu, tsunami juga membentuk habitat baru dan menjadi bahan penelitian mitigasi.'
       ]
+    },
+    {
+      id: 'b6', island: 'basic', phaseKey: 'basic', phase: 'Mengenal tsunami', icon: 'ripple', type: 'deepshore',
+      title: 'Laut Dalam vs Pantai',
+      mission: 'Pilah sifat gelombang tsunami: saat masih di laut dalam atau saat mendekati pantai.',
+      how: ['Baca kartu sifat gelombang.', 'Pilih Laut dalam atau Dekat pantai. Pilihan keliru mengurangi 1 nyawa.', 'Pilah semua kartu untuk menang!'],
+      recap: [
+        'Di laut dalam, tsunami melaju sangat cepat tetapi tingginya rendah sehingga hampir tidak terasa oleh kapal.',
+        'Saat mendekati pantai yang dangkal, gelombang melambat dan meninggi.',
+        'Air laut bisa surut dulu sebelum gelombang besar datang.'
+      ]
+    },
+    {
+      id: 'b7', island: 'basic', phaseKey: 'basic', phase: 'Mengenal tsunami', icon: 'gull', type: 'wavetype',
+      title: 'Ombak Biasa atau Tsunami?',
+      mission: 'Bedakan ciri ombak biasa dengan ciri gelombang tsunami.',
+      how: ['Baca kartu ciri gelombang.', 'Pilih Ombak biasa atau Tsunami. Pilihan keliru mengurangi 1 nyawa.', 'Pilah semua kartu untuk menang!'],
+      recap: [
+        'Ombak biasa dibangkitkan angin dan hanya menggerakkan permukaan air.',
+        'Tsunami menggerakkan seluruh air dari dasar laut sampai permukaan.',
+        'Gelombang tsunami datang berjarak beberapa menit dan bisa masuk jauh ke daratan.'
+      ]
+    },
+    {
+      id: 'b8', island: 'basic', phaseKey: 'basic', phase: 'Mengenal tsunami', icon: 'book', type: 'terms',
+      title: 'Kamus Tsunami',
+      mission: 'Pasangkan istilah tentang gempa dan tsunami dengan artinya.',
+      how: ['Ketuk satu istilah, lalu ketuk artinya.', 'Pasangan yang salah mengurangi 1 nyawa.', 'Pasangkan kelima istilah untuk menang!'],
+      recap: [
+        'Hiposentrum adalah pusat gempa di dalam bumi, episentrum adalah titik di permukaan tepat di atasnya.',
+        'Magnitudo menunjukkan besarnya kekuatan gempa.',
+        'Kata tsunami berasal dari bahasa Jepang: tsu (pelabuhan) dan nami (gelombang).'
+      ]
+    },
+    {
+      id: 'b9', island: 'basic', phaseKey: 'basic', phase: 'Mengenal tsunami', icon: 'map', type: 'history',
+      title: 'Jejak Tsunami di Indonesia',
+      mission: 'Pelajari peristiwa tsunami yang pernah terjadi di Indonesia.',
+      how: ['Baca situasinya, lalu pilih jawaban terbaik.', 'Tidak ada batas waktu, jadi pikirkan baik-baik.', 'Jawaban salah mengurangi 1 nyawa.'],
+      recap: [
+        'Indonesia rawan tsunami karena berada di pertemuan lempeng tektonik dan memiliki banyak gunung api.',
+        'Tsunami Aceh 2004 dipicu gempa besar bawah laut, sedangkan tsunami Selat Sunda 2018 dipicu longsoran Gunung Anak Krakatau.',
+        'Kearifan lokal smong di Simeulue membantu banyak warga selamat.'
+      ]
+    },
+    {
+      id: 'b10', island: 'basic', phaseKey: 'basic', phase: 'Mengenal tsunami', icon: 'timer', type: 'examBasic',
+      title: 'Ujian Ilmu Tsunami',
+      mission: 'Jawab pertanyaan seputar pengetahuan tsunami sebelum waktunya habis!',
+      how: ['Jawab setiap soal sebelum waktunya habis (20 detik).', 'Jawaban salah atau waktu habis mengurangi 1 nyawa.', 'Selesaikan semua soal untuk menang!'],
+      recap: [
+        'Tsunami terjadi karena air laut terganggu oleh pergerakan mendadak di dasar laut.',
+        'Penyebabnya bisa gempa bawah laut, gunung berapi, longsor bawah laut, atau meteor.',
+        'Kenali tanda alamnya: gempa kuat, air laut surut tiba-tiba, dan suara gemuruh.'
+      ]
     }
   ];
 
@@ -124,6 +179,72 @@
         'Mitigasi struktural adalah upaya fisik berupa pembangunan sarana pelindung.',
         'Bangunan pesisir harus tahan gempa agar tidak roboh sebelum tsunami datang.',
         'Walau ada tanggul, warga tetap harus evakuasi saat ada tanda tsunami.'
+      ]
+    },
+    {
+      id: 's5', island: 'struct', phaseKey: 'struct', phase: 'Mitigasi struktural', icon: 'foundation', type: 'safehouse',
+      title: 'Rumah Tahan Gempa',
+      mission: 'Pilih semua ciri rumah tahan gempa yang membuat bangunan tidak mudah roboh.',
+      how: ['Ketuk kartu yang merupakan ciri rumah tahan gempa.', 'Ciri yang salah mengurangi 1 nyawa.', 'Temukan keempat cirinya untuk menang!'],
+      recap: [
+        'Rumah tahan gempa memiliki fondasi kuat yang menyatu dengan bangunan.',
+        'Kolom dan balok beton bertulang saling terikat kuat.',
+        'Atap yang ringan mengurangi beban saat bangunan berguncang.'
+      ]
+    },
+    {
+      id: 's6', island: 'struct', phaseKey: 'struct', phase: 'Mitigasi struktural', icon: 'stairs', type: 'towerpick',
+      title: 'Menara Evakuasi Ideal',
+      mission: 'Pilih semua ciri menara evakuasi yang baik untuk menyelamatkan warga.',
+      how: ['Ketuk kartu yang merupakan ciri menara evakuasi yang baik.', 'Ciri yang salah mengurangi 1 nyawa.', 'Temukan keempat cirinya untuk menang!'],
+      recap: [
+        'Menara evakuasi harus lebih tinggi dari perkiraan ketinggian tsunami dan kuat menahan gempa.',
+        'Menara harus dekat permukiman, bisa dicapai berjalan kaki, dan selalu terbuka saat darurat.',
+        'Tangga atau ramp yang lebar memudahkan anak, lansia, dan penyandang disabilitas.'
+      ]
+    },
+    {
+      id: 's7', island: 'struct', phaseKey: 'struct', phase: 'Mitigasi struktural', icon: 'broom', type: 'care',
+      title: 'Rawat Benteng Pantai',
+      mission: 'Pilah tindakan warga: merawat atau merusak bangunan pelindung pantai.',
+      how: ['Baca kartu tindakan.', 'Pilih Merawat atau Merusak. Pilihan keliru mengurangi 1 nyawa.', 'Pilah semua tindakan untuk menang!'],
+      recap: [
+        'Bangunan pelindung harus dirawat agar tetap berfungsi saat dibutuhkan.',
+        'Menebang mangrove dan mengambil batu pemecah gelombang merusak pertahanan pantai.',
+        'Warga ikut menjaga dengan tidak membuang sampah dan melaporkan kerusakan.'
+      ]
+    },
+    {
+      id: 's8', island: 'struct', phaseKey: 'struct', phase: 'Mitigasi struktural', icon: 'tower', type: 'routeTower',
+      title: 'Lari ke Menara Evakuasi',
+      mission: 'Desamu datar dan jauh dari bukit. Bawa dirimu ke menara evakuasi.',
+      how: ['Bergerak dengan tombol panah, keyboard, atau ketuk kotak di sebelahmu.', 'Laut, pantai, sungai, dan rumah satu lantai tidak aman (-1 nyawa).', 'Ikuti rambu hijau jalur evakuasi!'],
+      recap: [
+        'Di desa datar tanpa bukit, menara evakuasi vertikal menjadi tempat berlindung.',
+        'Rumah satu lantai tidak cukup tinggi untuk berlindung dari tsunami.',
+        'Ikuti rambu jalur evakuasi agar cepat sampai.'
+      ]
+    },
+    {
+      id: 's9', island: 'struct', phaseKey: 'struct', phase: 'Mitigasi struktural', icon: 'timer', type: 'quickStruct',
+      title: 'Kuis Kilat Benteng',
+      mission: 'Jawab cepat pertanyaan tentang bangunan pelindung pantai!',
+      how: ['Jawab setiap soal sebelum waktunya habis (15 detik).', 'Jawaban salah atau waktu habis mengurangi 1 nyawa.', 'Selesaikan semua soal untuk menang!'],
+      recap: [
+        'Pemecah gelombang dipasang di laut lepas, tanggul di garis pantai, dan mangrove di pesisir.',
+        'Menara evakuasi untuk desa datar, bangunan tahan gempa untuk rumah dan sekolah.',
+        'Semua bangunan pelindung saling melengkapi.'
+      ]
+    },
+    {
+      id: 's10', island: 'struct', phaseKey: 'struct', phase: 'Mitigasi struktural', icon: 'crane', type: 'solutions',
+      title: 'Masalah dan Solusi',
+      mission: 'Pasangkan setiap masalah di pesisir dengan solusi struktural yang tepat.',
+      how: ['Ketuk satu masalah, lalu ketuk solusinya.', 'Pasangan yang salah mengurangi 1 nyawa.', 'Pasangkan kelima masalah untuk menang!'],
+      recap: [
+        'Setiap masalah pesisir punya solusi struktural yang sesuai.',
+        'Mitigasi struktural paling efektif jika beberapa bangunan pelindung digabungkan.',
+        'Bangunan pelindung tetap harus diiringi kesiapan warga untuk evakuasi.'
       ]
     }
   ];
@@ -182,6 +303,61 @@
         'Mitigasi non-struktural berupa aturan, peringatan dini, peta, latihan, dan edukasi.',
         'Edukasi membuat warga paham tanda alam tsunami dan langkah yang harus diambil.',
         'Bagikan pengetahuan siaga kepada keluarga dan teman.'
+      ]
+    },
+    {
+      id: 'n6', island: 'nonstruct', phaseKey: 'nonstruct', phase: 'Mitigasi non-struktural', icon: 'flag', type: 'signsmatch',
+      title: 'Kenali Rambu Evakuasi',
+      mission: 'Pasangkan setiap rambu dan tanda evakuasi dengan artinya.',
+      how: ['Ketuk satu rambu, lalu ketuk artinya.', 'Pasangan yang salah mengurangi 1 nyawa.', 'Pasangkan kelima rambu untuk menang!'],
+      recap: [
+        'Rambu jalur evakuasi berwarna hijau dan menunjukkan arah ke tempat aman.',
+        'Titik kumpul adalah tempat warga berkumpul dan didata setelah evakuasi.',
+        'Zona bahaya harus segera ditinggalkan saat ada peringatan.'
+      ]
+    },
+    {
+      id: 'n7', island: 'nonstruct', phaseKey: 'nonstruct', phase: 'Mitigasi non-struktural', icon: 'chat', type: 'hoax',
+      title: 'Resmi atau Hoaks?',
+      mission: 'Pilah informasi tsunami: berasal dari sumber resmi atau hoaks.',
+      how: ['Baca kartu informasi.', 'Pilih Info resmi atau Hoaks. Pilihan keliru mengurangi 1 nyawa.', 'Pilah semua informasi untuk menang!'],
+      recap: [
+        'Informasi resmi tsunami berasal dari BMKG, BNPB, dan BPBD.',
+        'Gempa dan tsunami tidak bisa diramal tanggalnya.',
+        'Jangan menyebarkan kabar yang belum jelas sumbernya.'
+      ]
+    },
+    {
+      id: 'n8', island: 'nonstruct', phaseKey: 'nonstruct', phase: 'Mitigasi non-struktural', icon: 'family', type: 'familyplan',
+      title: 'Rencana Siaga Keluarga',
+      mission: 'Pilih semua hal yang perlu ada dalam rencana siaga keluarga.',
+      how: ['Ketuk kartu yang termasuk rencana siaga keluarga.', 'Kartu yang salah mengurangi 1 nyawa.', 'Temukan kelima hal penting untuk menang!'],
+      recap: [
+        'Setiap keluarga perlu titik kumpul yang disepakati bersama.',
+        'Simpan nomor darurat dan kontak kerabat di luar daerah.',
+        'Tentukan siapa yang membantu anak kecil, lansia, dan anggota keluarga berkebutuhan khusus.'
+      ]
+    },
+    {
+      id: 'n9', island: 'nonstruct', phaseKey: 'nonstruct', phase: 'Mitigasi non-struktural', icon: 'school', type: 'routeSchool',
+      title: 'Evakuasi dari Sekolah',
+      mission: 'Tanda bahaya berbunyi di sekolah. Ikuti jalur evakuasi menuju titik kumpul di bukit.',
+      how: ['Bergerak dengan tombol panah, keyboard, atau ketuk kotak di sebelahmu.', 'Laut, pantai, sungai, dan rumah satu lantai tidak aman (-1 nyawa).', 'Ikuti rambu hijau jalur evakuasi!'],
+      recap: [
+        'Sekolah perlu punya peta jalur evakuasi yang dipasang di tempat umum.',
+        'Ikuti rambu dan arahan guru menuju titik kumpul.',
+        'Jauhi sungai dan pantai selama evakuasi.'
+      ]
+    },
+    {
+      id: 'n10', island: 'nonstruct', phaseKey: 'nonstruct', phase: 'Mitigasi non-struktural', icon: 'timer', type: 'examNonstruct',
+      title: 'Ujian Duta Siaga',
+      mission: 'Jawab pertanyaan tentang mitigasi non-struktural sebelum waktunya habis!',
+      how: ['Jawab setiap soal sebelum waktunya habis (20 detik).', 'Jawaban salah atau waktu habis mengurangi 1 nyawa.', 'Selesaikan semua soal untuk menang!'],
+      recap: [
+        'Peringatan dini resmi di Indonesia dikeluarkan oleh BMKG.',
+        'Latihan rutin, peta evakuasi, tata ruang, dan edukasi termasuk mitigasi non-struktural.',
+        'Selalu cek kebenaran informasi sebelum membagikannya.'
       ]
     }
   ];
@@ -251,6 +427,50 @@
         'Tetap di tempat tinggi, karena gelombang berikutnya bisa lebih besar.',
         'Percayai informasi resmi dari BMKG atau BPBD, bukan pesan berantai.',
         'Bantu yang terluka dan ikuti arahan petugas.'
+      ]
+    },
+    {
+      id: 'r7', island: 'response', phaseKey: 'pre', phase: 'Sebelum', icon: 'bottle', type: 'familybag',
+      title: 'Tas Siaga Keluarga',
+      mission: 'Keluargamu punya bayi dan nenek. Pilih semua barang tambahan yang perlu masuk tas siaga.',
+      how: ['Ketuk barang yang perlu dibawa.', 'Barang yang tidak perlu mengurangi 1 nyawa.', 'Temukan keenam barang penting untuk menang!'],
+      recap: [
+        'Sesuaikan isi tas siaga dengan kebutuhan anggota keluarga, seperti bayi dan lansia.',
+        'Bawa obat rutin, kacamata cadangan, uang tunai, masker, dan power bank.',
+        'Tas siaga tetap harus ringan dan mudah dibawa.'
+      ]
+    },
+    {
+      id: 'r8', island: 'response', phaseKey: 'now', phase: 'Saat', icon: 'flashlight', type: 'nightRun',
+      title: 'Evakuasi Malam Hari',
+      mission: 'Peringatan datang di malam hari. Nyalakan senter dan lari ke bukit!',
+      how: ['Tekan tombol Lompat, Spasi, atau ketuk layar untuk melompat.', 'Pandangan terbatas, jadi perhatikan rintangan di dalam cahaya senter.', 'Sampai di bukit untuk menang!'],
+      recap: [
+        'Tsunami bisa datang kapan saja, termasuk di malam hari.',
+        'Simpan senter di dekat tempat tidur dan di dalam tas siaga.',
+        'Kenali jalur evakuasi dengan baik agar tetap bisa dilalui dalam gelap.'
+      ]
+    },
+    {
+      id: 'r9', island: 'response', phaseKey: 'now', phase: 'Saat', icon: 'family', type: 'helpQuiz',
+      title: 'Bantu Sesama',
+      mission: 'Pilih cara terbaik membantu orang lain selama evakuasi.',
+      how: ['Baca situasinya, lalu pilih jawaban terbaik.', 'Tidak ada batas waktu, jadi pikirkan baik-baik.', 'Jawaban salah mengurangi 1 nyawa.'],
+      recap: [
+        'Bantu lansia, anak-anak, ibu hamil, dan penyandang disabilitas selama evakuasi.',
+        'Tetap terus bergerak ke tempat tinggi sambil membantu.',
+        'Laporkan ke petugas jika ada yang terpisah atau belum terlihat.'
+      ]
+    },
+    {
+      id: 'r10', island: 'response', phaseKey: 'now', phase: 'Saat', icon: 'timer', type: 'fullDrill',
+      title: 'Ujian Tanggap Darurat',
+      mission: 'Susun seluruh langkah tanggap darurat tsunami dengan benar sebelum waktu habis!',
+      how: ['Ketuk kartu langkah sesuai urutan yang benar.', 'Waktumu 50 detik. Urutan yang salah mengurangi 1 nyawa.', 'Selesaikan ketujuh langkah untuk menang!'],
+      recap: [
+        'Lindungi diri saat guncangan, lalu segera evakuasi setelah guncangan berhenti.',
+        'Ikuti rambu evakuasi dan tetap di tempat tinggi walau gelombang pertama surut.',
+        'Pulang hanya setelah ada pernyataan aman dari petugas.'
       ]
     }
   ];
@@ -657,6 +877,408 @@
     }
   ];
 
+  /* --- Materi tambahan (setiap pulau 10 misi) --- */
+
+  const DEEP_ITEMS = [
+    { ic: 'boat', short: 'Kapal hampir tak terasa', label: 'Kapal nelayan di tengah laut hampir tidak merasakan gelombangnya.', zone: 'deep', why: 'Di laut dalam, tinggi tsunami biasanya hanya sekitar satu meter atau kurang, jadi kapal hampir tidak merasakannya.' },
+    { ic: 'ripple', short: 'Sangat cepat', label: 'Gelombang melaju sangat cepat, hampir secepat pesawat jet.', zone: 'deep', why: 'Di laut dalam, tsunami bisa melaju ratusan kilometer per jam.' },
+    { ic: 'wave', short: 'Rendah dan panjang', label: 'Gelombangnya rendah, tetapi jarak antar-puncaknya sangat panjang.', zone: 'deep', why: 'Di laut dalam, gelombang tsunami rendah namun sangat panjang.' },
+    { ic: 'shoal', short: 'Melambat dan meninggi', label: 'Gelombang melambat dan makin tinggi.', zone: 'shore', why: 'Saat laut makin dangkal di dekat pantai, gelombang melambat dan meninggi.' },
+    { ic: 'recede', short: 'Air surut dulu', label: 'Air laut bisa surut jauh sebelum gelombang besar datang.', zone: 'shore', why: 'Surutnya air laut di pantai terjadi di dekat pantai dan merupakan tanda bahaya.' },
+    { ic: 'house', short: 'Menyapu daratan', label: 'Gelombang menghantam dan masuk jauh ke daratan.', zone: 'shore', why: 'Di pantai, tsunami bisa merusak bangunan dan masuk jauh ke daratan.' }
+  ];
+  const DEEP_CFG = {
+    left: { key: 'deep', label: 'Laut dalam', sub: 'jauh dari pantai', ic: 'ripple', cls: 'z-deepsea', btn: 'blue' },
+    right: { key: 'shore', label: 'Dekat pantai', sub: 'laut dangkal', ic: 'shoal', cls: 'z-shoresea', btn: '' },
+    unit: 'Kartu', statement: true
+  };
+
+  const WAVE_ITEMS = [
+    { ic: 'gull', short: 'Karena angin', label: 'Dibangkitkan oleh angin yang bertiup di permukaan laut.', zone: 'wind', why: 'Ombak biasa dibangkitkan angin. Tsunami tidak bergantung pada angin.' },
+    { ic: 'tectonic', short: 'Karena dasar laut', label: 'Dipicu pergerakan mendadak di dasar laut, misalnya gempa.', zone: 'tsunami', why: 'Tsunami dipicu gangguan di dasar laut seperti gempa, longsor, atau letusan gunung api.' },
+    { ic: 'ripple', short: 'Hanya permukaan', label: 'Hanya bagian permukaan air yang bergerak.', zone: 'wind', why: 'Pada ombak biasa, hanya permukaan air yang bergerak.' },
+    { ic: 'uplift', short: 'Seluruh kolom air', label: 'Seluruh air dari dasar sampai permukaan ikut bergerak.', zone: 'tsunami', why: 'Tsunami menggerakkan seluruh kolom air, karena itu energinya sangat besar.' },
+    { ic: 'timer', short: 'Tiap beberapa detik', label: 'Gelombang datang setiap beberapa detik.', zone: 'wind', why: 'Ombak biasa datang berulang setiap beberapa detik.' },
+    { ic: 'rumble', short: 'Berjarak bermenit-menit', label: 'Gelombang berikutnya bisa datang beberapa menit kemudian.', zone: 'tsunami', why: 'Jarak antar-gelombang tsunami bisa bermenit-menit, jadi jangan kembali setelah gelombang pertama.' },
+    { ic: 'house', short: 'Masuk jauh ke darat', label: 'Bisa masuk jauh ke daratan dan merusak bangunan.', zone: 'tsunami', why: 'Tsunami bisa menerjang jauh ke daratan, tidak seperti ombak biasa.' }
+  ];
+  const WAVE_CFG = {
+    left: { key: 'wind', label: 'Ombak biasa', sub: 'karena angin', ic: 'gull', cls: 'z-deepsea', btn: 'blue' },
+    right: { key: 'tsunami', label: 'Tsunami', sub: 'karena gangguan dasar laut', ic: 'wave', cls: 'z-risk', btn: 'red' },
+    unit: 'Kartu', statement: true
+  };
+
+  const TERM_PAIRS = [
+    { ic: 'tectonic', name: 'Hiposentrum', fn: 'Pusat gempa yang berada di dalam bumi.' },
+    { ic: 'flag', name: 'Episentrum', fn: 'Titik di permukaan bumi yang tepat berada di atas pusat gempa.' },
+    { ic: 'monitor', name: 'Magnitudo', fn: 'Ukuran besarnya kekuatan atau energi gempa.' },
+    { ic: 'plates', name: 'Lempeng tektonik', fn: 'Bongkahan besar kerak bumi yang terus bergerak perlahan.' },
+    { ic: 'wave', name: 'Tsunami', fn: 'Kata dari bahasa Jepang: tsu berarti pelabuhan dan nami berarti gelombang.' }
+  ];
+
+  const HISTORY_QS = [
+    {
+      ic: 'plates', text: 'Mengapa Indonesia termasuk negara yang rawan tsunami?',
+      options: [
+        { ok: true, ic: 'tectonic', text: 'Berada di pertemuan beberapa lempeng tektonik dan memiliki banyak gunung api', why: 'Benar! Pertemuan lempeng dan banyaknya gunung api membuat Indonesia sering mengalami gempa dan berpotensi tsunami.' },
+        { ic: 'sun', text: 'Karena Indonesia beriklim tropis', why: 'Iklim tidak menyebabkan tsunami.' },
+        { ic: 'rain', text: 'Karena sering turun hujan', why: 'Hujan tidak menyebabkan tsunami.' }
+      ]
+    },
+    {
+      ic: 'wave', text: 'Tsunami Aceh pada 26 Desember 2004 dipicu oleh apa?',
+      options: [
+        { ok: true, ic: 'tectonic', text: 'Gempa bawah laut yang sangat besar di Samudra Hindia', why: 'Benar! Gempa sangat kuat di dasar Samudra Hindia memicu tsunami yang melanda banyak negara.' },
+        { ic: 'volcano', text: 'Letusan gunung berapi', why: 'Tsunami Aceh 2004 dipicu gempa bawah laut, bukan letusan gunung.' },
+        { ic: 'meteor', text: 'Jatuhnya meteor ke laut', why: 'Tsunami Aceh 2004 dipicu gempa bawah laut yang sangat besar.' }
+      ]
+    },
+    {
+      ic: 'volcano', text: 'Tsunami Selat Sunda pada Desember 2018 datang tanpa didahului gempa kuat. Apa pemicunya?',
+      options: [
+        { ok: true, ic: 'volcano', text: 'Longsoran tubuh Gunung Anak Krakatau ke laut', why: 'Benar! Peristiwa ini menunjukkan tsunami tidak selalu didahului gempa kuat, jadi tetap waspada di pesisir.' },
+        { ic: 'tectonic', text: 'Gempa tektonik yang sangat besar', why: 'Saat itu tidak ada gempa tektonik besar. Pemicunya adalah longsoran Gunung Anak Krakatau.' },
+        { ic: 'gull', text: 'Angin yang sangat kencang', why: 'Angin tidak menyebabkan tsunami. Pemicunya adalah longsoran Gunung Anak Krakatau.' }
+      ]
+    },
+    {
+      ic: 'volcano', text: 'Letusan dahsyat Gunung Krakatau pada tahun 1883 juga menimbulkan apa?',
+      options: [
+        { ok: true, ic: 'wave', text: 'Tsunami besar di sekitar Selat Sunda', why: 'Benar! Letusan gunung api di laut dapat memicu tsunami.' },
+        { ic: 'rain', text: 'Banjir akibat hujan deras', why: 'Letusan Krakatau 1883 memicu tsunami besar, bukan banjir hujan.' },
+        { ic: 'sun', text: 'Kemarau panjang', why: 'Letusan Krakatau 1883 memicu tsunami besar di sekitar Selat Sunda.' }
+      ]
+    },
+    {
+      ic: 'family', text: 'Pada tsunami 2004, banyak warga Pulau Simeulue selamat. Apa sebabnya?',
+      options: [
+        { ok: true, ic: 'megaphone', text: 'Kearifan lokal smong: saat gempa kuat dan air laut surut, segera lari ke bukit', why: 'Tepat! Cerita smong diwariskan turun-temurun dan menyelamatkan banyak nyawa.' },
+        { ic: 'boat', text: 'Mereka berlayar ke tengah laut', why: 'Warga Simeulue selamat karena mengikuti pesan smong untuk lari ke tempat tinggi.' },
+        { ic: 'house', text: 'Mereka bersembunyi di dalam rumah', why: 'Rumah tidak aman dari tsunami. Warga selamat karena lari ke bukit.' }
+      ]
+    },
+    {
+      ic: 'quake', text: 'Tsunami di Teluk Palu pada September 2018 terjadi setelah peristiwa apa?',
+      options: [
+        { ok: true, ic: 'tectonic', text: 'Gempa kuat yang mengguncang Sulawesi Tengah', why: 'Benar! Gempa kuat di sekitar Palu diikuti tsunami yang menerjang Teluk Palu.' },
+        { ic: 'meteor', text: 'Jatuhnya meteor', why: 'Tsunami Palu terjadi setelah gempa kuat.' },
+        { ic: 'rain', text: 'Hujan deras berhari-hari', why: 'Hujan tidak memicu tsunami. Tsunami Palu terjadi setelah gempa kuat.' }
+      ]
+    }
+  ];
+
+  const EXAM_BASIC_QS = [
+    {
+      ic: 'wave', text: 'Apa itu tsunami?',
+      options: [
+        { ok: true, ic: 'uplift', text: 'Gelombang besar akibat air laut terganggu oleh pergerakan mendadak di dasar laut', why: 'Benar! Itulah pengertian tsunami.' },
+        { ic: 'rain', text: 'Ombak tinggi karena badai', why: 'Ombak badai disebabkan angin, bukan gangguan di dasar laut.' },
+        { ic: 'water', text: 'Banjir karena hujan deras', why: 'Banjir hujan berbeda dengan tsunami.' }
+      ]
+    },
+    {
+      ic: 'tectonic', text: 'Penyebab tsunami yang paling sering adalah...',
+      options: [
+        { ok: true, ic: 'tectonic', text: 'Gempa tektonik bawah laut', why: 'Benar! Sebagian besar tsunami dipicu gempa bawah laut.' },
+        { ic: 'gull', text: 'Angin kencang', why: 'Angin membangkitkan ombak biasa, bukan tsunami.' },
+        { ic: 'ripple', text: 'Pasang air laut biasa', why: 'Pasang surut biasa tidak menyebabkan tsunami.' }
+      ]
+    },
+    {
+      ic: 'recede', text: 'Air laut di pantai tiba-tiba surut jauh. Artinya?',
+      options: [
+        { ok: true, ic: 'runner', text: 'Gelombang besar mungkin akan datang, segera menjauh ke tempat tinggi', why: 'Tepat! Air laut yang surut tiba-tiba adalah tanda bahaya.' },
+        { ic: 'fish', text: 'Waktu yang tepat untuk mencari ikan', why: 'Jangan mendekat! Gelombang besar bisa datang sebentar lagi.' },
+        { ic: 'sun', text: 'Laut sedang tenang', why: 'Air laut yang surut tiba-tiba justru tanda bahaya.' }
+      ]
+    },
+    {
+      ic: 'shoal', text: 'Mengapa tsunami makin tinggi saat mendekati pantai?',
+      options: [
+        { ok: true, ic: 'shoal', text: 'Laut makin dangkal sehingga gelombang melambat dan meninggi', why: 'Benar! Di perairan dangkal, gelombang tsunami melambat dan meninggi.' },
+        { ic: 'gull', text: 'Angin di pantai lebih kencang', why: 'Angin tidak memengaruhi tinggi tsunami. Penyebabnya laut yang makin dangkal.' },
+        { ic: 'rain', text: 'Air hujan menambah tinggi gelombang', why: 'Penyebabnya laut yang makin dangkal, bukan hujan.' }
+      ]
+    },
+    {
+      ic: 'ripple', text: 'Gelombang pertama tsunami sudah lewat. Apakah sudah aman?',
+      options: [
+        { ok: true, ic: 'mountain', text: 'Belum, gelombang berikutnya bisa datang dan lebih besar', why: 'Tepat! Tetap di tempat tinggi sampai ada informasi resmi.' },
+        { ic: 'house', text: 'Sudah aman, boleh kembali ke rumah', why: 'Gelombang berikutnya bisa datang dan bahkan lebih besar.' },
+        { ic: 'sun', text: 'Aman asalkan cuaca cerah', why: 'Cuaca tidak menentukan keamanan dari tsunami.' }
+      ]
+    },
+    {
+      ic: 'tectonic', text: 'Gempa seperti apa yang berpotensi memicu tsunami?',
+      options: [
+        { ok: true, ic: 'uplift', text: 'Di laut, dangkal, kuat, dan lempeng bergerak naik-turun', why: 'Benar! Itulah syarat umum gempa pemicu tsunami.' },
+        { ic: 'house', text: 'Gempa kecil di darat', why: 'Gempa kecil di darat umumnya tidak memicu tsunami.' },
+        { ic: 'plates', text: 'Gempa sangat dalam yang bergeser mendatar', why: 'Gempa yang sangat dalam atau bergeser mendatar umumnya tidak memicu tsunami.' }
+      ]
+    }
+  ];
+
+  const SAFEHOUSE_ITEMS = [
+    { ok: true, ic: 'foundation', label: 'Fondasi kuat yang menyatu dengan bangunan', why: 'Fondasi yang kuat menahan bangunan agar tidak bergeser saat gempa.' },
+    { ok: true, ic: 'rebar', label: 'Kolom dan balok beton bertulang yang saling terikat', why: 'Rangka bertulang yang saling terikat membuat bangunan tetap utuh saat berguncang.' },
+    { ok: true, ic: 'roof-light', label: 'Atap yang ringan', why: 'Atap ringan mengurangi beban di bagian atas bangunan saat berguncang.' },
+    { ok: true, ic: 'building', label: 'Bentuk bangunan sederhana dan simetris', why: 'Bentuk sederhana dan simetris membuat guncangan tersebar merata.' },
+    { ok: false, ic: 'crack', label: 'Dinding bata tanpa kolom dan tulangan', why: 'Dinding tanpa tulangan mudah retak dan runtuh saat gempa.' },
+    { ok: false, ic: 'house', label: 'Atap beton yang sangat berat', why: 'Atap yang berat menambah beban dan bisa runtuh menimpa penghuni.' },
+    { ok: false, ic: 'log', label: 'Rangka kayu yang sudah lapuk', why: 'Kayu lapuk mudah patah saat bangunan berguncang.' },
+    { ok: false, ic: 'landslide', label: 'Dibangun di lereng yang mudah longsor', why: 'Lereng rawan longsor membuat bangunan mudah ambruk saat gempa.' }
+  ];
+
+  const TOWER_ITEMS = [
+    { ok: true, ic: 'tower', label: 'Lebih tinggi dari perkiraan ketinggian tsunami', why: 'Menara harus cukup tinggi agar warga aman dari gelombang.' },
+    { ok: true, ic: 'walker', label: 'Dekat permukiman dan bisa dicapai berjalan kaki', why: 'Saat darurat, warga harus bisa mencapainya dengan cepat tanpa kendaraan.' },
+    { ok: true, ic: 'stairs', label: 'Tangga atau ramp lebar untuk anak, lansia, dan difabel', why: 'Akses yang lebar membuat semua orang bisa naik dengan cepat.' },
+    { ok: true, ic: 'building', label: 'Strukturnya kuat dan tahan gempa', why: 'Menara harus tetap berdiri setelah gempa dan saat diterjang gelombang.' },
+    { ok: false, ic: 'car', label: 'Jauh dari permukiman, harus naik kendaraan', why: 'Saat darurat jalan bisa macet. Menara harus bisa dicapai berjalan kaki.' },
+    { ok: false, ic: 'lock', label: 'Pintunya dikunci, kuncinya dibawa satu orang', why: 'Menara evakuasi harus bisa dibuka kapan saja saat darurat.' },
+    { ok: false, ic: 'log', label: 'Dibangun dari kayu ringan seadanya', why: 'Menara harus kuat menahan gempa dan hantaman gelombang.' },
+    { ok: false, ic: 'person-wait', label: 'Hanya muat beberapa orang', why: 'Menara harus mampu menampung banyak warga di sekitarnya.' }
+  ];
+
+  const CARE_ITEMS = [
+    { ic: 'mangrove', short: 'Tanam ulang mangrove', label: 'Menanam ulang mangrove yang mati.', zone: 'care', why: 'Menanam ulang mangrove menjaga sabuk hijau tetap rapat.' },
+    { ic: 'seawall', short: 'Perbaiki tanggul', label: 'Memperbaiki tanggul yang retak.', zone: 'care', why: 'Tanggul yang retak harus segera diperbaiki agar tetap kuat.' },
+    { ic: 'broom', short: 'Bersihkan sampah', label: 'Membersihkan sampah di sekitar hutan mangrove.', zone: 'care', why: 'Sampah bisa merusak dan membunuh bibit mangrove.' },
+    { ic: 'tower', short: 'Periksa menara', label: 'Memeriksa menara evakuasi secara rutin.', zone: 'care', why: 'Pemeriksaan rutin memastikan menara siap dipakai saat darurat.' },
+    { ic: 'log', short: 'Tebang mangrove', label: 'Menebang mangrove untuk kayu bakar.', zone: 'harm', why: 'Menebang mangrove menghilangkan benteng alami pantai.' },
+    { ic: 'rock', short: 'Ambil batu', label: 'Mengambil batu pemecah gelombang untuk bahan bangunan.', zone: 'harm', why: 'Batu pemecah gelombang yang hilang membuat pertahanan pantai melemah.' },
+    { ic: 'trash', short: 'Buang sampah', label: 'Membuang sampah ke pantai.', zone: 'harm', why: 'Sampah mencemari pantai dan merusak ekosistem mangrove.' },
+    { ic: 'crack', short: 'Biarkan retak', label: 'Membiarkan retakan tanggul tanpa diperbaiki.', zone: 'harm', why: 'Retakan kecil yang dibiarkan bisa membuat tanggul jebol saat dibutuhkan.' }
+  ];
+  const CARE_CFG = {
+    left: { key: 'care', label: 'Merawat', sub: 'menjaga pertahanan pantai', ic: 'verified', cls: 'z-safe', btn: 'green' },
+    right: { key: 'harm', label: 'Merusak', sub: 'melemahkan pertahanan', ic: 'no-entry', cls: 'z-risk', btn: 'red' },
+    unit: 'Tindakan', statement: true
+  };
+
+  // Desa datar tanpa bukit: tujuan T = menara evakuasi, h = rumah satu lantai (tidak aman), d = rambu ke bawah.
+  const TOWER_MAP = [
+    'SB......',
+    'SBh.rrd.',
+    'SBPru#d#',
+    'SB.h.#T.',
+    'SB..#..h',
+    'SBh.....'
+  ];
+  // K = sekolah (titik awal).
+  const SCHOOL_MAP = [
+    'SB....HG',
+    'SB.#.ruH',
+    'SBrru#.H',
+    'SBK.R...',
+    'SB..R#..',
+    'SB#.R...'
+  ];
+
+  const QUICK_STRUCT_QS = [
+    {
+      ic: 'breakwater', text: 'Bangunan pelindung yang dipasang di laut lepas adalah...',
+      options: [
+        { ok: true, ic: 'breakwater', text: 'Pemecah gelombang', why: 'Benar! Pemecah gelombang melemahkan gelombang sebelum mendekati pantai.' },
+        { ic: 'tower', text: 'Menara evakuasi', why: 'Menara evakuasi dibangun di permukiman, bukan di laut.' },
+        { ic: 'building', text: 'Bangunan tahan gempa', why: 'Bangunan tahan gempa ada di kawasan rumah dan sekolah.' }
+      ]
+    },
+    {
+      ic: 'mangrove', text: 'Tanaman pesisir yang akarnya meredam energi gelombang adalah...',
+      options: [
+        { ok: true, ic: 'mangrove', text: 'Mangrove', why: 'Benar! Akar mangrove membantu meredam energi gelombang.' },
+        { ic: 'plant', text: 'Tanaman hias', why: 'Tanaman hias tidak berfungsi sebagai benteng pantai.' },
+        { ic: 'crop', text: 'Padi', why: 'Padi tidak tumbuh di pesisir berlumpur dan tidak meredam gelombang.' }
+      ]
+    },
+    {
+      ic: 'house', text: 'Di desa datar tanpa bukit, warga berlindung di...',
+      options: [
+        { ok: true, ic: 'tower', text: 'Menara evakuasi vertikal', why: 'Benar! Menara evakuasi menjadi tempat tinggi pengganti bukit.' },
+        { ic: 'house', text: 'Rumah satu lantai', why: 'Rumah satu lantai tidak cukup tinggi.' },
+        { ic: 'pier', text: 'Dermaga', why: 'Dermaga berada di tepi laut, tempat paling berbahaya.' }
+      ]
+    },
+    {
+      ic: 'roof-light', text: 'Atap seperti apa yang lebih aman saat gempa?',
+      options: [
+        { ok: true, ic: 'roof-light', text: 'Atap yang ringan', why: 'Benar! Atap ringan mengurangi beban saat bangunan berguncang.' },
+        { ic: 'house', text: 'Atap beton yang sangat berat', why: 'Atap berat menambah beban dan bisa runtuh.' },
+        { ic: 'crack', text: 'Atap yang sudah retak', why: 'Atap retak mudah runtuh saat gempa.' }
+      ]
+    },
+    {
+      ic: 'seawall', text: 'Tanggul pantai berfungsi untuk...',
+      options: [
+        { ok: true, ic: 'seawall', text: 'Memperlambat dan meredam gelombang', why: 'Benar! Itulah fungsi tanggul pantai.' },
+        { ic: 'boat', text: 'Tempat parkir perahu', why: 'Itu fungsi dermaga, bukan tanggul.' },
+        { ic: 'eye', text: 'Tempat melihat pemandangan', why: 'Tanggul dibangun untuk melindungi pantai dari gelombang.' }
+      ]
+    }
+  ];
+
+  const SOLUTION_PAIRS = [
+    { ic: 'house', name: 'Desa datar dan jauh dari bukit', fn: 'Bangun menara evakuasi vertikal.' },
+    { ic: 'ripple', name: 'Gelombang besar datang dari laut lepas', fn: 'Pasang pemecah gelombang lepas pantai.' },
+    { ic: 'recede', name: 'Garis pantai langsung berhadapan dengan laut', fn: 'Bangun tanggul pantai.' },
+    { ic: 'sprout', name: 'Pesisir berlumpur gundul tanpa pohon', fn: 'Tanam hutan mangrove.' },
+    { ic: 'crack', name: 'Rumah dan sekolah retak saat gempa kecil', fn: 'Bangun ulang dengan konstruksi tahan gempa.' }
+  ];
+
+  const SIGN_PAIRS = [
+    { ic: 'map', name: 'Rambu hijau bergambar orang berlari dan panah', fn: 'Menunjukkan arah jalur evakuasi menuju tempat aman.' },
+    { ic: 'flag', name: 'Rambu Titik Kumpul', fn: 'Tempat warga berkumpul dan didata setelah evakuasi.' },
+    { ic: 'no-entry', name: 'Rambu Zona Bahaya Tsunami', fn: 'Menandai wilayah rawan yang harus segera ditinggalkan saat ada peringatan.' },
+    { ic: 'tower', name: 'Rambu Tempat Evakuasi Sementara (TES)', fn: 'Menunjukkan bangunan tinggi yang aman untuk berlindung.' },
+    { ic: 'siren', name: 'Bunyi sirene peringatan', fn: 'Tanda bahaya agar warga segera evakuasi.' }
+  ];
+
+  const HOAX_ITEMS = [
+    { ic: 'monitor', short: 'Aplikasi BMKG', label: 'Peringatan dini dari aplikasi resmi BMKG.', zone: 'official', why: 'BMKG adalah lembaga resmi yang mengeluarkan peringatan dini tsunami.' },
+    { ic: 'siren', short: 'Sirene BPBD', label: 'Sirene dan pengumuman dari BPBD setempat.', zone: 'official', why: 'BPBD adalah lembaga resmi penanggulangan bencana di daerah.' },
+    { ic: 'radio', short: 'Radio/TV kutip BMKG', label: 'Siaran radio atau TV yang mengutip BMKG.', zone: 'official', why: 'Siaran yang mengutip lembaga resmi bisa dipercaya.' },
+    { ic: 'verified', short: 'Akun resmi BMKG', label: 'Unggahan akun media sosial resmi BMKG.', zone: 'official', why: 'Akun resmi lembaga adalah sumber informasi yang tepercaya.' },
+    { ic: 'chat', short: 'Pesan berantai', label: 'Pesan berantai tanpa sumber: "Tsunami 30 meter datang 5 menit lagi!"', zone: 'hoax', why: 'Pesan tanpa sumber jelas bisa membuat panik. Cek dulu ke BMKG atau BPBD.' },
+    { ic: 'camera', short: 'Video lama', label: 'Video tsunami lama yang disebar ulang sebagai kejadian hari ini.', zone: 'hoax', why: 'Video lama yang disebar ulang adalah hoaks yang menyesatkan.' },
+    { ic: 'question', short: 'Ramalan tanggal', label: 'Ramalan tanggal terjadinya tsunami dari akun tak dikenal.', zone: 'hoax', why: 'Gempa dan tsunami belum bisa diramal tanggalnya. Ramalan seperti ini adalah hoaks.' },
+    { ic: 'send', short: 'Katanya dari orang lain', label: 'Kabar dari teman yang katanya mendengar dari orang lain.', zone: 'hoax', why: 'Kabar dari mulut ke mulut belum tentu benar. Cek sumber resminya.' }
+  ];
+  const HOAX_CFG = {
+    left: { key: 'official', label: 'Info resmi', sub: 'boleh dipercaya', ic: 'verified', cls: 'z-safe', btn: 'green' },
+    right: { key: 'hoax', label: 'Hoaks', sub: 'belum pasti benar', ic: 'no-entry', cls: 'z-risk', btn: 'red' },
+    unit: 'Informasi', statement: true
+  };
+
+  const PLAN_ITEMS = [
+    { ok: true, ic: 'flag', label: 'Titik kumpul keluarga yang disepakati', why: 'Titik kumpul memudahkan keluarga bertemu kembali setelah evakuasi.' },
+    { ok: true, ic: 'phone-call', label: 'Daftar nomor darurat penting', why: 'Nomor darurat memudahkan meminta bantuan dengan cepat.' },
+    { ok: true, ic: 'map', label: 'Jalur evakuasi dari rumah, sekolah, dan tempat kerja', why: 'Setiap anggota keluarga perlu tahu jalur evakuasi dari tempatnya berada.' },
+    { ok: true, ic: 'family', label: 'Siapa yang membantu anak kecil dan lansia', why: 'Pembagian tugas membuat evakuasi lebih cepat dan tidak ada yang tertinggal.' },
+    { ok: true, ic: 'phone', label: 'Kontak kerabat di luar daerah', why: 'Kerabat di luar daerah bisa menjadi penghubung kabar keluarga.' },
+    { ok: false, ic: 'tv', label: 'Daftar film favorit', why: 'Daftar film tidak membantu saat keadaan darurat.' },
+    { ok: false, ic: 'umbrella', label: 'Jadwal liburan ke pantai', why: 'Jadwal liburan tidak termasuk rencana siaga bencana.' },
+    { ok: false, ic: 'gamepad', label: 'Skor game tertinggi', why: 'Skor game tidak berguna saat bencana.' },
+    { ok: false, ic: 'lock', label: 'Kata sandi media sosial', why: 'Kata sandi bersifat rahasia dan tidak termasuk rencana siaga.' }
+  ];
+
+  const EXAM_NONSTRUCT_QS = [
+    {
+      ic: 'monitor', text: 'Lembaga yang mengeluarkan peringatan dini tsunami di Indonesia adalah...',
+      options: [
+        { ok: true, ic: 'monitor', text: 'BMKG', why: 'Benar! BMKG mengeluarkan peringatan dini tsunami.' },
+        { ic: 'chat', text: 'Grup chat keluarga', why: 'Grup chat bukan sumber resmi peringatan dini.' },
+        { ic: 'tv', text: 'Iklan televisi', why: 'Peringatan resmi berasal dari BMKG.' }
+      ]
+    },
+    {
+      ic: 'school', text: 'Mengapa sekolah perlu rutin mengadakan latihan evakuasi?',
+      options: [
+        { ok: true, ic: 'runner', text: 'Agar siswa terbiasa dan sigap saat darurat sungguhan', why: 'Tepat! Latihan rutin membangun kebiasaan yang menyelamatkan.' },
+        { ic: 'sun', text: 'Supaya pelajaran diliburkan', why: 'Latihan evakuasi bertujuan melatih kesiapan.' },
+        { ic: 'person-wait', text: 'Cukup sekali seumur hidup', why: 'Latihan perlu diulang agar siswa tidak lupa.' }
+      ]
+    },
+    {
+      ic: 'zoning', text: 'Contoh mitigasi non-struktural adalah...',
+      options: [
+        { ok: true, ic: 'zoning', text: 'Aturan tata ruang pesisir', why: 'Benar! Aturan dan kebijakan termasuk mitigasi non-struktural.' },
+        { ic: 'seawall', text: 'Tanggul pantai', why: 'Tanggul adalah bangunan fisik, jadi termasuk mitigasi struktural.' },
+        { ic: 'tower', text: 'Menara evakuasi', why: 'Menara adalah bangunan fisik, jadi termasuk mitigasi struktural.' }
+      ]
+    },
+    {
+      ic: 'chat', text: 'Ada pesan berantai tentang tsunami tanpa sumber jelas. Apa yang kamu lakukan?',
+      options: [
+        { ok: true, ic: 'verified', text: 'Cek kebenarannya ke sumber resmi seperti BMKG', why: 'Tepat! Selalu cek informasi ke sumber resmi.' },
+        { ic: 'send', text: 'Langsung sebarkan ke semua grup', why: 'Menyebarkan kabar yang belum pasti bisa membuat panik.' },
+        { ic: 'eye-off', text: 'Abaikan semua informasi tentang tsunami', why: 'Jangan abaikan semuanya. Cek ke sumber resmi agar tetap waspada.' }
+      ]
+    },
+    {
+      ic: 'map', text: 'Rambu hijau bergambar orang berlari dan panah menunjukkan...',
+      options: [
+        { ok: true, ic: 'map', text: 'Arah jalur evakuasi', why: 'Benar! Ikuti arah panah menuju tempat aman.' },
+        { ic: 'runner', text: 'Jalur lari pagi', why: 'Rambu itu menunjukkan jalur evakuasi.' },
+        { ic: 'car', text: 'Tempat parkir', why: 'Rambu itu menunjukkan jalur evakuasi.' }
+      ]
+    },
+    {
+      ic: 'family', text: 'Apa isi penting rencana siaga keluarga?',
+      options: [
+        { ok: true, ic: 'flag', text: 'Titik kumpul keluarga dan nomor darurat', why: 'Tepat! Keduanya membantu keluarga tetap terhubung.' },
+        { ic: 'tv', text: 'Daftar acara TV', why: 'Daftar acara TV tidak berguna saat darurat.' },
+        { ic: 'gamepad', text: 'Jadwal bermain game', why: 'Jadwal bermain tidak termasuk rencana siaga.' }
+      ]
+    }
+  ];
+
+  const FAMILY_BAG_ITEMS = [
+    { ok: true, ic: 'bottle', label: 'Susu dan popok bayi', why: 'Bayi membutuhkan susu dan popok selama mengungsi.' },
+    { ok: true, ic: 'firstaid', label: 'Obat rutin nenek', why: 'Lansia sering membutuhkan obat yang harus diminum setiap hari.' },
+    { ok: true, ic: 'glasses', label: 'Kacamata cadangan', why: 'Kacamata cadangan berguna jika kacamata utama hilang atau rusak.' },
+    { ok: true, ic: 'cash', label: 'Uang tunai secukupnya', why: 'Saat listrik padam, pembayaran nontunai bisa tidak berfungsi.' },
+    { ok: true, ic: 'mask', label: 'Masker', why: 'Masker melindungi dari debu dan penyakit di tempat pengungsian.' },
+    { ok: true, ic: 'battery', label: 'Power bank terisi penuh', why: 'Power bank menjaga HP tetap menyala untuk menerima informasi.' },
+    { ok: false, ic: 'suitcase', label: 'Koper besar berisi semua baju', why: 'Koper besar terlalu berat dan memperlambat evakuasi.' },
+    { ok: false, ic: 'tv', label: 'Televisi', why: 'Televisi terlalu berat dan tidak berguna saat mengungsi.' },
+    { ok: false, ic: 'fish', label: 'Akuarium ikan hias', why: 'Akuarium berat dan mudah pecah. Fokus pada keselamatan keluarga.' },
+    { ok: false, ic: 'gamepad', label: 'Konsol game', why: 'Konsol game bukan barang penting.' }
+  ];
+
+  const HELP_QS = [
+    {
+      ic: 'person-wait', text: 'Saat evakuasi, kamu melihat nenek tetangga berjalan sangat pelan.',
+      options: [
+        { ok: true, ic: 'walker', text: 'Bantu menuntunnya sambil terus bergerak ke tempat tinggi', why: 'Tepat! Lansia perlu bantuan, dan kalian tetap harus terus bergerak menjauh dari pantai.' },
+        { ic: 'house', text: 'Ajak dia kembali ke rumahnya', why: 'Kembali ke rumah sangat berbahaya. Terus bergerak ke tempat tinggi.' },
+        { ic: 'eye-off', text: 'Pura-pura tidak melihat', why: 'Jika memungkinkan, bantulah. Saling membantu menyelamatkan lebih banyak nyawa.' }
+      ]
+    },
+    {
+      ic: 'kid', text: 'Ada anak kecil yang terpisah dari orang tuanya di jalur evakuasi.',
+      options: [
+        { ok: true, ic: 'flag', text: 'Ajak dia ke titik kumpul dan laporkan ke petugas', why: 'Benar! Petugas di titik kumpul akan membantu mempertemukannya dengan orang tuanya.' },
+        { ic: 'person-wait', text: 'Suruh dia menunggu di tempatnya', why: 'Anak kecil tidak boleh ditinggal di jalur yang berbahaya.' },
+        { ic: 'boat', text: 'Ajak mencari orang tuanya ke pantai', why: 'Jangan kembali ke pantai. Bawa ke titik kumpul dan lapor petugas.' }
+      ]
+    },
+    {
+      ic: 'family', text: 'Temanmu menggunakan kursi roda.',
+      options: [
+        { ok: true, ic: 'stairs', text: 'Bantu lewat jalur landai atau ramp menuju tempat tinggi', why: 'Tepat! Jalur landai memudahkan pengguna kursi roda.' },
+        { ic: 'house', text: 'Suruh dia menunggu di rumah', why: 'Rumah tidak aman dari tsunami.' },
+        { ic: 'runner', text: 'Tinggalkan karena terlalu lambat', why: 'Penyandang disabilitas perlu dibantu agar ikut selamat.' }
+      ]
+    },
+    {
+      ic: 'bag', text: 'Ibu hamil di sebelahmu kesulitan membawa banyak barang.',
+      options: [
+        { ok: true, ic: 'bag', text: 'Bantu bawakan barang yang penting saja dan terus bergerak', why: 'Tepat! Bawa yang penting saja supaya evakuasi tetap cepat.' },
+        { ic: 'suitcase', text: 'Bawakan semua barangnya walau jadi lambat', why: 'Membawa terlalu banyak barang memperlambat evakuasi.' },
+        { ic: 'eye-off', text: 'Biarkan saja', why: 'Jika memungkinkan, bantulah ibu hamil agar ikut selamat.' }
+      ]
+    },
+    {
+      ic: 'flag', text: 'Kamu sudah sampai di titik kumpul.',
+      options: [
+        { ok: true, ic: 'doc', text: 'Lapor ke petugas dan beri tahu jika ada warga yang belum terlihat', why: 'Benar! Pendataan membantu petugas mencari warga yang belum selamat.' },
+        { ic: 'house', text: 'Langsung pulang ke rumah', why: 'Tetap di titik kumpul sampai ada pernyataan aman dari petugas.' },
+        { ic: 'boat', text: 'Kembali ke pantai mencari teman', why: 'Jangan kembali ke pantai. Laporkan ke petugas.' }
+      ]
+    }
+  ];
+
+  const FULL_DRILL_STEPS = [
+    { ic: 'duck-cover', text: 'Gempa kuat terasa: merunduk dan lindungi kepala', hint: 'Saat guncangan terjadi, lindungi diri dulu.' },
+    { ic: 'walker', text: 'Setelah guncangan berhenti, segera keluar dengan tertib', hint: 'Setelah guncangan berhenti, segera keluar.' },
+    { ic: 'bag', text: 'Ambil tas siaga yang sudah disiapkan', hint: 'Sambil keluar, ambil tas siaga.' },
+    { ic: 'map', text: 'Ikuti rambu evakuasi ke tempat tinggi dengan berjalan kaki', hint: 'Lalu ikuti rambu evakuasi menuju tempat tinggi.' },
+    { ic: 'mountain', text: 'Tetap di tempat tinggi walau gelombang pertama surut', hint: 'Di tempat tinggi, jangan turun walau gelombang pertama surut.' },
+    { ic: 'radio', text: 'Tunggu informasi resmi dari BMKG atau BPBD', hint: 'Tunggu kabar resmi sebelum mengambil langkah berikutnya.' },
+    { ic: 'house', text: 'Pulang hanya setelah dinyatakan aman oleh petugas', hint: 'Langkah terakhir adalah pulang setelah dinyatakan aman.' }
+  ];
+
   const ZONE_CFG = {
     left: { key: 'risk', label: 'Zona rawan', sub: 'dekat pantai', ic: 'wave', cls: 'z-risk', btn: 'red' },
     right: { key: 'safe', label: 'Zona aman', sub: 'tinggi / jauh dari pantai', ic: 'mountain', cls: 'z-safe', btn: 'green' },
@@ -664,6 +1286,26 @@
   };
 
   const PLAY = {
+    deepshore: lv => playSort(lv, DEEP_ITEMS, DEEP_CFG),
+    wavetype: lv => playSort(lv, WAVE_ITEMS, WAVE_CFG),
+    terms: lv => playMatch(lv, TERM_PAIRS, { hint: 'Ketuk satu istilah di kiri, lalu ketuk artinya di kanan.', wrong: 'Arti' }),
+    history: lv => playQuiz(lv, HISTORY_QS, 0),
+    examBasic: lv => playQuiz(lv, EXAM_BASIC_QS, 20),
+    safehouse: lv => playPick(lv, SAFEHOUSE_ITEMS, { hint: 'Ketuk semua kartu yang merupakan ciri rumah tahan gempa.', count: 'Ciri ditemukan', okTitle: 'Betul, itu ciri rumah tahan gempa!', badTitle: 'Bukan ciri rumah tahan gempa' }),
+    towerpick: lv => playPick(lv, TOWER_ITEMS, { hint: 'Ketuk semua kartu yang merupakan ciri menara evakuasi yang baik.', count: 'Ciri ditemukan', okTitle: 'Betul, menara yang baik seperti itu!', badTitle: 'Kurang tepat' }),
+    care: lv => playSort(lv, CARE_ITEMS, CARE_CFG),
+    routeTower: lv => playRoute(lv, { map: TOWER_MAP }),
+    quickStruct: lv => playQuiz(lv, QUICK_STRUCT_QS, 15),
+    solutions: lv => playMatch(lv, SOLUTION_PAIRS, { hint: 'Ketuk satu masalah di kiri, lalu ketuk solusinya di kanan.', wrong: 'Solusi untuk' }),
+    signsmatch: lv => playMatch(lv, SIGN_PAIRS, { hint: 'Ketuk satu rambu di kiri, lalu ketuk artinya di kanan.', wrong: 'Arti' }),
+    hoax: lv => playSort(lv, HOAX_ITEMS, HOAX_CFG),
+    familyplan: lv => playPick(lv, PLAN_ITEMS, { hint: 'Ketuk semua hal yang perlu ada dalam rencana siaga keluarga.', count: 'Ditemukan', okTitle: 'Betul, itu penting!', badTitle: 'Tidak termasuk rencana siaga' }),
+    routeSchool: lv => playRoute(lv, { map: SCHOOL_MAP }),
+    examNonstruct: lv => playQuiz(lv, EXAM_NONSTRUCT_QS, 20),
+    familybag: lv => playPick(lv, FAMILY_BAG_ITEMS, { hint: 'Ketuk semua barang tambahan yang perlu dibawa.', count: 'Barang dipilih', okTitle: 'Masuk tas siaga!', badTitle: 'Tidak perlu dibawa' }),
+    nightRun: lv => playRunner(lv, { night: true, total: 6200, speed: 310 }),
+    helpQuiz: lv => playQuiz(lv, HELP_QS, 0),
+    fullDrill: lv => playSequence(lv, FULL_DRILL_STEPS, 50),
     truefalse: lv => playSort(lv, TF_ITEMS, TF_CFG),
     formation: lv => playSequence(lv, FORM_STEPS, 0),
     causes: lv => playMatch(lv, CAUSE_PAIRS, { hint: 'Ketuk satu penyebab di kiri, lalu ketuk penjelasannya di kanan.', wrong: 'Penjelasan' }),
@@ -678,11 +1320,11 @@
     quizMap: lv => playQuiz(lv, MAP_QS, 0),
     drill: lv => playSequence(lv, DRILL_STEPS, 45),
     quizEdu: lv => playQuiz(lv, EDU_QS, 0),
-    signs: playSigns,
+    signs: lv => playPick(lv, SIGNS, { count: 'Tanda ditemukan', okTitle: 'Betul, itu tanda tsunami!', badTitle: 'Bukan tanda tsunami' }),
     bag: playBag,
-    route: playRoute,
+    route: lv => playRoute(lv, { map: ROUTE_MAP }),
     quizQuake: lv => playQuiz(lv, QUAKE_QS, 15),
-    runner: playRunner,
+    runner: lv => playRunner(lv),
     quizAfter: lv => playQuiz(lv, AFTER_QS, 0)
   };
 
@@ -1622,14 +2264,15 @@
     showGoal();
   }
 
-  /* ================= Level 1: Tanda alam ================= */
+  /* ================= Mesin "pilih semua yang benar" (dipakai Tanda Alam dll.) ================= */
 
-  function playSigns(lv) {
-    const cards = shuffle(SIGNS);
-    const need = SIGNS.filter(s => s.ok).length;
+  function playPick(lv, list, opts) {
+    const cards = shuffle(list);
+    const need = list.filter(s => s.ok).length;
     let found = 0;
     let over = false;
     $('#stage').innerHTML = `
+      ${opts.hint ? `<p class="stage-hint">${esc(opts.hint)}</p>` : ''}
       <div class="sign-grid">
         ${cards.map((c, i) => `<button class="sign-card card" data-i="${i}" type="button">
           <span class="emo ${c.anim || ''}" aria-hidden="true">${ic(c.ic)}</span>
@@ -1637,7 +2280,7 @@
           <span class="mark" aria-hidden="true"></span>
         </button>`).join('')}
       </div>
-      <p class="progress-line">Tanda ditemukan: <b id="found">0</b> / ${need}</p>`;
+      <p class="progress-line">${esc(opts.count)}: <b id="found">0</b> / ${need}</p>`;
 
     $$('.sign-card').forEach(btn => btn.addEventListener('click', () => {
       if (over || btn.disabled) return;
@@ -1649,14 +2292,14 @@
         $('.mark', btn).innerHTML = ic('check');
         $('#found').textContent = found;
         sfx.good();
-        showFeedback({ good: true, title: 'Betul, itu tanda tsunami!', text: c.why });
+        showFeedback({ good: true, title: opts.okTitle, text: c.why });
         if (found === need) { over = true; later(() => finishLevel(lv, lives), 1700); }
       } else {
         btn.classList.add('is-bad');
         $('.mark', btn).innerHTML = ic('cross');
         sfx.bad();
         setLives(lives - 1);
-        showFeedback({ good: false, title: 'Bukan tanda tsunami', text: c.why });
+        showFeedback({ good: false, title: opts.badTitle, text: c.why });
         if (lives <= 0) { over = true; later(() => failLevel(lv), 1700); }
       }
     }));
@@ -1769,9 +2412,10 @@
 
   /* ================= Level 3: Jalur evakuasi ================= */
 
-  function playRoute(lv) {
-    const rows = ROUTE_MAP.length;
-    const cols = ROUTE_MAP[0].length;
+  function playRoute(lv, cfg) {
+    const MAP = cfg.map;
+    const rows = MAP.length;
+    const cols = MAP[0].length;
     const TILES = {
       S: { cls: 'sea', label: 'Laut', ic: 'wave' },
       B: { cls: 'beach', label: 'Pantai', ic: '' },
@@ -1780,6 +2424,10 @@
       '.': { cls: 'road', label: 'Jalan', ic: '' },
       u: { cls: 'road', label: 'Rambu evakuasi ke atas', sign: 'arrow-up' },
       r: { cls: 'road', label: 'Rambu evakuasi ke kanan', sign: 'arrow-right' },
+      d: { cls: 'road', label: 'Rambu evakuasi ke bawah', sign: 'arrow-down' },
+      h: { cls: 'road', label: 'Rumah satu lantai', ic: 'house' },
+      T: { cls: 'goal', label: 'Menara evakuasi', ic: 'tower' },
+      K: { cls: 'home', label: 'Sekolahmu', ic: 'school' },
       H: { cls: 'hill', label: 'Bukit', ic: '' },
       G: { cls: 'goal', label: 'Titik kumpul', ic: 'flag' },
       P: { cls: 'home', label: 'Rumahmu', ic: 'house' }
@@ -1787,18 +2435,32 @@
     const DANGER = {
       S: { title: 'Itu laut!', text: 'Saat ada ancaman tsunami, menjauhlah dari laut.' },
       B: { title: 'Jangan ke pantai!', text: 'Pantai adalah tempat paling berbahaya. Bergeraklah menjauh dari laut.' },
-      R: { title: 'Jauhi sungai!', text: 'Gelombang tsunami bisa masuk jauh ke daratan lewat sungai. Cari jalan lain.' }
+      R: { title: 'Jauhi sungai!', text: 'Gelombang tsunami bisa masuk jauh ke daratan lewat sungai. Cari jalan lain.' },
+      h: { title: 'Rumah satu lantai tidak cukup tinggi', text: 'Rumah biasa tidak aman untuk berlindung dari tsunami. Terus ke menara evakuasi!' }
     };
-    const beachDecor = { 1: 'umbrella', 4: 'palm' };
+    const beachDecor = cfg.decor || { 1: 'umbrella', 4: 'palm' };
+    const has = re => re.test(MAP.join(''));
+    const LEGEND = [
+      [/\./, '<i class="sw t-road"></i>Jalan'],
+      [/[urd]/, `<i class="sw sign-sw">${ic('arrow-up')}</i>Rambu jalur evakuasi`],
+      [/H/, '<i class="sw t-hill"></i>Bukit (tempat tinggi)'],
+      [/G/, '<i class="sw t-goal"></i>Titik kumpul'],
+      [/T/, '<i class="sw t-goal"></i>Menara evakuasi'],
+      [/h/, '<i class="sw t-road"></i>Rumah satu lantai (tidak aman)'],
+      [/#/, '<i class="sw t-block"></i>Reruntuhan'],
+      [/S/, '<i class="sw t-sea"></i>Laut (bahaya)'],
+      [/B/, '<i class="sw t-beach"></i>Pantai (bahaya)'],
+      [/R/, '<i class="sw t-river"></i>Sungai (bahaya)']
+    ].filter(([re]) => has(re)).map(([, html]) => `<li>${html}</li>`).join('');
 
     let pr = 0, pc = 0;
-    ROUTE_MAP.forEach((row, r) => { const c = row.indexOf('P'); if (c >= 0) { pr = r; pc = c; } });
+    MAP.forEach((row, r) => { const c = row.search(/[PK]/); if (c >= 0) { pr = r; pc = c; } });
     let over = false, moves = 0, seenSign = false, seenHill = false;
 
     $('#stage').innerHTML = `
       <div class="route-layout">
         <div class="board card" id="board" style="--cols:${cols}">
-          ${ROUTE_MAP.map((row, r) => Array.from(row).map((ch, c) => {
+          ${MAP.map((row, r) => Array.from(row).map((ch, c) => {
             const t = TILES[ch];
             const art = ch === 'B' ? (beachDecor[r] || '') : (t.ic || '');
             return `<button class="tile t-${t.cls}" data-r="${r}" data-c="${c}" type="button" tabindex="-1" aria-label="${t.label}">
@@ -1814,16 +2476,7 @@
             <button class="down" data-d="1,0" type="button" aria-label="Bawah">${ic('arrow-down')}</button>
           </div>
           <p class="moves">Langkah: <b id="moves">0</b></p>
-          <ul class="legend card">
-            <li><i class="sw t-road"></i>Jalan</li>
-            <li><i class="sw sign-sw">${ic('arrow-up')}</i>Rambu jalur evakuasi</li>
-            <li><i class="sw t-hill"></i>Bukit (tempat tinggi)</li>
-            <li><i class="sw t-goal"></i>Titik kumpul</li>
-            <li><i class="sw t-block"></i>Reruntuhan</li>
-            <li><i class="sw t-sea"></i>Laut (bahaya)</li>
-            <li><i class="sw t-beach"></i>Pantai (bahaya)</li>
-            <li><i class="sw t-river"></i>Sungai (bahaya)</li>
-          </ul>
+          <ul class="legend card">${LEGEND}</ul>
         </div>
       </div>`;
 
@@ -1851,7 +2504,7 @@
       if (over) return;
       const nr = pr + dr, nc = pc + dc;
       if (nr < 0 || nr >= rows || nc < 0 || nc >= cols) { bump(tileAt(pr, pc)); return; }
-      const ch = ROUTE_MAP[nr][nc];
+      const ch = MAP[nr][nc];
       const el = tileAt(nr, nc);
       if (DANGER[ch]) {
         bump(el, true);
@@ -1871,16 +2524,16 @@
       $('#moves').textContent = moves;
       place();
       sfx.click();
-      if ((ch === 'u' || ch === 'r') && !seenSign) {
+      if ('urd'.includes(ch) && !seenSign) {
         seenSign = true;
         showFeedback({ good: true, title: 'Rambu jalur evakuasi!', text: 'Ikuti arah rambu hijau ini menuju tempat tinggi.' });
       } else if (ch === 'H' && !seenHill) {
         seenHill = true;
         showFeedback({ good: true, title: 'Kamu sudah di bukit!', text: 'Tempat tinggi lebih aman. Terus ke bendera titik kumpul.' });
       }
-      if (ch === 'G') {
+      if (ch === 'G' || ch === 'T') {
         over = true;
-        showFeedback({ good: true, title: 'Sampai di titik kumpul!', text: `Kamu tiba dengan ${moves} langkah. Hebat!` });
+        showFeedback({ good: true, title: ch === 'T' ? 'Sampai di menara evakuasi!' : 'Sampai di titik kumpul!', text: `Kamu tiba dengan ${moves} langkah. Hebat!` });
         later(() => finishLevel(lv, lives), 1600);
       }
     }
@@ -1985,7 +2638,7 @@
 
   /* ================= Level 5: Lari ke bukit ================= */
 
-  function playRunner(lv) {
+  function playRunner(lv, opts = {}) {
     $('#stage').innerHTML = `
       <div class="runner card">
         <div class="runner-top">
@@ -2013,7 +2666,7 @@
       ctx.drawImage(im, cx - size / 2, bottomY - size * (base / 64), size, size);
     }
 
-    const TOTAL = 5200, SPEED = 290, GRAV = 2200, JUMP = 800;
+    const TOTAL = opts.total || 5200, SPEED = opts.speed || 290, GRAV = 2200, JUMP = 800;
     const OBS = [
       { name: 'rock', w: 34, h: 28, size: 48, base: 56 },
       { name: 'log', w: 40, h: 22, size: 54, base: 51 },
@@ -2225,6 +2878,24 @@
       }
     }
 
+    // Malam hari: semua gelap kecuali lingkaran cahaya senter di depan pemain.
+    function drawNight() {
+      const g = ctx.createRadialGradient(px + 70, py - 40, 40, px + 70, py - 40, Math.max(W, H) * 0.55);
+      g.addColorStop(0, 'rgba(10, 14, 38, 0)');
+      g.addColorStop(0.45, 'rgba(10, 14, 38, 0.35)');
+      g.addColorStop(1, 'rgba(10, 14, 38, 0.82)');
+      ctx.fillStyle = g;
+      ctx.fillRect(-10, 0, W + 20, H);
+      // Bulan tetap bersinar di atas kegelapan.
+      ctx.fillStyle = '#fff2b0';
+      ctx.strokeStyle = INK;
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.arc(W - 60, 50, 26, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+    }
+
     function drawSign(x) {
       ctx.fillStyle = '#8a6a4a';
       ctx.strokeStyle = INK;
@@ -2255,14 +2926,14 @@
       if (shake > 0) ctx.translate((Math.random() - 0.5) * 8, 0);
 
       const sky = ctx.createLinearGradient(0, 0, 0, H);
-      sky.addColorStop(0, '#7fcbff');
-      sky.addColorStop(1, '#d8f2ff');
+      sky.addColorStop(0, opts.night ? '#1d2b53' : '#7fcbff');
+      sky.addColorStop(1, opts.night ? '#46609c' : '#d8f2ff');
       ctx.fillStyle = sky;
       ctx.fillRect(-10, 0, W + 20, H);
 
       ctx.lineWidth = 3;
       ctx.strokeStyle = INK;
-      ctx.fillStyle = '#ffd23f';
+      ctx.fillStyle = opts.night ? '#fff2b0' : '#ffd23f';
       ctx.beginPath();
       ctx.arc(W - 60, 50, 26, 0, Math.PI * 2);
       ctx.fill();
@@ -2345,6 +3016,7 @@
       }
 
       drawWave();
+      if (opts.night) drawNight();
 
       if (state === 'count') bigText(String(Math.max(1, Math.ceil(count))), H / 2 - 20, 72);
       else if (state === 'run' && runT < 0.8) bigText('LARI!', H / 2 - 20, 64);

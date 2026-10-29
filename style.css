@@ -646,6 +646,8 @@ kbd { border: 2px solid var(--ink); border-radius: 6px; padding: 0 6px; backgrou
 .sort-zone { min-height: 260px; padding: 14px; border: 3px solid var(--ink); border-radius: var(--r); box-shadow: 0 6px 0 var(--ink); }
 .z-risk { background: #ffd0d0; }
 .z-safe { background: #d4f5c4; }
+.z-deepsea { background: #cfe7ff; }
+.z-shoresea { background: #ffe7b8; }
 .sz-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
 .sz-head .ico { width: 44px; height: 44px; }
 .sz-head b { display: block; font-size: 18px; }
