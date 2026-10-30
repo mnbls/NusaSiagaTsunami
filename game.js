@@ -1,4 +1,4 @@
-/* Nusa Siaga — game edukasi mitigasi bencana tsunami (8 pulau, 76 misi). */
+/* Nusa Siaga — game edukasi mitigasi bencana tsunami (8 pulau, 77 misi). */
 (() => {
   'use strict';
 
@@ -363,6 +363,17 @@
         'Sekolah perlu punya peta jalur evakuasi yang dipasang di tempat umum.',
         'Ikuti rambu dan arahan guru menuju titik kumpul.',
         'Jauhi sungai dan pantai selama evakuasi.'
+      ]
+    },
+    {
+      id: 'n11', island: 'nonstruct', phaseKey: 'nonstruct', phase: 'Mitigasi non-struktural', icon: 'siren', type: 'warnRead',
+      title: 'Baca Peringatan BMKG',
+      mission: 'BMKG mengirim peringatan dini tsunami. Baca statusnya, lalu pilih tindakan yang tepat.',
+      how: ['Baca pesan peringatan, lalu pilih tindakan terbaik.', 'Tidak ada batas waktu, jadi pikirkan baik-baik.', 'Jawaban salah mengurangi 1 nyawa.'],
+      recap: [
+        'BMKG memakai tiga tingkat ancaman tsunami: Awas, Siaga, dan Waspada.',
+        'Awas dan Siaga: ikuti arahan untuk evakuasi. Waspada: menjauhi pantai dan tepian sungai.',
+        'Jika gempa kuat terasa di pantai, langsung ke tempat tinggi tanpa menunggu pesan.'
       ]
     },
     {
@@ -1718,6 +1729,54 @@
     unit: 'Bangunan'
   };
 
+  /* ----- Peringatan resmi BMKG (Pulau Siaga Warga) ----- */
+  // Tingkat ancaman dan tindakannya mengikuti pemberitaan resmi BMKG tentang peringatan dini tsunami:
+  // Awas = evakuasi menyeluruh (perkiraan tinggi lebih dari 3 m), Siaga = evakuasi, Waspada = menjauhi pantai dan tepian sungai.
+  // TODO perlu verifikasi BMKG: ambang tinggi Siaga (0,5–3 m) dan Waspada (kurang dari 0,5 m) sengaja tidak ditulis di soal
+  // sampai dicek ke SOP InaTEWS.
+  const WARN_QS = [
+    {
+      ic: 'siren', text: 'Pesan BMKG: "Peringatan dini tsunami. Status AWAS untuk pantai di daerahmu." Apa yang harus dilakukan?',
+      options: [
+        { ok: true, ic: 'runner', text: 'Segera evakuasi ke tempat tinggi bersama semua warga', why: 'Benar! Status Awas adalah ancaman tertinggi. Warga diarahkan untuk evakuasi menyeluruh.' },
+        { ic: 'umbrella', text: 'Tetap bermain di pantai', why: 'Status Awas berarti bahaya besar. Segera evakuasi ke tempat tinggi.' },
+        { ic: 'house', text: 'Menunggu besok pagi', why: 'Tsunami bisa tiba dalam hitungan menit. Segera evakuasi.' }
+      ]
+    },
+    {
+      ic: 'megaphone', text: 'Pesan BMKG: status SIAGA untuk daerahmu. Apa yang kamu lakukan?',
+      options: [
+        { ok: true, ic: 'flag', text: 'Ikuti arahan petugas dan segera evakuasi', why: 'Tepat! Pada status Siaga, pemerintah daerah mengarahkan warga untuk evakuasi.' },
+        { ic: 'camera', text: 'Pergi ke pantai untuk melihat gelombang', why: 'Jangan mendekati pantai. Ikuti arahan untuk evakuasi.' },
+        { ic: 'send', text: 'Menyebarkan pesan tanpa melakukan apa-apa', why: 'Menyebarkan pesan resmi boleh, tetapi kamu sendiri harus evakuasi.' }
+      ]
+    },
+    {
+      ic: 'eye', text: 'Pesan BMKG: status WASPADA untuk daerahmu. Apa yang sebaiknya dilakukan?',
+      options: [
+        { ok: true, ic: 'no-entry', text: 'Menjauhi pantai dan tepian sungai', why: 'Benar! Pada status Waspada, warga diminta menjauhi pantai dan tepian sungai.' },
+        { ic: 'swim', text: 'Berenang di laut', why: 'Status Waspada berarti tetap ada bahaya di pantai. Jauhi pantai dan sungai.' },
+        { ic: 'boat', text: 'Berlayar ke tengah laut', why: 'Jauhi laut, pantai, dan tepian sungai.' }
+      ]
+    },
+    {
+      ic: 'monitor', text: 'Urutkan tingkat ancaman tsunami dari BMKG, dari yang paling tinggi.',
+      options: [
+        { ok: true, ic: 'siren', text: 'Awas, lalu Siaga, lalu Waspada', why: 'Tepat! Awas adalah ancaman paling tinggi, Waspada paling rendah.' },
+        { ic: 'siren', text: 'Waspada, lalu Siaga, lalu Awas', why: 'Terbalik. Yang paling tinggi adalah Awas.' },
+        { ic: 'siren', text: 'Siaga, lalu Awas, lalu Waspada', why: 'Yang paling tinggi adalah Awas, lalu Siaga, lalu Waspada.' }
+      ]
+    },
+    {
+      ic: 'quake', text: 'Kamu di pantai dan merasakan gempa sangat kuat, tetapi belum ada pesan apa pun di ponsel. Apa yang kamu lakukan?',
+      options: [
+        { ok: true, ic: 'runner', text: 'Langsung pergi ke tempat tinggi tanpa menunggu pesan', why: 'Benar! Gempa kuat di pantai adalah peringatan alami. Jangan menunggu pesan atau sirene.' },
+        { ic: 'phone', text: 'Menunggu pesan BMKG masuk dulu', why: 'Pesan butuh waktu beberapa menit. Gempa kuat di pantai berarti langsung evakuasi.' },
+        { ic: 'tv', text: 'Menyalakan televisi untuk mencari berita', why: 'Jangan membuang waktu. Langsung ke tempat tinggi.' }
+      ]
+    }
+  ];
+
   /* ----- Pulau Pulih ----- */
 
   const RECOVERY_STEPS = [
@@ -2350,6 +2409,7 @@
   ];
 
   const PLAY = {
+    warnRead: lv => playQuiz(lv, WARN_QS, 0),
     simQuake: lv => playSim(lv, SIM_QUAKE),
     simVolcano: lv => playSim(lv, SIM_VOLCANO),
     simSlide: lv => playSim(lv, SIM_SLIDE),
@@ -2410,7 +2470,7 @@
     formation: lv => playSequence(lv, FORM_STEPS, 0),
     causes: lv => playMatch(lv, CAUSE_PAIRS, { hint: 'Ketuk satu penyebab di kiri, lalu ketuk penjelasannya di kanan.', wrong: 'Penjelasan' }),
     lab: playLab,
-    quizImpact: lv => playQuiz(lv, IMPACT_QS, 0),
+    quizImpact: lv => playQuiz(lv, save.young ? IMPACT_QS.filter(q => q.ic !== 'radiation') : IMPACT_QS, 0),
     match: lv => playMatch(lv, PAIRS, { hint: 'Ketuk satu bangunan di kiri, lalu ketuk fungsinya di kanan.', wrong: 'Fungsi' }),
     mangrove: playMangrove,
     builder: playBuilder,
@@ -2431,25 +2491,54 @@
   /* ================= Simpanan & suara ================= */
 
   const SAVE_KEY = 'siaga-tsunami-v1';
-  const save = loadSave();
+  // Simpanan versi 2: beberapa profil siswa di satu perangkat dan pengaturan bersama.
+  // `save` adalah tampilan profil yang sedang bermain, digabung dengan pengaturan, supaya kode lain tetap memakai save.xxx.
+  const PROFILE_KEYS = ['name', 'cls', 'stars', 'explained', 'stats', 'tests'];
+  const SETTING_KEYS = ['sound', 'relaxed', 'introSeen', 'young'];
+  const store = loadStore();
+  const save = {};
+  useProfile(store.current);
 
-  function loadSave() {
-    try {
-      const s = JSON.parse(localStorage.getItem(SAVE_KEY));
-      if (s && typeof s.stars === 'object') {
-        return {
-          stars: s.stars, sound: s.sound !== false, name: s.name || '', introSeen: !!s.introSeen,
-          explained: s.explained && typeof s.explained === 'object' ? s.explained : {},
-          relaxed: !!s.relaxed, cls: s.cls || '',
-          stats: s.stats && typeof s.stats === 'object' ? s.stats : {},
-          tests: s.tests && typeof s.tests === 'object' ? s.tests : {}
-        };
-      }
-    } catch (e) { /* penyimpanan tidak tersedia */ }
-    return { stars: {}, sound: true, name: '', introSeen: false, explained: {}, relaxed: false, cls: '', stats: {}, tests: {} };
+  function blankProfile(name = '', cls = '') {
+    return { name, cls, stars: {}, explained: {}, stats: {}, tests: {} };
+  }
+  function loadStore() {
+    const obj = v => (v && typeof v === 'object' ? v : {});
+    const defaults = { sound: true, relaxed: false, introSeen: false, young: false };
+    let raw = null;
+    try { raw = JSON.parse(localStorage.getItem(SAVE_KEY)); } catch (e) { /* penyimpanan tidak tersedia */ }
+    if (raw && raw.v === 2 && raw.profiles && typeof raw.profiles === 'object') {
+      Object.values(raw.profiles).forEach(p => {
+        p.name = p.name || 'Pemain'; p.cls = p.cls || '';
+        p.stars = obj(p.stars); p.explained = obj(p.explained); p.stats = obj(p.stats); p.tests = obj(p.tests);
+      });
+      raw.settings = Object.assign({}, defaults, obj(raw.settings));
+      if (!raw.profiles[raw.current]) raw.current = Object.keys(raw.profiles)[0] || null;
+      return raw;
+    }
+    const st = { v: 2, current: null, profiles: {}, settings: Object.assign({}, defaults) };
+    // Migrasi simpanan lama (satu pemain): menjadi profil pertama, bintangnya tetap.
+    if (raw && raw.stars && typeof raw.stars === 'object') {
+      const id = newProfileId();
+      st.profiles[id] = { name: raw.name || 'Pemain 1', cls: raw.cls || '', stars: obj(raw.stars), explained: obj(raw.explained), stats: obj(raw.stats), tests: obj(raw.tests) };
+      st.current = id;
+      st.settings = Object.assign({}, defaults, { sound: raw.sound !== false, relaxed: !!raw.relaxed, introSeen: !!raw.introSeen });
+    }
+    return st;
+  }
+  function newProfileId() { return 'p' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
+  function useProfile(id) {
+    Object.keys(save).forEach(k => { delete save[k]; });
+    SETTING_KEYS.forEach(k => { save[k] = store.settings[k]; });
+    const p = id && store.profiles[id];
+    Object.assign(save, p || blankProfile());
+    store.current = p ? id : null;
   }
   function persist() {
-    try { localStorage.setItem(SAVE_KEY, JSON.stringify(save)); } catch (e) { /* abaikan */ }
+    SETTING_KEYS.forEach(k => { store.settings[k] = save[k]; });
+    const p = store.current && store.profiles[store.current];
+    if (p) PROFILE_KEYS.forEach(k => { p[k] = save[k]; });
+    try { localStorage.setItem(SAVE_KEY, JSON.stringify(store)); } catch (e) { /* abaikan */ }
   }
 
   let actx = null;
@@ -2565,7 +2654,10 @@
   const FINAL_NEED = 4;
   const islandDone = id => levelsOf(id).every(lv => starsOf(lv) > 0);
   const doneIslands = () => ISLANDS.filter(is => is.id !== 'final' && islandDone(is.id)).length;
-  const finalOpen = () => doneIslands() >= FINAL_NEED;
+  const coreCount = () => LEVELS.filter(lv => CORE.has(String(lv.id)) && starsOf(lv) > 0).length;
+  const coreDone = () => coreCount() === CORE.size;
+  // Terbuka jika semua misi Jalur Inti tuntas ATAU minimal FINAL_NEED pulau lain tuntas.
+  const finalOpen = () => coreDone() || doneIslands() >= FINAL_NEED;
 
   function isUnlocked(lv) {
     if (lv.island === 'final' && !finalOpen()) return false;
@@ -2641,6 +2733,8 @@
       <div class="hero card">
         <div class="hero-art">${mascot('happy', 'big bob')}</div>
         <div class="hero-text">
+          <p class="player-chip">${ic('kid')} Pemain: <b>${esc(save.name || '-')}</b>${save.cls ? ` · Kelas ${esc(save.cls)}` : ''}
+            <button class="btn ghost small" id="switchBtn" type="button">Ganti pemain</button></p>
           <p class="kicker">Petualangan mitigasi tsunami</p>
           <h1>Nusa Siaga</h1>
           <p class="lead">Halo, aku <b>Tuti si Penyu</b>! Ayo jelajahi <b>${ISLANDS.length} pulau</b> dan selesaikan
@@ -2654,6 +2748,7 @@
             <button class="btn ghost small" id="testBtnHome" type="button">${ic('doc')} Tes Siaga</button>
             <button class="btn ghost small" id="reportBtn" type="button">${ic('monitor')} Laporan Belajar</button>
             <button class="btn ghost small" id="relaxBtn" type="button" aria-pressed="${save.relaxed}">${ic('timer')} Mode santai: <b>${save.relaxed ? 'Nyala' : 'Mati'}</b></button>
+            <button class="btn ghost small" id="youngBtn" type="button" aria-pressed="${save.young}">${ic('kid')} Usia 9–10 tahun: <b>${save.young ? 'Nyala' : 'Mati'}</b></button>
           </div>
         </div>
       </div>
@@ -2662,7 +2757,16 @@
           <b>Pulau ${is.no}: ${esc(is.name)}</b><span>${esc(is.theme)}</span></li>`).join('')}
       </ul>
     </section>`);
-    $('#playBtn').onclick = () => { sfx.click(); showMap(); };
+    $('#playBtn').onclick = () => { sfx.click(); if (store.current) showMap(); else showProfiles(); };
+    $('#switchBtn').onclick = () => { sfx.click(); showProfiles(); };
+    $('#youngBtn').onclick = () => {
+      save.young = !save.young;
+      persist();
+      sfx.click();
+      showHome();
+      showFeedback({ good: true, title: save.young ? 'Mode usia 9–10 tahun menyala' : 'Mode usia 9–10 tahun mati',
+        text: save.young ? 'Soal yang terlalu berat untuk anak kelas 4, seperti radiasi nuklir, disembunyikan.' : 'Semua soal ditampilkan kembali.' });
+    };
     $('#howBtn').onclick = showHowTo;
     $('#storyBtn').onclick = openIntro;
     $('#testBtnHome').onclick = () => { sfx.click(); showTestMenu(); };
@@ -2789,7 +2893,7 @@
             const locked = is.id === 'final' && !finalOpen();
             return `<li class="${is.tag}" style="--wx:${spot.wide[0]}%;--wy:${spot.wide[1]}%;--tx:${spot.tall[0]}%;--ty:${spot.tall[1]}%">
               <button class="isle" data-island="${is.id}" type="button"
-                aria-label="Pulau ${is.no}: ${esc(is.name)}, ${esc(is.theme)}, ${locked ? `terkunci, tuntaskan ${FINAL_NEED} pulau dulu` : `${got} dari ${max} bintang${finished ? ', tuntas' : ''}`}">
+                aria-label="Pulau ${is.no}: ${esc(is.name)}, ${esc(is.theme)}, ${locked ? `terkunci, tuntaskan semua misi Inti atau ${FINAL_NEED} pulau dulu` : `${got} dari ${max} bintang${finished ? ', tuntas' : ''}`}">
                 <span class="isle-art" aria-hidden="true">
                   ${art(is.art)}
                   <span class="isle-no">${is.no}</span>
@@ -2799,7 +2903,7 @@
                 <span class="isle-plate" aria-hidden="true">
                   <b class="isle-name">${esc(is.name)}</b>
                   <span class="isle-theme">${esc(is.theme)}</span>
-                  <span class="isle-stars">${locked ? `${ic('lock')} ${doneIslands()}/${FINAL_NEED} pulau tuntas` : `${ic('star')} ${got}/${max}`}</span>
+                  <span class="isle-stars">${locked ? `${ic('lock')} Inti ${coreCount()}/${CORE.size}` : `${ic('star')} ${got}/${max}`}</span>
                 </span>
               </button></li>`;
           }).join('')}
@@ -2807,7 +2911,8 @@
       </div>
       <div class="map-hint">${mascot('happy', 'mini')}<p id="mapInfo">${MAP_HINT}</p></div>
       ${leaderboardHtml()}
-      ${done ? `<div class="row center final-cta"><button class="btn big" id="finalBtn" type="button">${ic('trophy')} Lihat sertifikat</button></div>` : ''}
+      ${done ? `<div class="row center final-cta"><button class="btn big" id="finalBtn" type="button">${ic('trophy')} Lihat sertifikat</button></div>`
+        : coreDone() ? `<div class="row center final-cta"><button class="btn big" id="coreCertBtn" type="button">${ic('star')} Sertifikat Jalur Inti</button></div>` : ''}
     </section>`);
     // Penjelasan pulau muncul di bawah peta saat disorot kursor atau fokus keyboard.
     const info = $('#mapInfo');
@@ -2821,13 +2926,14 @@
       b.addEventListener('blur', reset);
       b.addEventListener('click', () => {
         if (is.id === 'final' && !finalOpen()) {
-          showFeedback({ good: false, title: 'Pulau Juara masih terkunci', text: `Tuntaskan minimal ${FINAL_NEED} pulau lain dulu. Sekarang baru ${doneIslands()} pulau.` });
+          showFeedback({ good: false, title: 'Pulau Juara masih terkunci', text: `Tuntaskan semua misi Inti (sekarang ${coreCount()} dari ${CORE.size}) atau ${FINAL_NEED} pulau lain (sekarang ${doneIslands()}).` });
           return;
         }
         sfx.click(); showIsland(is.id);
       });
     });
-    if (done) $('#finalBtn').onclick = showFinal;
+    if (done) $('#finalBtn').onclick = () => showFinal();
+    else if (coreDone()) $('#coreCertBtn').onclick = () => showFinal(true);
   }
 
   // Layar satu pulau: daftar misinya.
@@ -2990,14 +3096,15 @@
     $('#retryBtn').focus({ preventScroll: true });
   }
 
-  function showFinal() {
+  // core = true: sertifikat Jalur Inti (17 misi wajib); selain itu sertifikat lengkap.
+  function showFinal(core = false) {
     const total = totalStars();
     const name = () => save.name || 'Pahlawan Siaga';
     render(`<section class="screen final">
       <div class="card final-card">
         <div class="final-top">
           ${mascot('happy', 'big bob')}
-          <p class="kicker">Semua misi selesai</p>
+          <p class="kicker">${core ? 'Semua misi Jalur Inti selesai' : 'Semua misi selesai'}</p>
           <h2>Kamu Siaga Tsunami! ${ic('trophy')}</h2>
           <p class="lead">Kamu mengumpulkan <b>${total}</b> dari ${MAX_STARS} bintang.</p>
         </div>
@@ -3005,10 +3112,10 @@
         <input id="nameIn" class="name-input" maxlength="40" placeholder="Nama kamu" value="${esc(save.name)}" autocomplete="off">
         <div class="cert" id="cert">
           <p class="cert-k">Sertifikat</p>
-          <h3>Pahlawan Siaga Tsunami</h3>
+          <h3>${core ? 'Siaga Tsunami: Jalur Inti' : 'Pahlawan Siaga Tsunami'}</h3>
           <p>diberikan kepada</p>
           <p class="cert-name" id="certName">${esc(name())}</p>
-          <p>yang telah menjelajahi ${ISLANDS.length} pulau, menyelesaikan ${LEVELS.length} misi mitigasi bencana tsunami, dan meraih <b>${total}</b> ${ic('star')}</p>
+          <p>${core ? `yang telah menyelesaikan ${CORE.size} misi inti kesiapsiagaan tsunami: tanda alam, evakuasi, mitigasi, dan informasi resmi` : `yang telah menjelajahi ${ISLANDS.length} pulau, menyelesaikan ${LEVELS.length} misi mitigasi bencana tsunami, dan meraih <b>${total}</b> ${ic('star')}`}</p>
           <div class="cert-badges">
             <span>${ic('magnifier')} Ilmu tsunami</span><span>${ic('seawall')} Mitigasi struktural</span><span>${ic('siren')} Mitigasi non-struktural</span>
             <span>${ic('lifebuoy')} Tanggap bencana</span><span>${ic('tent')} Pemulihan</span><span>${ic('book')} Sejarah tsunami</span><span>${ic('timer')} Simulasi</span>
@@ -4777,7 +4884,8 @@
   }
 
   /* ----- Tes Siaga: tes awal dan tes akhir untuk mengukur hasil belajar ----- */
-  const TEST_QS = [
+  // Paket A untuk Tes Awal, Paket B untuk Tes Akhir: topik dan tingkat kesulitan setara, soal berbeda.
+  const TEST_A = [
     { topic: 'Tanda alam', text: 'Kamu di pantai dan merasakan gempa yang lama dan kuat. Apa yang kamu lakukan?',
       options: ['Menunggu bunyi sirene', 'Langsung pergi ke tempat tinggi', 'Melihat laut dulu'], ok: 1 },
     { topic: 'Tanda alam', text: 'Air laut tiba-tiba surut jauh dari pantai. Itu tanda apa?',
@@ -4786,15 +4894,48 @@
       options: ['Latihan evakuasi', 'Menanam hutan mangrove', 'Membuat peta evakuasi'], ok: 1 },
     { topic: 'Mitigasi', text: 'Mana yang termasuk mitigasi non-struktural?',
       options: ['Membangun tanggul', 'Membangun menara evakuasi', 'Latihan evakuasi rutin di sekolah'], ok: 2 },
-    { topic: 'Sesudah', text: 'Gelombang pertama sudah surut. Bolehkah langsung pulang?',
+    { topic: 'Tindakan', text: 'Gelombang pertama sudah surut. Bolehkah langsung pulang?',
       options: ['Boleh, sudah aman', 'Tunggu kabar resmi dari BMKG atau BPBD', 'Pulang kalau rumahnya dekat'], ok: 1 },
     { topic: 'Informasi', text: 'Ada pesan berantai: "Tsunami 30 meter datang!" Apa yang kamu lakukan?',
       options: ['Langsung menyebarkannya', 'Mengecek ke BMKG atau BPBD', 'Mengabaikan semua informasi'], ok: 1 },
-    { topic: 'Sebelum', text: 'Mana isi tas siaga yang paling tepat?',
+    { topic: 'Tindakan', text: 'Mana isi tas siaga yang paling tepat?',
       options: ['Dokumen, air, makanan, senter, P3K, dan radio', 'Mainan dan camilan', 'Televisi kecil'], ok: 0 },
     { topic: 'Hitung waktu', text: 'Gelombang akan tiba 8 menit lagi dan tempat aman berjarak 1 km. Apa pilihan terbaik?',
       options: ['Naik mobil di jalan yang macet', 'Langsung berjalan cepat ke tempat aman terdekat', 'Bersiap-siap dulu 10 menit'], ok: 1 }
   ];
+  const TEST_B = [
+    { topic: 'Tanda alam', text: 'Setelah gempa, kamu mendengar suara gemuruh keras dari arah laut. Apa artinya?',
+      options: ['Akan turun hujan', 'Tanda bahaya, segera pergi ke tempat tinggi', 'Ada kapal besar lewat'], ok: 1 },
+    { topic: 'Tanda alam', text: 'Gempa di dekat pantai terasa sangat kuat sampai kamu sulit berdiri. Apa yang kamu lakukan setelah guncangan berhenti?',
+      options: ['Langsung pergi ke tempat tinggi', 'Kembali bermain di pantai', 'Menunggu kabar dari teman'], ok: 0 },
+    { topic: 'Mitigasi', text: 'Mana yang termasuk mitigasi struktural?',
+      options: ['Membangun menara evakuasi', 'Membuat poster edukasi', 'Latihan evakuasi di sekolah'], ok: 0 },
+    { topic: 'Mitigasi', text: 'Mana yang termasuk mitigasi non-struktural?',
+      options: ['Membangun pemecah gelombang', 'Membuat peta dan rambu jalur evakuasi', 'Membangun tanggul'], ok: 1 },
+    { topic: 'Tindakan', text: 'Kamu sudah sampai di bukit dan gelombang pertama terlihat surut. Apa yang kamu lakukan?',
+      options: ['Turun melihat pantai', 'Tetap di bukit sampai ada kabar resmi', 'Pulang mengambil mainan'], ok: 1 },
+    { topic: 'Informasi', text: 'Dari mana peringatan dini tsunami yang bisa dipercaya?',
+      options: ['BMKG dan BPBD', 'Pesan berantai di grup', 'Akun media sosial tanpa nama'], ok: 0 },
+    { topic: 'Tindakan', text: 'Apa yang sebaiknya disiapkan keluarga sebelum bencana?',
+      options: ['Tas siaga dan titik kumpul keluarga', 'Daftar film favorit', 'Tiket liburan'], ok: 0 },
+    { topic: 'Hitung waktu', text: 'Gelombang akan tiba 10 menit lagi. Berjalan ke bukit butuh 6 menit, tetapi ayah ingin berkemas dulu 8 menit. Apa yang sebaiknya dilakukan?',
+      options: ['Berkemas dulu 8 menit, lalu berjalan', 'Langsung berjalan ke bukit sekarang', 'Menunggu di rumah'], ok: 1 }
+  ];
+  const TEST_TOPICS = ['Tanda alam', 'Mitigasi', 'Tindakan', 'Informasi', 'Hitung waktu'];
+  const testSet = kind => (kind === 'post' ? TEST_B : TEST_A);
+  // Tes Akhir terbuka setelah Tes Awal dikerjakan dan semua misi Jalur Inti tuntas.
+  const postOpen = () => !!save.tests.pre && coreDone();
+  // Skor per topik (persen) dari jawaban yang tersimpan.
+  function topicScores(t, kind) {
+    const qs = testSet(kind);
+    const out = {};
+    TEST_TOPICS.forEach(tp => {
+      const idx = qs.map((q, i) => (q.topic === tp ? i : -1)).filter(i => i >= 0);
+      const right = idx.filter(i => t.answers && t.answers[i] === qs[i].ok).length;
+      out[tp] = idx.length ? Math.round(right / idx.length * 100) : 0;
+    });
+    return out;
+  }
 
   function showTestMenu() {
     const t = save.tests;
@@ -4802,8 +4943,9 @@
       ? `<b>${label}:</b> ${t[key].score} dari ${t[key].total} benar <small>(${esc(t[key].date)})</small>`
       : `<b>${label}:</b> belum dikerjakan`;
     openModal(`<h2>${ic('doc')} Tes Siaga</h2>
-      <p>Tes singkat ${TEST_QS.length} soal untuk melihat seberapa siap kamu menghadapi tsunami.
-        Kerjakan <b>Tes Awal</b> sebelum bermain, lalu <b>Tes Akhir</b> setelah bermain.</p>
+      <p>Tes singkat ${TEST_A.length} soal untuk melihat seberapa siap kamu menghadapi tsunami.
+        Kerjakan <b>Tes Awal</b> sebelum bermain, lalu <b>Tes Akhir</b> setelah semua misi Jalur Inti tuntas. Soal kedua tes berbeda.</p>
+      ${postOpen() ? '' : `<p class="gentle-note">${ic('lock')}<span>Tes Akhir masih terkunci: ${!save.tests.pre ? 'kerjakan Tes Awal dulu' : `tuntaskan misi Jalur Inti (${coreCount()}/${CORE.size})`}.</span></p>`}
       <ul class="how icon-list"><li>${ic('flag')}<span>${line('pre', 'Tes Awal')}</span></li><li>${ic('trophy')}<span>${line('post', 'Tes Akhir')}</span></li></ul>
       <div class="row center">
         <button class="btn" id="preBtn" type="button">Tes Awal</button>
@@ -4811,11 +4953,18 @@
         <button class="btn ghost" id="closeTest" type="button">Tutup</button>
       </div>`);
     $('#preBtn').onclick = () => { closeModal(); showTest('pre'); };
-    $('#postBtn').onclick = () => { closeModal(); showTest('post'); };
+    $('#postBtn').onclick = () => {
+      if (!postOpen()) {
+        showFeedback({ good: false, title: 'Tes Akhir masih terkunci', text: !save.tests.pre ? 'Kerjakan Tes Awal dulu sebelum bermain.' : `Tuntaskan semua misi Jalur Inti dulu. Sekarang ${coreCount()} dari ${CORE.size}.` });
+        return;
+      }
+      closeModal(); showTest('post');
+    };
     $('#closeTest').onclick = closeModal;
   }
 
   function showTest(kind) {
+    const QS = testSet(kind);
     const label = kind === 'pre' ? 'Tes Awal' : 'Tes Akhir';
     const answers = [];
     render(`<section class="screen test">
@@ -4831,26 +4980,26 @@
       </div>
     </section>`);
     const ask = i => {
-      const q = TEST_QS[i];
-      $('#tStage').innerHTML = `<p class="q-count">Soal ${i + 1} dari ${TEST_QS.length}</p>
+      const q = QS[i];
+      $('#tStage').innerHTML = `<p class="q-count">Soal ${i + 1} dari ${QS.length}</p>
         <div class="scene card"><p>${esc(q.text)}</p>${sayBtn(q.text + ' Pilihannya: ' + q.options.join('. '))}</div>
         <div class="options">${q.options.map((o, k) => `<button class="opt card" data-k="${k}" type="button"><span>${esc(o)}</span></button>`).join('')}</div>`;
       $$('#tStage .opt').forEach(b => b.addEventListener('click', () => {
         answers.push(Number(b.dataset.k));
         sfx.click();
-        if (i + 1 < TEST_QS.length) ask(i + 1); else done();
+        if (i + 1 < QS.length) ask(i + 1); else done();
       }));
     };
     const done = () => {
       save.name = $('#tName').value.trim();
       save.cls = $('#tCls').value.trim();
-      const score = answers.filter((a, i) => a === TEST_QS[i].ok).length;
-      save.tests[kind] = { score, total: TEST_QS.length, date: new Date().toLocaleDateString('id-ID'), answers };
+      const score = answers.filter((a, i) => a === QS[i].ok).length;
+      save.tests[kind] = { score, total: QS.length, date: new Date().toLocaleDateString('id-ID'), answers, paket: kind === 'post' ? 'B' : 'A' };
       persist();
       $('#tStage').innerHTML = `<div class="test-done">
-          <h3>Hasil ${label}: ${score} dari ${TEST_QS.length} benar</h3>
+          <h3>Hasil ${label}: ${score} dari ${QS.length} benar</h3>
           ${kind === 'pre' ? '<p>Terima kasih! Sekarang bermainlah, lalu kerjakan Tes Akhir untuk melihat kemajuanmu.</p>'
-            : `<ol class="test-review">${TEST_QS.map((q, i) => `<li class="${answers[i] === q.ok ? 'ok' : 'no'}">${ic(answers[i] === q.ok ? 'check' : 'cross')}<span>${esc(q.text)} <b>Jawaban tepat: ${esc(q.options[q.ok])}</b></span></li>`).join('')}</ol>`}
+            : `<ol class="test-review">${QS.map((q, i) => `<li class="${answers[i] === q.ok ? 'ok' : 'no'}">${ic(answers[i] === q.ok ? 'check' : 'cross')}<span>${esc(q.text)} <b>Jawaban tepat: ${esc(q.options[q.ok])}</b></span></li>`).join('')}</ol>`}
           <div class="row center">
             <button class="btn" id="tPlay" type="button">${ic('map')} Ke Peta Kepulauan</button>
             <button class="btn ghost" id="tReport" type="button">${ic('monitor')} Laporan Belajar</button>
@@ -4898,6 +5047,11 @@
           <div><span>Tes Akhir</span><b>${testCell(d.post)}</b></div>
           <div class="${gain === null ? '' : gain >= 0 ? 'up' : 'down'}"><span>Kenaikan</span><b>${gain === null ? '-' : `${gain >= 0 ? '+' : ''}${gain} poin`}</b></div>
         </div>
+        ${d.pre && d.post ? `<table class="report-table report-topics">
+          <thead><tr><th>Topik</th><th>Tes Awal</th><th>Tes Akhir</th><th>Kenaikan</th></tr></thead>
+          <tbody>${TEST_TOPICS.map(tp => { const a = topicScores(d.pre, 'pre')[tp], b = topicScores(d.post, 'post')[tp];
+            return `<tr><td>${esc(tp)}</td><td>${a}%</td><td>${b}%</td><td class="${b - a >= 0 ? 'up' : 'down'}">${b - a >= 0 ? '+' : ''}${b - a} poin</td></tr>`; }).join('')}</tbody>
+        </table>` : '<p class="muted-note">Kenaikan per topik muncul setelah Tes Awal dan Tes Akhir dikerjakan.</p>'}
         <h3>Penguasaan per pulau</h3>
         <table class="report-table">
           <thead><tr><th>Pulau</th><th>Misi tuntas</th><th>Bintang</th><th>Dimainkan</th><th>Kesalahan</th></tr></thead>
@@ -4913,12 +5067,14 @@
         <div class="row center">
           <button class="btn" id="csvBtn" type="button">${ic('doc')} Unduh CSV</button>
           <button class="btn ghost" id="printRep" type="button">${ic('print')} Cetak</button>
+          <button class="btn blue" id="classRepBtn" type="button">${ic('family')} Laporan Kelas</button>
           <button class="btn ghost" id="repMap" type="button">${ic('map')} Peta</button>
         </div>
       </div>
     </section>`);
     $('#csvBtn').onclick = () => downloadCsv(d);
     $('#printRep').onclick = () => window.print();
+    $('#classRepBtn').onclick = showClassReport;
     $('#repMap').onclick = showMap;
   }
 
@@ -4935,6 +5091,142 @@
     const a = document.createElement('a');
     a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
     a.download = `laporan-nusa-siaga-${(save.name || 'pemain').replace(/\s+/g, '-').toLowerCase()}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }
+
+
+  /* ----- Profil siswa: beberapa pemain di satu perangkat ----- */
+  const starsSum = p => Object.values(p.stars).reduce((a, n) => a + (Number(n) || 0), 0);
+
+  function showProfiles() {
+    const list = Object.entries(store.profiles);
+    render(`<section class="screen profiles">
+      <div class="screen-head">
+        <h2>${ic('family')} Siapa yang bermain?</h2>
+        <p>Pilih namamu. Setiap siswa punya bintang, tes, dan laporan sendiri.</p>
+      </div>
+      ${list.length ? `<ul class="profile-list">${list.map(([id, p]) => `<li class="${id === store.current ? 'active' : ''}">
+          <button class="profile-pick card" data-id="${id}" type="button">
+            <span class="lb-ava" aria-hidden="true">${esc((p.name || '?').charAt(0).toUpperCase())}</span>
+            <span class="pf-name"><b>${esc(p.name)}</b><small>${p.cls ? `Kelas ${esc(p.cls)}` : 'Kelas belum diisi'}</small></span>
+            <span class="lb-stars">${ic('star')} ${starsSum(p)}</span>
+          </button>
+          <button class="btn ghost small pf-del" data-id="${id}" type="button" aria-label="Hapus ${esc(p.name)}">${ic('cross')}</button>
+        </li>`).join('')}</ul>` : '<p class="center">Belum ada pemain. Tulis namamu di bawah untuk mulai.</p>'}
+      <form class="card profile-add" id="pfForm">
+        <h3>${ic('kid')} Tambah pemain</h3>
+        <div class="test-who">
+          <label>Nama <input id="pfName" class="name-input" maxlength="40" required autocomplete="off"></label>
+          <label>Kelas <input id="pfCls" class="name-input" maxlength="20" autocomplete="off" placeholder="contoh: 5A"></label>
+        </div>
+        <button class="btn green" type="submit">${ic('check')} Tambah dan main</button>
+      </form>
+      ${list.length ? `<div class="row center"><button class="btn blue" id="classRepBtn" type="button">${ic('monitor')} Laporan Kelas</button></div>` : ''}
+    </section>`);
+    const enter = () => {
+      persist();
+      updateHeader();
+      showHome();
+      if (!save.introSeen) openIntro();
+    };
+    $$('.profile-pick').forEach(b => b.addEventListener('click', () => { sfx.click(); useProfile(b.dataset.id); enter(); }));
+    $$('.pf-del').forEach(b => b.addEventListener('click', () => {
+      const p = store.profiles[b.dataset.id];
+      openModal(`<h2>Hapus ${esc(p.name)}?</h2>
+        <p>Bintang, hasil tes, dan laporan milik ${esc(p.name)} ikut terhapus dan tidak bisa dikembalikan.</p>
+        <div class="row center"><button class="btn red" id="delYes" type="button">${ic('cross')} Hapus</button>
+          <button class="btn ghost" id="delNo" type="button">Batal</button></div>`);
+      $('#delNo').onclick = closeModal;
+      $('#delYes').onclick = () => {
+        delete store.profiles[b.dataset.id];
+        if (store.current === b.dataset.id) useProfile(Object.keys(store.profiles)[0] || null);
+        persist();
+        closeModal();
+        updateHeader();
+        showProfiles();
+      };
+    }));
+    $('#pfForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const name = $('#pfName').value.trim();
+      if (!name) return;
+      const id = newProfileId();
+      store.profiles[id] = blankProfile(name, $('#pfCls').value.trim());
+      useProfile(id);
+      sfx.good();
+      enter();
+    });
+    const cr = $('#classRepBtn');
+    if (cr) cr.onclick = showClassReport;
+  }
+
+  /* ----- Laporan Kelas: rekap semua profil di perangkat ini ----- */
+  function classData() {
+    const pct = t => (t ? Math.round(t.score / t.total * 100) : null);
+    const rows = Object.values(store.profiles).map(p => {
+      const pre = pct(p.tests.pre), post = pct(p.tests.post);
+      return {
+        p, pre, post, gain: pre !== null && post !== null ? post - pre : null,
+        done: LEVELS.filter(lv => (p.stars[lv.id] || 0) > 0).length, stars: starsSum(p)
+      };
+    });
+    const avg = key => { const v = rows.map(r => r[key]).filter(x => x !== null); return v.length ? Math.round(v.reduce((a, b) => a + b, 0) / v.length) : null; };
+    const mistakes = {};
+    Object.values(store.profiles).forEach(p => Object.entries(p.stats).forEach(([id, st]) => { mistakes[id] = (mistakes[id] || 0) + (st.mistakes || 0); }));
+    const hard = Object.entries(mistakes).filter(([, n]) => n > 0).sort((a, b) => b[1] - a[1]).slice(0, 3)
+      .map(([id, n]) => ({ lv: LEVEL_BY_ID[id], n })).filter(x => x.lv);
+    return { rows, avg: { pre: avg('pre'), post: avg('post'), gain: avg('gain'), stars: avg('stars'), done: avg('done') }, hard };
+  }
+
+  function showClassReport() {
+    const d = classData();
+    const cell = v => (v === null ? '-' : `${v}%`);
+    const gainCell = v => (v === null ? '-' : `${v >= 0 ? '+' : ''}${v} poin`);
+    render(`<section class="screen report">
+      <div class="screen-head">
+        <h2>${ic('family')} Laporan Kelas</h2>
+        <p>Rekap semua siswa yang bermain di perangkat ini. Unduh CSV dari setiap perangkat untuk digabung.</p>
+      </div>
+      <div class="card report-card">
+        <div class="report-tests">
+          <div><span>Rata-rata Tes Awal</span><b>${cell(d.avg.pre)}</b></div>
+          <div><span>Rata-rata Tes Akhir</span><b>${cell(d.avg.post)}</b></div>
+          <div class="${d.avg.gain === null ? '' : d.avg.gain >= 0 ? 'up' : 'down'}"><span>Rata-rata kenaikan</span><b>${gainCell(d.avg.gain)}</b></div>
+        </div>
+        <table class="report-table">
+          <thead><tr><th>Nama</th><th>Kelas</th><th>Tes Awal</th><th>Tes Akhir</th><th>Kenaikan</th><th>Misi tuntas</th><th>Bintang</th></tr></thead>
+          <tbody>${d.rows.length ? d.rows.map(r => `<tr><td>${esc(r.p.name)}</td><td>${esc(r.p.cls || '-')}</td><td>${cell(r.pre)}</td><td>${cell(r.post)}</td>
+            <td>${gainCell(r.gain)}</td><td>${r.done}/${LEVELS.length}</td><td>${r.stars}</td></tr>`).join('') : '<tr><td colspan="7">Belum ada siswa.</td></tr>'}</tbody>
+        </table>
+        <h3>Misi yang paling banyak salah di kelas</h3>
+        ${d.hard.length ? `<ol class="report-hard">${d.hard.map(x => `<li><b>${esc(islandOf(x.lv).name)}, misi ${levelNo(x.lv)}: ${esc(x.lv.title)}</b>
+            <span>${x.n} kesalahan dari semua siswa. Bahas lagi: ${esc(x.lv.recap[0])}</span></li>`).join('')}</ol>`
+          : '<p>Belum ada data kesalahan.</p>'}
+        <div class="row center">
+          <button class="btn" id="classCsv" type="button">${ic('doc')} Unduh CSV kelas</button>
+          <button class="btn ghost" id="classPrint" type="button">${ic('print')} Cetak</button>
+          <button class="btn ghost" id="classBack" type="button">${ic('family')} Pilih pemain</button>
+        </div>
+      </div>
+    </section>`);
+    $('#classCsv').onclick = () => downloadClassCsv(d);
+    $('#classPrint').onclick = () => window.print();
+    $('#classBack').onclick = showProfiles;
+  }
+
+  function downloadClassCsv(d) {
+    const q = v => `"${String(v === null || v === undefined ? '' : v).replace(/"/g, '""')}"`;
+    const rows = [['Nama', 'Kelas', 'Tes Awal (%)', 'Tes Akhir (%)', 'Kenaikan (poin)', 'Misi tuntas', 'Jumlah misi', 'Bintang']];
+    d.rows.forEach(r => rows.push([r.p.name, r.p.cls, r.pre, r.post, r.gain, r.done, LEVELS.length, r.stars]));
+    rows.push([]);
+    rows.push(['Rata-rata kelas', '', d.avg.pre, d.avg.post, d.avg.gain, d.avg.done, LEVELS.length, d.avg.stars]);
+    const csv = '﻿' + rows.map(r => r.map(q).join(';')).join('\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+    a.download = `laporan-kelas-nusa-siaga-${new Date().toLocaleDateString('sv-SE')}.csv`;
     document.body.appendChild(a);
     a.click();
     a.remove();
@@ -4963,6 +5255,12 @@
   window.addEventListener('pointerdown', firstTouch, true);
   window.addEventListener('keydown', firstTouch, true);
   updateHeader();
-  showHome();
-  if (!save.introSeen) openIntro();
+  // Simpan langsung dalam format baru supaya migrasi dari simpanan lama hanya terjadi sekali.
+  persist();
+  if (Object.keys(store.profiles).length === 1 && store.current) {
+    showHome();
+    if (!save.introSeen) openIntro();
+  } else {
+    showProfiles();
+  }
 })();

@@ -37,7 +37,9 @@
 <div id="feedback" class="feedback" role="status" aria-live="polite"></div>
 <div id="modal" class="modal"></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<!-- Three.js: pakai salinan lokal di vendor/ jika ada (bisa tanpa internet), kalau tidak ada ambil dari CDN. -->
+<script src="vendor/three.min.js"></script>
+<script>window.THREE || document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>');</script>
 <script src="icons.js"></script>
 <script src="intro.js"></script>
 <script src="explain.js"></script>

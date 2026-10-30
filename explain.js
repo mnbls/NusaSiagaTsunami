@@ -412,7 +412,7 @@
         <path d="M180 156 H300" stroke="${K.ink}" stroke-width="2.5" stroke-dasharray="4 5"/>${text(240, 150, 'namamu di sini', 13, '#5d6278')}`)}
       ${[0, 1, 2].map(i => pop(1 + i * .4, icoG('star', 196 + i * 30, 166, 28))).join('')}
       ${pop(2.4, icoG('trophy', 330, 150, 56))}
-      ${chip(240, 242, 'Tuntaskan 76 misi untuk meraihnya', 2.8, '#fff4c2')}`);
+      ${chip(240, 242, 'Tuntaskan semua misi untuk meraihnya', 2.8, '#fff4c2')}`);
   }
 
   /* ================= Naskah per pulau ================= */

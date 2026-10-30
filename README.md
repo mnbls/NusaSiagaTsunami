@@ -2,7 +2,7 @@
 
 **Petualangan Mitigasi Tsunami.** Jelajahi pulau, kuasai mitigasi, selamatkan diri.
 
-Game edukasi berbasis web tentang **mitigasi bencana tsunami**. Pemain ditemani **Tuti si Penyu**, menjelajahi 8 pulau, dan menyelesaikan 76 misi: mulai dari mengenal tsunami, cara mengurangi risikonya, cara menyelamatkan diri, pemulihan setelah bencana, sejarah tsunami Indonesia, simulasi penyebab tsunami, sampai ujian akhir.
+Game edukasi berbasis web tentang **mitigasi bencana tsunami**. Pemain ditemani **Tuti si Penyu**, menjelajahi 8 pulau, dan menyelesaikan 77 misi: mulai dari mengenal tsunami, cara mengurangi risikonya, cara menyelamatkan diri, pemulihan setelah bencana, sejarah tsunami Indonesia, simulasi penyebab tsunami, sampai ujian akhir.
 
 ## Isi game
 
@@ -21,17 +21,22 @@ Game edukasi berbasis web tentang **mitigasi bencana tsunami**. Pemain ditemani 
 | 7. Pulau Sejarah | Jejak tsunami Indonesia | Garis Waktu Tsunami, Peristiwa dan Pemicunya, Kisah Smong Simeulue, Pelajaran Pangandaran 2006, Palu 2018, Selat Sunda Tanpa Gempa, Lahirnya Peringatan Dini, Fakta atau Mitos?, Pelajaran Tiap Peristiwa, Ujian Sejarah |
 | 8. Pulau Juara | Ujian akhir | Pemanasan Benar-Salah, Struktural atau Non-Struktural?, Kapan Dilakukan?, Urutan Selamat, Kamus Siaga, Lari ke Bukit: Final, Rute Evakuasi Final, Pilih Tindakan Terbaik, Kuis Kilat, Ujian Pahlawan Siaga |
 
-- Setiap misi memberi 3 nyawa, dan sisa nyawa menjadi jumlah bintang (maksimal 228 bintang).
+- Setiap misi memberi 3 nyawa, dan sisa nyawa menjadi jumlah bintang (maksimal 231 bintang).
 - Papan peringkat latihan di Peta Kepulauan menampilkan bintangmu bersama tokoh latihan. Selama misi belum tuntas, peringkat 1 selalu 3 bintang di atasmu. Setelah semua misi tuntas, kamu menjadi juara satu.
 - Setiap jawaban disertai penjelasan, dan setiap misi ditutup dengan rangkuman.
 - Pulau Simulasi berisi 6 simulasi interaktif: pemain mengatur kontrol (magnitudo, kedalaman, kekuatan letusan, kemiringan lereng, ukuran meteor, jarak) lalu melihat animasi dan perhitungan. Kecepatan gelombang memakai rumus perairan dangkal akar(9,81 × kedalaman), dan tingginya memakai hukum Green yang disederhanakan.
-- Pulau Juara terbuka setelah minimal 4 pulau lain tuntas. Setelah semua pulau tuntas, pemain bisa mencetak sertifikat.
+- Setelah semua pulau tuntas, pemain bisa mencetak sertifikat.
 - **Jalur Inti**: 17 misi bertanda *Inti* adalah jalur wajib untuk 1–2 kali pelajaran di kelas. Misi lain adalah bonus.
 - **Ramah anak**: tombol *Dengarkan* membacakan soal dan penjelasan (suara bawaan browser), kuis berwaktu memberi waktu baca 5 detik, dan *Mode santai* di beranda mematikan semua batas waktu. Setelah dua kesalahan, Tuti memberi petunjuk. Misi yang membahas korban atau kehilangan diawali catatan penenang.
-- **Tes Siaga dan Laporan Belajar** (pengolahan informasi untuk guru): tes awal dan tes akhir 8 soal, rekap penguasaan per pulau, misi yang perlu diulang, kenaikan skor, serta unduhan CSV dan cetak. Semua data tersimpan di perangkat, tanpa server.
+- **Profil siswa**: beberapa siswa bisa bermain bergantian di satu perangkat. Bintang, tes, dan laporan disimpan per siswa. Simpanan versi lama otomatis menjadi profil pertama.
+- **Tes Siaga dan Laporan Belajar** (pengolahan informasi untuk guru): tes awal (paket A) dan tes akhir (paket B) masing-masing 8 soal dengan topik setara, kenaikan skor per topik, rekap penguasaan per pulau, misi yang perlu diulang, kenaikan skor, serta unduhan CSV dan cetak. **Laporan Kelas** merekap semua siswa di perangkat (rata-rata tes awal, tes akhir, kenaikan, dan misi yang paling banyak salah) dengan unduhan CSV kelas. Tes Akhir terbuka setelah Tes Awal dan semua misi Jalur Inti tuntas. Semua data tersimpan di perangkat, tanpa server.
+- **Sertifikat Jalur Inti** terbuka setelah 17 misi Inti tuntas. Pulau Juara terbuka setelah semua misi Inti tuntas atau 4 pulau lain tuntas.
+- **Mode usia 9–10 tahun** di beranda menyembunyikan soal yang terlalu berat untuk anak kelas 4 (radiasi nuklir).
 - Progres tersimpan otomatis di browser.
 
 ## Cara menjalankan
+
+**Tanpa internet (opsional):** simpan berkas `three.min.js` (Three.js r128) di folder `vendor/`. Game memakai salinan lokal itu kalau ada, dan mengambil dari CDN kalau tidak ada. Tanpa internet dan tanpa salinan lokal, game tetap jalan dengan font cadangan dan cerita pembuka tanpa 3D.
 
 Tidak perlu instalasi atau proses build.
 
