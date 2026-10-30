@@ -702,6 +702,7 @@
   function go(i) {
     if (!cur || i < 0 || i >= cur.slides.length) return;
     idx = i;
+    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
     const s = cur.slides[i];
     const mascot = opts.mascot ? opts.mascot('happy', 'small') : '';
     const body = root.querySelector('.xp-body');
@@ -710,6 +711,7 @@
         <div><span class="phase-tag ${s.phase}">${esc(s.tag)}</span><h2>${esc(s.title)}</h2></div>
       </div>
       <p class="ip-text">${esc(s.text)}</p>
+      ${'speechSynthesis' in window ? `<button class="say-btn" type="button" data-say="${esc(s.title + '. ' + s.text)}" aria-label="Dengarkan">${ic('sound-on')}<span>Dengarkan</span></button>` : ''}
       ${s.chips ? `<ul class="ip-chips">${s.chips.map((c, n) => `<li style="--d:${n}">
           <span class="ic-emo" aria-hidden="true">${ic(c.ic)}</span><div><b>${esc(c.t)}</b><span>${esc(c.d)}</span></div></li>`).join('')}</ul>` : ''}
       ${s.note ? `<p class="ip-note">${ic('bulb')}<span>${esc(s.note)}</span></p>` : ''}`;

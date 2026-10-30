@@ -10,28 +10,28 @@
       desc: 'Pengetahuan dasar: pengertian tsunami, proses terjadinya, penyebab, syarat gempa pemicu, dan dampaknya.'
     },
     {
-      id: 'struct', no: 2, name: 'Pulau Benteng', theme: 'Mitigasi Struktural', tag: 'struct', art: 'island-struct',
+      id: 'sim', no: 2, name: 'Pulau Simulasi', theme: 'Simulasi Penyebab Tsunami', tag: 'sim', art: 'island-sim',
+      desc: 'Laboratorium tsunami: coba sendiri gempa, letusan gunung api, longsor bawah laut, dan meteor, lalu hitung kecepatan gelombang dan waktu evakuasi.'
+    },
+    {
+      id: 'struct', no: 3, name: 'Pulau Benteng', theme: 'Mitigasi Struktural', tag: 'struct', art: 'island-struct',
       desc: 'Bangunan dan alam yang melindungi pesisir: tanggul, pemecah gelombang, mangrove, bangunan tahan gempa, dan menara evakuasi.'
     },
     {
-      id: 'nonstruct', no: 3, name: 'Pulau Siaga Warga', theme: 'Mitigasi Non-Struktural', tag: 'nonstruct', art: 'island-nonstruct',
+      id: 'nonstruct', no: 4, name: 'Pulau Siaga Warga', theme: 'Mitigasi Non-Struktural', tag: 'nonstruct', art: 'island-nonstruct',
       desc: 'Upaya tanpa membangun: peringatan dini, tata ruang pesisir, peta jalur evakuasi, latihan rutin, dan edukasi warga.'
     },
     {
-      id: 'response', no: 4, name: 'Pulau Tanggap', theme: 'Sebelum, Saat, dan Sesudah', tag: 'pre', art: 'island-response',
+      id: 'response', no: 5, name: 'Pulau Tanggap', theme: 'Sebelum, Saat, dan Sesudah', tag: 'pre', art: 'island-response',
       desc: 'Langkah menyelamatkan diri: kenali tanda alam, siapkan tas siaga, evakuasi, dan tetap waspada setelah gelombang.'
     },
     {
-      id: 'recovery', no: 5, name: 'Pulau Pulih', theme: 'Pascabencana dan Pemulihan', tag: 'post', art: 'island-recovery',
+      id: 'recovery', no: 6, name: 'Pulau Pulih', theme: 'Pascabencana dan Pemulihan', tag: 'post', art: 'island-recovery',
       desc: 'Bangkit setelah tsunami: posko pengungsian, pertolongan pertama, kesehatan, pemulihan hati, rehabilitasi, dan rekonstruksi.'
     },
     {
-      id: 'history', no: 6, name: 'Pulau Sejarah', theme: 'Jejak Tsunami Indonesia', tag: 'hist', art: 'island-history',
+      id: 'history', no: 7, name: 'Pulau Sejarah', theme: 'Jejak Tsunami Indonesia', tag: 'hist', art: 'island-history',
       desc: 'Belajar dari peristiwa nyata: Krakatau 1883, Flores 1992, Aceh 2004, Pangandaran 2006, Mentawai 2010, Palu dan Selat Sunda 2018.'
-    },
-    {
-      id: 'sim', no: 7, name: 'Pulau Simulasi', theme: 'Simulasi Penyebab Tsunami', tag: 'sim', art: 'island-sim',
-      desc: 'Laboratorium tsunami: coba sendiri gempa, letusan gunung api, longsor bawah laut, dan meteor, lalu hitung kecepatan gelombang dan waktu evakuasi.'
     },
     {
       id: 'final', no: 8, name: 'Pulau Juara', theme: 'Ujian Akhir', tag: 'final', art: 'island-final',
@@ -81,7 +81,7 @@
       recap: [
         'Gempa pemicu tsunami umumnya terjadi di laut, dangkal (kurang dari 60–70 km), dan kuat (lebih dari 7,0).',
         'Gerakan lempeng naik-turun (vertikal) mendorong massa air dan membentuk tsunami.',
-        'Gempa yang dalam atau bergeser mendatar umumnya tidak memicu tsunami, tetapi tetap waspada dan ikuti info BMKG.'
+        'Gempa yang dalam atau bergeser mendatar lebih jarang memicu tsunami, tetapi tetap bisa terjadi, seperti di Palu 2018. Gempa kuat di pantai berarti langsung evakuasi.'
       ]
     },
     {
@@ -92,7 +92,7 @@
       recap: [
         'Tsunami dapat menimbulkan korban jiwa karena waktu evakuasi yang terbatas.',
         'Air laut merusak lahan pertanian, mencemari air, dan merusak ekosistem laut.',
-        'Dalam kondisi tertentu, tsunami juga membentuk habitat baru dan menjadi bahan penelitian mitigasi.'
+        'Setiap tsunami diteliti agar peringatan dini dan evakuasi menjadi lebih baik.'
       ]
     },
     {
@@ -1117,9 +1117,9 @@
       ]
     },
     {
-      ic: 'sprout', text: 'Dalam kondisi tertentu, tsunami juga bisa berdampak positif. Contohnya?',
+      ic: 'sprout', text: 'Apa yang bisa kita pelajari dari tsunami yang pernah terjadi?',
       options: [
-        { ok: true, ic: 'sprout', text: 'Terbentuk habitat baru dan ekosistem pulih, seperti di Chile tahun 2010', why: 'Benar! Perubahan bentuk pantai bisa menciptakan habitat baru, dan peristiwanya menjadi bahan penelitian mitigasi.' },
+        { ok: true, ic: 'sprout', text: 'Peneliti belajar dari setiap tsunami sehingga mitigasi menjadi lebih baik', why: 'Benar! Setiap peristiwa tsunami diteliti agar peringatan dini dan evakuasi makin baik.' },
         { ic: 'house', text: 'Rumah warga menjadi lebih kuat', why: 'Tsunami merusak bangunan. Dampak positifnya hanya pada kondisi tertentu, misalnya bagi ekosistem.' },
         { ic: 'water', text: 'Air bersih menjadi lebih banyak', why: 'Tsunami justru mencemari sumber air bersih.' }
       ]
@@ -2439,11 +2439,14 @@
       if (s && typeof s.stars === 'object') {
         return {
           stars: s.stars, sound: s.sound !== false, name: s.name || '', introSeen: !!s.introSeen,
-          explained: s.explained && typeof s.explained === 'object' ? s.explained : {}
+          explained: s.explained && typeof s.explained === 'object' ? s.explained : {},
+          relaxed: !!s.relaxed, cls: s.cls || '',
+          stats: s.stats && typeof s.stats === 'object' ? s.stats : {},
+          tests: s.tests && typeof s.tests === 'object' ? s.tests : {}
         };
       }
     } catch (e) { /* penyimpanan tidak tersedia */ }
-    return { stars: {}, sound: true, name: '', introSeen: false, explained: {} };
+    return { stars: {}, sound: true, name: '', introSeen: false, explained: {}, relaxed: false, cls: '', stats: {}, tests: {} };
   }
   function persist() {
     try { localStorage.setItem(SAVE_KEY, JSON.stringify(save)); } catch (e) { /* abaikan */ }
@@ -2506,6 +2509,7 @@
     onCleanup(() => clearTimeout(id));
   }
   function clearScreen() {
+    stopSpeech();
     cleanups.forEach(fn => { try { fn(); } catch (e) { /* abaikan */ } });
     cleanups = [];
     hideFeedback();
@@ -2557,7 +2561,14 @@
     return list.reduce((sum, lv) => sum + starsOf(lv), 0);
   }
   // Semua pulau terbuka sejak awal; misi di dalam satu pulau terbuka berurutan.
+  // Pulau Juara terbuka setelah minimal FINAL_NEED pulau lain tuntas.
+  const FINAL_NEED = 4;
+  const islandDone = id => levelsOf(id).every(lv => starsOf(lv) > 0);
+  const doneIslands = () => ISLANDS.filter(is => is.id !== 'final' && islandDone(is.id)).length;
+  const finalOpen = () => doneIslands() >= FINAL_NEED;
+
   function isUnlocked(lv) {
+    if (lv.island === 'final' && !finalOpen()) return false;
     const list = levelsOf(lv.island);
     const i = list.indexOf(lv);
     return i === 0 || starsOf(list[i - 1]) > 0;
@@ -2580,7 +2591,7 @@
     clearTimeout(fbTimer);
     fb.className = 'feedback show ' + (good ? 'good' : 'bad');
     fb.innerHTML = `${mascot(good ? 'happy' : 'sad', 'mini')}
-      <div class="fb-body"><strong>${esc(title)}</strong><p>${esc(text)}</p>
+      <div class="fb-body"><strong>${esc(title)} ${sayBtn(title + '. ' + text)}</strong><p>${esc(text)}</p>
       ${next ? `<button class="btn small green" id="fbNext" type="button">${esc(nextLabel)} ${ic(nextIcon)}</button>` : ''}</div>`;
     if (next) {
       const b = $('#fbNext');
@@ -2639,6 +2650,11 @@
             <button class="btn ghost" id="howBtn" type="button">${ic('question')} Cara main</button>
             <button class="btn blue" id="storyBtn" type="button">${ic('book')} Cerita pembuka</button>
           </div>
+          <div class="row">
+            <button class="btn ghost small" id="testBtnHome" type="button">${ic('doc')} Tes Siaga</button>
+            <button class="btn ghost small" id="reportBtn" type="button">${ic('monitor')} Laporan Belajar</button>
+            <button class="btn ghost small" id="relaxBtn" type="button" aria-pressed="${save.relaxed}">${ic('timer')} Mode santai: <b>${save.relaxed ? 'Nyala' : 'Mati'}</b></button>
+          </div>
         </div>
       </div>
       <ul class="phase-row">
@@ -2649,6 +2665,16 @@
     $('#playBtn').onclick = () => { sfx.click(); showMap(); };
     $('#howBtn').onclick = showHowTo;
     $('#storyBtn').onclick = openIntro;
+    $('#testBtnHome').onclick = () => { sfx.click(); showTestMenu(); };
+    $('#reportBtn').onclick = () => { sfx.click(); showReport(); };
+    $('#relaxBtn').onclick = () => {
+      save.relaxed = !save.relaxed;
+      persist();
+      sfx.click();
+      showHome();
+      showFeedback({ good: true, title: save.relaxed ? 'Mode santai menyala' : 'Mode santai mati',
+        text: save.relaxed ? 'Kuis dan susun langkah tidak memakai batas waktu.' : 'Batas waktu kembali dipakai, dengan waktu baca dulu sebelum hitung mundur.' });
+    };
   }
 
   function openIntro() {
@@ -2685,6 +2711,8 @@
         <li>${ic('heart')}<span>Di setiap misi kamu punya 3 nyawa. Pilihan yang salah mengurangi 1 nyawa.</span></li>
         <li>${ic('star')}<span>Sisa nyawa saat menang = jumlah bintang yang kamu dapat.</span></li>
         <li>${ic('bulb')}<span>Baca penjelasan Tuti setiap kali kamu memilih, supaya tahu alasannya.</span></li>
+        <li>${ic('sound-on')}<span>Tekan tombol <b>Dengarkan</b> kalau ingin soal dan penjelasan dibacakan.</span></li>
+        <li>${ic('timer')}<span>Kuis berwaktu memberi waktu baca dulu. Nyalakan <b>Mode santai</b> di beranda kalau ingin bermain tanpa batas waktu.</span></li>
       </ul>
       <button class="btn green" id="okHow" type="button">Mengerti! ${ic('check')}</button>`);
     $('#okHow').onclick = closeModal;
@@ -2694,12 +2722,12 @@
   // Posisi pulau (persen dari lebar/tinggi peta): peta lebar untuk layar besar, peta tinggi untuk HP.
   const ISLAND_SPOT = {
     basic: { wide: [15, 17], tall: [32, 6] },
-    struct: { wide: [50, 16], tall: [68, 18.5] },
-    nonstruct: { wide: [85, 19], tall: [32, 31] },
-    response: { wide: [82, 50], tall: [68, 43.5] },
-    recovery: { wide: [48, 50], tall: [32, 56] },
-    history: { wide: [16, 54], tall: [68, 68.5] },
-    sim: { wide: [28, 85], tall: [32, 81] },
+    sim: { wide: [50, 16], tall: [68, 18.5] },
+    struct: { wide: [85, 19], tall: [32, 31] },
+    nonstruct: { wide: [82, 50], tall: [68, 43.5] },
+    response: { wide: [48, 50], tall: [32, 56] },
+    recovery: { wide: [16, 54], tall: [68, 68.5] },
+    history: { wide: [28, 85], tall: [32, 81] },
     final: { wide: [72, 84], tall: [56, 93] }
   };
   const MAP_HINT = 'Klik pulau yang ingin kamu jelajahi. Semua pulau bisa dibuka kapan saja.';
@@ -2711,8 +2739,10 @@
 
   function leaderRows() {
     const me = totalStars();
+    // Setelah semua misi tuntas, pemain merebut peringkat 1 sebagai hadiah.
+    const champ = allDone();
     const rows = [
-      { name: 'Raka', stars: me + LEADER_GAP },
+      { name: 'Raka', stars: champ ? Math.max(0, me - 1) : me + LEADER_GAP },
       ...RIVALS.map(([name, share], i) => ({ name, stars: Math.max(0, Math.min(Math.round(share * MAX_STARS), me + LEADER_GAP - 1 - i)) })),
       { name: save.name || 'Kamu', stars: me, me: true }
     ];
@@ -2723,7 +2753,10 @@
   function leaderboardHtml() {
     const rows = leaderRows();
     return `<section class="leader card" aria-labelledby="leaderTitle">
-      <h3 id="leaderTitle">${ic('trophy')} Papan Peringkat</h3>
+      <h3 id="leaderTitle">${ic('trophy')} Papan Peringkat Latihan</h3>
+      <p class="leader-note">${allDone()
+        ? 'Hebat! Semua misi tuntas, kamu juara satu!'
+        : 'Lawanmu adalah tokoh latihan. Tuntaskan semua misi di semua pulau untuk merebut peringkat 1!'}</p>
       <ol class="leader-list">
         ${rows.map((r, i) => `<li class="${r.me ? 'me' : ''} ${i === 0 ? 'top' : ''}">
           <span class="lb-rank">${i + 1}</span>
@@ -2753,18 +2786,20 @@
             const max = list.length * 3;
             const finished = list.every(lv => starsOf(lv) > 0);
             const spot = ISLAND_SPOT[is.id];
+            const locked = is.id === 'final' && !finalOpen();
             return `<li class="${is.tag}" style="--wx:${spot.wide[0]}%;--wy:${spot.wide[1]}%;--tx:${spot.tall[0]}%;--ty:${spot.tall[1]}%">
               <button class="isle" data-island="${is.id}" type="button"
-                aria-label="Pulau ${is.no}: ${esc(is.name)}, ${esc(is.theme)}, ${got} dari ${max} bintang${finished ? ', tuntas' : ''}">
+                aria-label="Pulau ${is.no}: ${esc(is.name)}, ${esc(is.theme)}, ${locked ? `terkunci, tuntaskan ${FINAL_NEED} pulau dulu` : `${got} dari ${max} bintang${finished ? ', tuntas' : ''}`}">
                 <span class="isle-art" aria-hidden="true">
                   ${art(is.art)}
                   <span class="isle-no">${is.no}</span>
                   ${finished ? `<span class="isle-done">${ic('check')}</span>` : ''}
+                  ${locked ? `<span class="isle-lock">${ic('lock')}</span>` : ''}
                 </span>
                 <span class="isle-plate" aria-hidden="true">
                   <b class="isle-name">${esc(is.name)}</b>
                   <span class="isle-theme">${esc(is.theme)}</span>
-                  <span class="isle-stars">${ic('star')} ${got}/${max}</span>
+                  <span class="isle-stars">${locked ? `${ic('lock')} ${doneIslands()}/${FINAL_NEED} pulau tuntas` : `${ic('star')} ${got}/${max}`}</span>
                 </span>
               </button></li>`;
           }).join('')}
@@ -2784,7 +2819,13 @@
       b.addEventListener('focus', show);
       b.addEventListener('mouseleave', reset);
       b.addEventListener('blur', reset);
-      b.addEventListener('click', () => { sfx.click(); showIsland(is.id); });
+      b.addEventListener('click', () => {
+        if (is.id === 'final' && !finalOpen()) {
+          showFeedback({ good: false, title: 'Pulau Juara masih terkunci', text: `Tuntaskan minimal ${FINAL_NEED} pulau lain dulu. Sekarang baru ${doneIslands()} pulau.` });
+          return;
+        }
+        sfx.click(); showIsland(is.id);
+      });
     });
     if (done) $('#finalBtn').onclick = showFinal;
   }
@@ -2809,13 +2850,14 @@
           </div>
         </div>
       </div>
+      ${list.some(lv => CORE.has(String(lv.id))) ? `<p class="core-hint">${ic('star')} Misi bertanda <b>Inti</b> adalah jalur wajib untuk belajar di kelas. Misi lain adalah bonus.</p>` : ''}
       <ol class="level-map">
         ${list.map((lv, i) => {
           const open = isUnlocked(lv);
           const st = starsOf(lv);
           return `<li><button class="node card ${lv.phaseKey} ${open ? '' : 'locked'}" data-id="${lv.id}" type="button"
               aria-label="Misi ${i + 1}: ${esc(lv.title)}${open ? `, ${st} bintang` : ', terkunci'}">
-            <span class="node-num">${i + 1}</span>
+            <span class="node-num">${i + 1}</span>${CORE.has(String(lv.id)) ? '<span class="node-core">Inti</span>' : ''}
             <span class="node-icon" aria-hidden="true">${ic(open ? lv.icon : 'lock')}</span>
             <span class="node-title">${esc(lv.title)}</span>
             <span class="phase-tag ${lv.phaseKey}">${esc(shortTag(lv))}</span>
@@ -2838,6 +2880,11 @@
   function setLives(n) {
     const lost = n < lives;
     lives = Math.max(0, n);
+    // Setelah dua kesalahan, Tuti memberi petunjuk dari rangkuman misi.
+    if (lost && lives === 1 && currentLv) {
+      const b = $('.mission .bubble');
+      if (b) b.innerHTML = `${ic('bulb')} <b>Petunjuk Tuti:</b> ${esc(currentLv.recap[0])}`;
+    }
     const el = $('#hearts');
     if (!el) return;
     el.innerHTML = [0, 1, 2].map(i => {
@@ -2860,23 +2907,26 @@
         </div>
         <div class="hearts" id="hearts" role="img"></div>
       </div>
-      <div class="mission">${mascot('happy', 'small')}<p class="bubble">${esc(lv.mission)}</p></div>
+      <div class="mission">${mascot('happy', 'small')}<p class="bubble">${esc(lv.mission)}</p>${sayBtn(lv.mission)}</div>
       <div id="stage"></div>
     </section>`);
+    currentLv = lv;
     lives = 3;
     setLives(3);
     $('#backMap').onclick = () => showIsland(lv.island);
     openModal(`<div class="intro-head">${mascot('happy', 'small')}
         <div><span class="phase-tag ${lv.phaseKey}">${esc(islandOf(lv).name)} · ${esc(tagLabel(lv))}</span><h2>Misi ${levelNo(lv)}: ${esc(lv.title)}</h2></div>
       </div>
-      <p class="intro-mission"><b>Misi:</b> ${esc(lv.mission)}</p>
+      <p class="intro-mission"><b>Misi:</b> ${esc(lv.mission)} ${sayBtn(lv.mission)}</p>
+      ${GENTLE.has(String(lv.id)) ? `<p class="gentle-note">${ic('heart')}<span>Misi ini membahas hal yang menyedihkan. Kalau kamu merasa takut atau sedih, berhenti sebentar dan ceritakan kepada orang dewasa yang kamu percaya. Sekarang kamu aman.</span></p>` : ''}
       <ol class="how">${lv.how.map(h => `<li>${esc(h)}</li>`).join('')}</ol>
       <button class="btn big green" id="goBtn" type="button">Ayo mulai! ${ic('play')}</button>`);
-    $('#goBtn').onclick = () => { closeModal(); sfx.click(); music.mood('mission'); PLAY[lv.type](lv); };
+    $('#goBtn').onclick = () => { closeModal(); sfx.click(); music.mood('mission'); recordPlay(lv, 'start'); PLAY[lv.type](lv); };
   }
 
   function finishLevel(lv, stars) {
     stars = Math.max(1, Math.min(3, stars));
+    recordPlay(lv, 'win', 3 - stars);
     save.stars[lv.id] = Math.max(stars, starsOf(lv));
     persist();
     updateHeader();
@@ -2896,7 +2946,7 @@
         </div>
         <p class="lead">${msg}</p>
         <div class="recap">
-          <h3>${ic('bulb')} 3 hal yang perlu kamu ingat</h3>
+          <h3>${ic('bulb')} 3 hal yang perlu kamu ingat ${sayBtn(lv.recap.join(' '))}</h3>
           <ol>${lv.recap.map(r => `<li>${esc(r)}</li>`).join('')}</ol>
         </div>
         ${!nextLv ? `<p class="island-cleared">${ic('check')} ${esc(is.name)} tuntas! ${allDone() ? 'Semua pulau sudah kamu jelajahi.' : 'Jelajahi pulau lain di Peta Kepulauan.'}</p>` : ''}
@@ -2917,7 +2967,8 @@
     $('#nextBtn').focus({ preventScroll: true });
   }
 
-  function failLevel(lv, title = 'Nyawamu habis', text = 'Tidak apa-apa! Baca lagi penjelasan Tuti, lalu coba sekali lagi.') {
+  function failLevel(lv, title = 'Belum berhasil, ayo coba lagi!', text = 'Tidak apa-apa, belajar memang butuh mencoba. Baca petunjuk Tuti di bawah, lalu coba sekali lagi. Kamu pasti bisa!') {
+    recordPlay(lv, 'fail', 3);
     render(`<section class="screen result">
       <div class="card result-card">
         ${mascot('sad', 'big')}
@@ -3199,6 +3250,7 @@
   /* ================= Pulau Siaga Warga: susun urutan ================= */
 
   function playSequence(lv, steps, seconds) {
+    seconds = seconds && !save.relaxed ? seconds + 15 : 0;
     const cards = shuffle(steps.map((s, k) => Object.assign({ k }, s)));
     let next = 0, over = false, timerId = 0;
     onCleanup(() => clearInterval(timerId));
@@ -3404,7 +3456,7 @@
         row(r.sea, 'Lokasi', 'di laut, sehingga air laut bisa terdorong', 'di darat, sehingga air laut tidak terdorong'),
         row(r.mag > 7, `Magnitudo ${fmtMag(r.mag)}`, 'cukup kuat (lebih dari 7,0)', 'kurang kuat (7,0 atau kurang)'),
         row(r.depth < 70, `Kedalaman ${r.depth} km`, 'dangkal (kurang dari 70 km)', 'terlalu dalam (70 km atau lebih)'),
-        row(r.vertical, 'Gerakan', 'naik-turun, mendorong massa air', 'mendatar, air hampir tidak terdorong')
+        row(r.vertical, 'Gerakan', 'naik-turun, mendorong massa air', 'mendatar, biasanya air tidak banyak terdorong. Tetapi ingat Palu 2018: gempa geser tetap bisa memicu tsunami lewat longsor bawah laut')
       ].join('');
     }
 
@@ -3521,7 +3573,8 @@
       later(() => {
         $('#simResult').textContent = r.title;
         $('#simResult').className = 'lab-result ' + (r.danger ? 'yes' : 'no');
-        $('#simChecks').innerHTML = r.rows.map(([ok, label, txt]) =>
+        const rows = r.rows.concat([[null, 'Catatan', 'angka di simulasi ini perkiraan untuk belajar, bukan data peringatan resmi. Peringatan sungguhan datang dari BMKG']]);
+        $('#simChecks').innerHTML = rows.map(([ok, label, txt]) =>
           `<li class="${ok === null ? 'info' : ok ? 'ok' : 'no'}">${ic(ok === null ? 'bulb' : ok ? 'check' : 'cross')}<span><b>${esc(label)}:</b> ${esc(txt)}</span></li>`).join('');
         $('#simChecks').hidden = false;
         const g = cfg.goals[goal];
@@ -3598,13 +3651,14 @@
       const size = !tsunami ? '' : st.mag >= 8.5 ? 'besar' : st.mag >= 7.8 ? 'sedang' : 'kecil';
       return {
         tsunami, danger: tsunami, size, h: SIZE_H[size] || 0, cls: ['shake', up ? 'lift' : 'slide'],
-        title: tsunami ? `Tsunami ${sizeName[size]} terbentuk!` : 'Tidak terjadi tsunami.',
+        title: tsunami ? `Tsunami ${sizeName[size]} terbentuk!` : sea && !up && st.mag > 7 && st.depth < 70 ? 'Tsunami kecil kemungkinannya, tetap evakuasi!' : 'Tidak terjadi tsunami.',
         rows: [
           [sea, 'Lokasi', sea ? 'di laut, air laut bisa terdorong' : 'di darat, air laut tidak terdorong'],
           [st.mag > 7, `Magnitudo ${fmt1(st.mag)}`, st.mag > 7 ? 'cukup kuat (lebih dari 7,0)' : 'kurang kuat (7,0 atau kurang)'],
           [st.depth < 70, `Kedalaman ${st.depth} km`, st.depth < 70 ? 'dangkal (kurang dari 70 km)' : 'terlalu dalam (70 km atau lebih)'],
-          [up, 'Gerakan', up ? 'naik-turun, mendorong kolom air' : 'mendatar, air hampir tidak terdorong'],
-          [null, 'Perkiraan ukuran', tsunami ? `tsunami ${size}: makin besar magnitudonya, makin banyak air yang terdorong` : 'tidak ada gelombang tsunami']
+          [up, 'Gerakan', up ? 'naik-turun, mendorong kolom air' : 'mendatar, biasanya air tidak banyak terdorong. Tetapi ingat Palu 2018: gempa geser tetap bisa memicu tsunami lewat longsor bawah laut'],
+          [null, 'Perkiraan ukuran', tsunami ? `tsunami ${size}: makin besar magnitudonya, makin banyak air yang terdorong`
+            : sea && !up && st.mag > 7 && st.depth < 70 ? 'kemungkinannya kecil, tetapi gempa kuat di pantai tetap berarti langsung evakuasi' : 'tidak ada gelombang tsunami']
         ]
       };
     },
@@ -4197,6 +4251,7 @@
   /* ================= Level 4 & 6: Kuis situasi ================= */
 
   function playQuiz(lv, questions, seconds) {
+    const secs = quizSeconds(seconds);
     let qi = 0;
     let locked = false;
     let timerId = 0;
@@ -4211,8 +4266,8 @@
           <p class="q-count">Situasi ${qi + 1} dari ${questions.length}</p>
           ${q.art
             ? `<div class="scene card map-scene"><div class="map-art">${art(q.art)}</div><p>${esc(q.text)}</p></div>`
-            : `<div class="scene card"><span class="scene-emo" aria-hidden="true">${ic(q.ic)}</span><p>${esc(q.text)}</p></div>`}
-          ${seconds ? '<div class="timer" aria-hidden="true"><i id="tbar"></i></div>' : ''}
+            : `<div class="scene card"><span class="scene-emo" aria-hidden="true">${ic(q.ic)}</span><p>${esc(q.text)}</p>${sayBtn(q.text + ' Pilihannya: ' + opts.map(o => o.text).join('. '))}</div>`}
+          ${secs ? '<div class="timer" aria-hidden="true"><i id="tbar"></i></div>' : ''}
           <div class="options">
             ${opts.map((o, i) => `<button class="opt card" data-i="${i}" type="button">
               <span class="opt-emo" aria-hidden="true">${ic(o.ic)}</span><span>${esc(o.text)}</span></button>`).join('')}
@@ -4221,11 +4276,12 @@
       $$('.opt').forEach(b => b.addEventListener('click', () => answer(opts, opts[Number(b.dataset.i)], b)));
       // Pastikan situasi dan pilihan terlihat tanpa perlu scroll saat waktu berjalan.
       $('.quiz').scrollIntoView({ block: 'start', behavior: qi ? 'smooth' : 'auto' });
-      if (seconds) {
-        const start = performance.now();
+      if (secs) {
+        // Waktu baca dulu sebelum hitung mundur berjalan.
+        const start = performance.now() + READ_GRACE * 1000;
         const bar = $('#tbar');
         timerId = setInterval(() => {
-          const left = Math.max(0, 1 - (performance.now() - start) / (seconds * 1000));
+          const left = Math.min(1, Math.max(0, 1 - (performance.now() - start) / (secs * 1000)));
           bar.style.width = (left * 100) + '%';
           bar.classList.toggle('low', left < 0.3);
           if (left <= 0) answer(opts, null, null);
@@ -4670,6 +4726,219 @@
     raf = requestAnimationFrame(frame);
     onCleanup(() => cancelAnimationFrame(raf));
     jumpBtn.focus({ preventScroll: true });
+  }
+
+
+  /* ================= Pendukung belajar anak ================= */
+
+  // Kuis berwaktu: waktu baca dulu, batas waktu dilonggarkan untuk anak, dan bisa dimatikan lewat Mode santai.
+  const READ_GRACE = 5;
+  const quizSeconds = s => (!s || save.relaxed ? 0 : s + 10);
+
+  // Jalur inti: misi wajib untuk satu-dua kali pelajaran di kelas. Misi lain bonus.
+  const CORE = new Set(['b1', 'b3', 'b6', 'm1', 'm6', 's1', 's2', 'n1', 'n6', 'n7', '1', '2', '3', '4', '6', 'p4', 'h3']);
+  // Misi yang membahas korban atau kehilangan diberi catatan penenang sebelum mulai.
+  const GENTLE = new Set(['b5', 'b9', 'p6', 'h5', 'h9']);
+  let currentLv = null;
+
+  /* ----- Narasi suara (Web Speech API, bawaan browser, tanpa server) ----- */
+  const canSpeak = 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
+  function sayBtn(textToSay) {
+    if (!canSpeak) return '';
+    return `<button class="say-btn" type="button" data-say="${esc(textToSay)}" aria-label="Dengarkan">${ic('sound-on')}<span>Dengarkan</span></button>`;
+  }
+  function stopSpeech() { if (canSpeak) window.speechSynthesis.cancel(); }
+  function speak(textToSay) {
+    if (!canSpeak) return;
+    stopSpeech();
+    const u = new SpeechSynthesisUtterance(textToSay);
+    u.lang = 'id-ID';
+    u.rate = 0.92;
+    const voice = window.speechSynthesis.getVoices().find(v => /^id/i.test(v.lang));
+    if (voice) u.voice = voice;
+    window.speechSynthesis.speak(u);
+  }
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-say]');
+    if (!b) return;
+    e.preventDefault();
+    e.stopPropagation();
+    speak(b.dataset.say);
+  }, true);
+
+  /* ----- Statistik belajar per misi (untuk Laporan Belajar) ----- */
+  function recordPlay(lv, kind, mistakes = 0) {
+    const k = String(lv.id);
+    const st = save.stats[k] || (save.stats[k] = { plays: 0, wins: 0, fails: 0, mistakes: 0 });
+    if (kind === 'start') st.plays++;
+    else if (kind === 'win') { st.wins++; st.mistakes += mistakes; }
+    else if (kind === 'fail') { st.fails++; st.mistakes += mistakes; }
+    persist();
+  }
+
+  /* ----- Tes Siaga: tes awal dan tes akhir untuk mengukur hasil belajar ----- */
+  const TEST_QS = [
+    { topic: 'Tanda alam', text: 'Kamu di pantai dan merasakan gempa yang lama dan kuat. Apa yang kamu lakukan?',
+      options: ['Menunggu bunyi sirene', 'Langsung pergi ke tempat tinggi', 'Melihat laut dulu'], ok: 1 },
+    { topic: 'Tanda alam', text: 'Air laut tiba-tiba surut jauh dari pantai. Itu tanda apa?',
+      options: ['Waktunya mencari ikan', 'Tsunami mungkin datang', 'Air laut sedang tenang'], ok: 1 },
+    { topic: 'Mitigasi', text: 'Mana yang termasuk mitigasi struktural?',
+      options: ['Latihan evakuasi', 'Menanam hutan mangrove', 'Membuat peta evakuasi'], ok: 1 },
+    { topic: 'Mitigasi', text: 'Mana yang termasuk mitigasi non-struktural?',
+      options: ['Membangun tanggul', 'Membangun menara evakuasi', 'Latihan evakuasi rutin di sekolah'], ok: 2 },
+    { topic: 'Sesudah', text: 'Gelombang pertama sudah surut. Bolehkah langsung pulang?',
+      options: ['Boleh, sudah aman', 'Tunggu kabar resmi dari BMKG atau BPBD', 'Pulang kalau rumahnya dekat'], ok: 1 },
+    { topic: 'Informasi', text: 'Ada pesan berantai: "Tsunami 30 meter datang!" Apa yang kamu lakukan?',
+      options: ['Langsung menyebarkannya', 'Mengecek ke BMKG atau BPBD', 'Mengabaikan semua informasi'], ok: 1 },
+    { topic: 'Sebelum', text: 'Mana isi tas siaga yang paling tepat?',
+      options: ['Dokumen, air, makanan, senter, P3K, dan radio', 'Mainan dan camilan', 'Televisi kecil'], ok: 0 },
+    { topic: 'Hitung waktu', text: 'Gelombang akan tiba 8 menit lagi dan tempat aman berjarak 1 km. Apa pilihan terbaik?',
+      options: ['Naik mobil di jalan yang macet', 'Langsung berjalan cepat ke tempat aman terdekat', 'Bersiap-siap dulu 10 menit'], ok: 1 }
+  ];
+
+  function showTestMenu() {
+    const t = save.tests;
+    const line = (key, label) => t[key]
+      ? `<b>${label}:</b> ${t[key].score} dari ${t[key].total} benar <small>(${esc(t[key].date)})</small>`
+      : `<b>${label}:</b> belum dikerjakan`;
+    openModal(`<h2>${ic('doc')} Tes Siaga</h2>
+      <p>Tes singkat ${TEST_QS.length} soal untuk melihat seberapa siap kamu menghadapi tsunami.
+        Kerjakan <b>Tes Awal</b> sebelum bermain, lalu <b>Tes Akhir</b> setelah bermain.</p>
+      <ul class="how icon-list"><li>${ic('flag')}<span>${line('pre', 'Tes Awal')}</span></li><li>${ic('trophy')}<span>${line('post', 'Tes Akhir')}</span></li></ul>
+      <div class="row center">
+        <button class="btn" id="preBtn" type="button">Tes Awal</button>
+        <button class="btn green" id="postBtn" type="button">Tes Akhir</button>
+        <button class="btn ghost" id="closeTest" type="button">Tutup</button>
+      </div>`);
+    $('#preBtn').onclick = () => { closeModal(); showTest('pre'); };
+    $('#postBtn').onclick = () => { closeModal(); showTest('post'); };
+    $('#closeTest').onclick = closeModal;
+  }
+
+  function showTest(kind) {
+    const label = kind === 'pre' ? 'Tes Awal' : 'Tes Akhir';
+    const answers = [];
+    render(`<section class="screen test">
+      <div class="card test-card">
+        <p class="kicker">${label}</p>
+        <h2>Tes Siaga Tsunami</h2>
+        <p>Isi nama dan kelasmu supaya hasilnya tercatat di Laporan Belajar.</p>
+        <div class="test-who">
+          <label>Nama <input id="tName" class="name-input" maxlength="40" value="${esc(save.name)}" autocomplete="off"></label>
+          <label>Kelas <input id="tCls" class="name-input" maxlength="20" value="${esc(save.cls)}" autocomplete="off"></label>
+        </div>
+        <div id="tStage"></div>
+      </div>
+    </section>`);
+    const ask = i => {
+      const q = TEST_QS[i];
+      $('#tStage').innerHTML = `<p class="q-count">Soal ${i + 1} dari ${TEST_QS.length}</p>
+        <div class="scene card"><p>${esc(q.text)}</p>${sayBtn(q.text + ' Pilihannya: ' + q.options.join('. '))}</div>
+        <div class="options">${q.options.map((o, k) => `<button class="opt card" data-k="${k}" type="button"><span>${esc(o)}</span></button>`).join('')}</div>`;
+      $$('#tStage .opt').forEach(b => b.addEventListener('click', () => {
+        answers.push(Number(b.dataset.k));
+        sfx.click();
+        if (i + 1 < TEST_QS.length) ask(i + 1); else done();
+      }));
+    };
+    const done = () => {
+      save.name = $('#tName').value.trim();
+      save.cls = $('#tCls').value.trim();
+      const score = answers.filter((a, i) => a === TEST_QS[i].ok).length;
+      save.tests[kind] = { score, total: TEST_QS.length, date: new Date().toLocaleDateString('id-ID'), answers };
+      persist();
+      $('#tStage').innerHTML = `<div class="test-done">
+          <h3>Hasil ${label}: ${score} dari ${TEST_QS.length} benar</h3>
+          ${kind === 'pre' ? '<p>Terima kasih! Sekarang bermainlah, lalu kerjakan Tes Akhir untuk melihat kemajuanmu.</p>'
+            : `<ol class="test-review">${TEST_QS.map((q, i) => `<li class="${answers[i] === q.ok ? 'ok' : 'no'}">${ic(answers[i] === q.ok ? 'check' : 'cross')}<span>${esc(q.text)} <b>Jawaban tepat: ${esc(q.options[q.ok])}</b></span></li>`).join('')}</ol>`}
+          <div class="row center">
+            <button class="btn" id="tPlay" type="button">${ic('map')} Ke Peta Kepulauan</button>
+            <button class="btn ghost" id="tReport" type="button">${ic('monitor')} Laporan Belajar</button>
+          </div></div>`;
+      sfx.win();
+      $('#tPlay').onclick = showMap;
+      $('#tReport').onclick = showReport;
+    };
+    ask(0);
+  }
+
+  /* ----- Laporan Belajar: pengolahan data hasil bermain menjadi informasi untuk guru ----- */
+  function reportData() {
+    const islands = ISLANDS.map(is => {
+      const list = levelsOf(is.id);
+      const done = list.filter(lv => starsOf(lv) > 0).length;
+      const stars = totalStars(list);
+      const agg = list.reduce((a, lv) => { const s = save.stats[String(lv.id)] || {}; a.plays += s.plays || 0; a.mistakes += s.mistakes || 0; a.fails += s.fails || 0; return a; }, { plays: 0, mistakes: 0, fails: 0 });
+      return { is, total: list.length, done, stars, max: list.length * 3, ...agg };
+    });
+    const hard = LEVELS.map(lv => ({ lv, s: save.stats[String(lv.id)] }))
+      .filter(x => x.s && x.s.mistakes > 0)
+      .sort((a, b) => b.s.mistakes - a.s.mistakes || b.s.fails - a.s.fails)
+      .slice(0, 3);
+    const pre = save.tests.pre, post = save.tests.post;
+    return { islands, hard, pre, post };
+  }
+
+  function showReport() {
+    const d = reportData();
+    const pct = (a, b) => (b ? Math.round(a / b * 100) : 0);
+    const testCell = t => (t ? `${t.score}/${t.total} (${pct(t.score, t.total)}%)` : 'belum');
+    const gain = d.pre && d.post ? pct(d.post.score, d.post.total) - pct(d.pre.score, d.pre.total) : null;
+    render(`<section class="screen report">
+      <div class="screen-head">
+        <h2>${ic('monitor')} Laporan Belajar</h2>
+        <p>Ringkasan hasil bermain di perangkat ini, untuk guru dan orang tua.</p>
+      </div>
+      <div class="card report-card">
+        <div class="report-who"><span><b>Nama:</b> ${esc(save.name || '-')}</span><span><b>Kelas:</b> ${esc(save.cls || '-')}</span>
+          <span><b>Bintang:</b> ${totalStars()} / ${MAX_STARS}</span></div>
+        <h3>Tes Siaga</h3>
+        <div class="report-tests">
+          <div><span>Tes Awal</span><b>${testCell(d.pre)}</b></div>
+          <div><span>Tes Akhir</span><b>${testCell(d.post)}</b></div>
+          <div class="${gain === null ? '' : gain >= 0 ? 'up' : 'down'}"><span>Kenaikan</span><b>${gain === null ? '-' : `${gain >= 0 ? '+' : ''}${gain} poin`}</b></div>
+        </div>
+        <h3>Penguasaan per pulau</h3>
+        <table class="report-table">
+          <thead><tr><th>Pulau</th><th>Misi tuntas</th><th>Bintang</th><th>Dimainkan</th><th>Kesalahan</th></tr></thead>
+          <tbody>${d.islands.map(r => `<tr>
+            <td>${r.is.no}. ${esc(r.is.name)}</td>
+            <td><span class="report-bar"><i style="width:${pct(r.done, r.total)}%"></i></span> ${r.done}/${r.total}</td>
+            <td>${r.stars}/${r.max}</td><td>${r.plays}×</td><td>${r.mistakes}</td></tr>`).join('')}</tbody>
+        </table>
+        <h3>Perlu diulang</h3>
+        ${d.hard.length ? `<ol class="report-hard">${d.hard.map(x => `<li><b>${esc(islandOf(x.lv).name)}, misi ${levelNo(x.lv)}: ${esc(x.lv.title)}</b>
+            <span>${x.s.mistakes} kesalahan, ${x.s.fails} kali gagal. Ingat: ${esc(x.lv.recap[0])}</span></li>`).join('')}</ol>`
+          : '<p>Belum ada data kesalahan. Mainkan beberapa misi dulu.</p>'}
+        <div class="row center">
+          <button class="btn" id="csvBtn" type="button">${ic('doc')} Unduh CSV</button>
+          <button class="btn ghost" id="printRep" type="button">${ic('print')} Cetak</button>
+          <button class="btn ghost" id="repMap" type="button">${ic('map')} Peta</button>
+        </div>
+      </div>
+    </section>`);
+    $('#csvBtn').onclick = () => downloadCsv(d);
+    $('#printRep').onclick = () => window.print();
+    $('#repMap').onclick = showMap;
+  }
+
+  function downloadCsv(d) {
+    const q = v => `"${String(v).replace(/"/g, '""')}"`;
+    const rows = [['Nama', 'Kelas', 'Pulau', 'Misi', 'Judul misi', 'Bintang', 'Dimainkan', 'Menang', 'Gagal', 'Kesalahan']];
+    LEVELS.forEach(lv => {
+      const s = save.stats[String(lv.id)] || {};
+      rows.push([save.name, save.cls, islandOf(lv).name, levelNo(lv), lv.title, starsOf(lv), s.plays || 0, s.wins || 0, s.fails || 0, s.mistakes || 0]);
+    });
+    rows.push([]);
+    rows.push(['Tes Awal', d.pre ? `${d.pre.score}/${d.pre.total}` : '', 'Tes Akhir', d.post ? `${d.post.score}/${d.post.total}` : '']);
+    const csv = '﻿' + rows.map(r => r.map(q).join(';')).join('\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+    a.download = `laporan-nusa-siaga-${(save.name || 'pemain').replace(/\s+/g, '-').toLowerCase()}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
   }
 
   /* ================= Mulai ================= */
