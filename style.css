@@ -24,6 +24,7 @@
   --basic: #ffe39a;
   --hist: #ffc8dc;
   --final: #9ff0dc;
+  --sim: #dff59a;
   --r: 22px;
 }
 
@@ -483,7 +484,7 @@ kbd { border: 2px solid var(--ink); border-radius: 6px; padding: 0 6px; backgrou
 .sea-route path { fill: none; stroke: #fff; stroke-width: 6; stroke-linecap: round; stroke-dasharray: 1 16; vector-effect: non-scaling-stroke; opacity: .85; animation: route-flow 1.6s linear infinite; }
 @keyframes route-flow { to { stroke-dashoffset: -17; } }
 .sea-route.tall { display: none; }
-.sea-boat { position: absolute; left: 22%; top: 87%; width: 62px; transform: translate(-50%, -50%); animation: bob 3.4s ease-in-out infinite; }
+.sea-boat { position: absolute; left: 50%; top: 91%; width: 62px; transform: translate(-50%, -50%); animation: bob 3.4s ease-in-out infinite; }
 .sea-boat .ico { width: 100%; height: auto; display: block; }
 .sea-islands { list-style: none; margin: 0; padding: 0; }
 .sea-islands li { position: absolute; left: var(--wx); top: var(--wy); width: 24%; transform: translate(-50%, -50%); }
@@ -495,6 +496,7 @@ kbd { border: 2px solid var(--ink); border-radius: 6px; padding: 0 6px; backgrou
 .sea-islands li.post { --tone: var(--post); --bd: -.5s; }
 .sea-islands li.hist { --tone: var(--hist); --bd: -1.5s; }
 .sea-islands li.final { --tone: var(--final); --bd: -2.5s; }
+.sea-islands li.sim { --tone: var(--sim); --bd: -3.5s; }
 .isle {
   display: flex; flex-direction: column; align-items: center; width: 100%; padding: 0;
   background: none; border: 0; border-radius: 24px; cursor: pointer; text-align: center; -webkit-tap-highlight-color: transparent;
@@ -551,7 +553,7 @@ kbd { border: 2px solid var(--ink); border-radius: 6px; padding: 0 6px; backgrou
 .lb-stars { display: inline-flex; align-items: center; gap: 4px; font-weight: 700; font-size: 18px; }
 .lb-stars .ico { width: 22px; height: 22px; }
 @media (max-width: 700px) {
-  .sea-map { aspect-ratio: 1 / 4; }
+  .sea-map { aspect-ratio: 1 / 4.6; }
   .sea-route.wide, .sea-boat { display: none; }
   .sea-route.tall { display: block; }
   .sea-islands li { left: var(--tx); top: var(--ty); width: 54%; }
@@ -748,6 +750,9 @@ kbd { border: 2px solid var(--ink); border-radius: 6px; padding: 0 6px; backgrou
 .phase-row li.final { background: var(--final); }
 .phase-tag.hist, .island-head.hist { background: var(--hist); }
 .phase-tag.final, .island-head.final { background: var(--final); }
+.phase-tag.sim, .island-head.sim { background: var(--sim); }
+.node.sim { background: linear-gradient(180deg, var(--sim) 0 38%, var(--paper) 38%); }
+.phase-row li.sim { background: var(--sim); }
 .node.hist { background: linear-gradient(180deg, var(--hist) 0 38%, var(--paper) 38%); }
 .node.final { background: linear-gradient(180deg, var(--final) 0 38%, var(--paper) 38%); }
 .sort-card.statement b { font-size: 20px; font-weight: 600; line-height: 1.35; }
@@ -811,6 +816,40 @@ kbd { border: 2px solid var(--ink); border-radius: 6px; padding: 0 6px; backgrou
 .lab-checks .ico { flex: none; width: 20px; height: 20px; margin-top: 2px; }
 .lab-checks li.ok .ico { color: var(--grass-d); }
 .lab-checks li.no .ico { color: var(--coral); }
+.lab-checks li.info { background: #eef6ff; }
+.lab-checks li.info .ico { color: var(--sea-d); }
+
+/* Simulasi (Pulau Simulasi) */
+.sim-wave { transform-box: view-box; transform-origin: 0 70px; opacity: 0; }
+.sim-scene.tsunami .sim-wave { animation: sim-go var(--dur, 2.2s) ease-in var(--wd, .5s) forwards; }
+.sim-scene.erupt.tsunami .sim-wave, .sim-scene.slide-go.tsunami .sim-wave { --wd: 1s; }
+.sim-scene.impact.tsunami .sim-wave { --wd: 1.1s; }
+@keyframes sim-go {
+  0% { opacity: 1; transform: translate(var(--sx), 0) scale(.6, calc(var(--h) * .25)); }
+  60% { opacity: 1; transform: translate(calc((var(--sx) + 440px) / 2), 0) scale(.85, var(--h)); }
+  88% { opacity: 1; transform: translate(440px, 0) scale(1, calc(var(--h) * 1.5)); }
+  100% { opacity: 0; transform: translate(500px, 0) scale(1.1, calc(var(--h) * 1.6)); }
+}
+.sim-plume { transform-box: fill-box; transform-origin: 50% 100%; opacity: 0; }
+.sim-scene.erupt .sim-plume { animation: sim-plume 1.6s ease-out forwards; }
+@keyframes sim-plume { 0% { opacity: 0; transform: scale(.2); } 30% { opacity: 1; } 100% { opacity: .95; transform: translateY(-6px) scale(var(--p, 1)); } }
+.sim-chunk { transform-box: fill-box; transform-origin: 0 0; }
+.sim-scene.collapse .sim-chunk { animation: sim-chunk 1.2s ease-in .5s forwards; }
+@keyframes sim-chunk { to { transform: translate(84px, 112px) rotate(52deg); opacity: .9; } }
+.sim-scene.slide-go .sim-mass { animation: sim-mass 1.3s ease-in .3s forwards; }
+@keyframes sim-mass { to { transform: translate(var(--dx), var(--dy)); } }
+.sim-meteor { transform-box: view-box; transform: translate(calc(var(--mx) - 240px), -60px); opacity: 0; }
+.sim-scene.impact .sim-meteor { animation: sim-fall .9s ease-in forwards; }
+.sim-scene.burn .sim-meteor { animation: sim-burn 1.1s ease-in forwards; }
+@keyframes sim-fall { 0% { opacity: 1; } 95% { opacity: 1; transform: translate(var(--mx), var(--my)); } 100% { opacity: 0; transform: translate(var(--mx), var(--my)); } }
+@keyframes sim-burn { 0% { opacity: 1; } 60% { opacity: 1; transform: translate(calc(var(--mx) - 110px), -6px); } 100% { opacity: 0; transform: translate(calc(var(--mx) - 90px), 6px) scale(1.8); } }
+.sim-splash { opacity: 0; }
+.sim-scene.impact .sim-splash { animation: sim-splash 1s ease-out .85s forwards; }
+@keyframes sim-splash { 0% { opacity: 0; } 30% { opacity: 1; } 100% { opacity: 0; } }
+.sim-bar { transform-box: fill-box; transform-origin: 0 50%; }
+.sim-scene.run .sim-bar { animation: sim-bar 1.2s ease-out both; }
+.sim-scene.run .sim-bar.b2 { animation-delay: .3s; }
+@keyframes sim-bar { from { transform: scaleX(0); } }
 @media (max-width: 700px) {
   .lab-controls, .lab-checks { grid-template-columns: 1fr; }
 }

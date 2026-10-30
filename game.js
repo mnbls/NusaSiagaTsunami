@@ -1,4 +1,4 @@
-/* Nusa Siaga — game edukasi mitigasi bencana tsunami (7 pulau, 70 misi). */
+/* Nusa Siaga — game edukasi mitigasi bencana tsunami (8 pulau, 76 misi). */
 (() => {
   'use strict';
 
@@ -30,7 +30,11 @@
       desc: 'Belajar dari peristiwa nyata: Krakatau 1883, Flores 1992, Aceh 2004, Pangandaran 2006, Mentawai 2010, Palu dan Selat Sunda 2018.'
     },
     {
-      id: 'final', no: 7, name: 'Pulau Juara', theme: 'Ujian Akhir', tag: 'final', art: 'island-final',
+      id: 'sim', no: 7, name: 'Pulau Simulasi', theme: 'Simulasi Penyebab Tsunami', tag: 'sim', art: 'island-sim',
+      desc: 'Laboratorium tsunami: coba sendiri gempa, letusan gunung api, longsor bawah laut, dan meteor, lalu hitung kecepatan gelombang dan waktu evakuasi.'
+    },
+    {
+      id: 'final', no: 8, name: 'Pulau Juara', theme: 'Ujian Akhir', tag: 'final', art: 'island-final',
       desc: 'Tantangan penutup yang menggabungkan semua materi sebelum kamu meraih sertifikat Pahlawan Siaga.'
     }
   ];
@@ -829,11 +833,83 @@
     }
   ];
 
+  // Pulau 7: simulasi interaktif setiap penyebab tsunami, perambatan gelombang, dan waktu evakuasi.
+  const simHow = run => [`Atur kontrol di bawah gambar, lalu tekan ${run}.`, 'Lihat animasi dan hasil perhitungannya.', 'Hasil yang tidak sesuai tantangan mengurangi 1 nyawa. Selesaikan 3 tantangan!'];
+  const SIM_LEVELS = [
+    {
+      id: 'm1', phase: 'Simulasi', icon: 'tectonic', type: 'simQuake',
+      title: 'Simulasi Gempa Tektonik',
+      mission: 'Atur gempa bawah laut dan lihat kapan tsunami terbentuk, serta seberapa besar.',
+      how: simHow('Picu gempa!'),
+      recap: [
+        'Gempa memicu tsunami jika terjadi di laut, dangkal (kurang dari 70 km), kuat (lebih dari 7,0), dan menggeser dasar laut naik-turun.',
+        'Makin besar magnitudonya, makin banyak air yang terdorong dan makin besar tsunaminya.',
+        'Gempa di darat sekuat apa pun tidak mendorong air laut.'
+      ]
+    },
+    {
+      id: 'm2', phase: 'Simulasi', icon: 'volcano', type: 'simVolcano',
+      title: 'Simulasi Letusan Gunung Api',
+      mission: 'Letuskan gunung api di laut dan di daratan. Kapan letusan memicu tsunami?',
+      how: simHow('Letuskan gunung!'),
+      recap: [
+        'Gunung api di laut bisa memicu tsunami lewat letusan dahsyat atau runtuhnya tubuh gunung ke laut.',
+        'Krakatau 1883 meletus dahsyat, sedangkan Anak Krakatau 2018 memicu tsunami lewat longsoran.',
+        'Gunung api di daratan yang jauh dari laut tidak memicu tsunami.'
+      ]
+    },
+    {
+      id: 'm3', phase: 'Simulasi', icon: 'landslide', type: 'simSlide',
+      title: 'Simulasi Longsor Bawah Laut',
+      mission: 'Atur lereng dasar laut dan pemicunya. Kapan longsoran memicu tsunami?',
+      how: simHow('Jalankan simulasi'),
+      recap: [
+        'Longsor bawah laut terjadi pada lereng yang curam, biasanya dipicu gempa atau letusan.',
+        'Makin banyak material yang longsor, makin besar air yang terdorong.',
+        'Sumbernya dekat pantai, sehingga gelombang bisa tiba hanya dalam beberapa menit.'
+      ]
+    },
+    {
+      id: 'm4', phase: 'Simulasi', icon: 'meteor', type: 'simMeteor',
+      title: 'Simulasi Hantaman Meteor',
+      mission: 'Jatuhkan meteor dengan ukuran dan tempat jatuh yang berbeda.',
+      how: simHow('Jatuhkan meteor!'),
+      recap: [
+        'Meteor kecil biasanya hancur dan meledak di udara.',
+        'Meteor besar yang jatuh di laut bisa memindahkan air seketika dan memicu tsunami.',
+        'Tsunami karena meteor sangat jarang. Penyebab paling sering tetap gempa bawah laut.'
+      ]
+    },
+    {
+      id: 'm5', phase: 'Simulasi', icon: 'ripple', type: 'simSpeed',
+      title: 'Simulasi Perambatan Gelombang',
+      mission: 'Ubah kedalaman laut dan hitung kecepatan serta tinggi gelombang tsunami.',
+      how: simHow('Lepas gelombang'),
+      recap: [
+        'Kecepatan tsunami = akar(9,81 × kedalaman laut). Di laut 4.000 m kecepatannya lebih dari 700 km/jam.',
+        'Di laut dalam gelombangnya rendah sehingga hampir tidak terasa oleh kapal.',
+        'Mendekati pantai yang dangkal, gelombang melambat dan menjulang tinggi.'
+      ]
+    },
+    {
+      id: 'm6', phase: 'Simulasi', icon: 'timer', type: 'simArrival',
+      title: 'Simulasi Waktu Tiba dan Evakuasi',
+      mission: 'Hitung kapan gelombang tiba dan apakah warga sempat sampai ke tempat aman.',
+      how: simHow('Hitung dan simulasikan'),
+      recap: [
+        'Waktu tiba gelombang = jarak sumber ÷ kecepatan gelombang. Sumber yang dekat berarti waktu yang sangat singkat.',
+        'Setiap menit menunda bisa menentukan selamat atau tidak.',
+        'Berjalan kaki ke tempat aman terdekat sering lebih cepat daripada naik mobil di jalan macet.'
+      ]
+    }
+  ];
+
   RESPONSE_LEVELS.forEach(lv => { lv.island = 'response'; });
+  SIM_LEVELS.forEach(lv => { lv.island = 'sim'; lv.phaseKey = 'sim'; });
   RECOVERY_LEVELS.forEach(lv => { lv.island = 'recovery'; lv.phaseKey = 'post'; });
   HISTORY_LEVELS.forEach(lv => { lv.island = 'history'; lv.phaseKey = 'hist'; });
   FINAL_LEVELS.forEach(lv => { lv.island = 'final'; lv.phaseKey = 'final'; });
-  const LEVELS = [...BASIC_LEVELS, ...STRUCT_LEVELS, ...NONSTRUCT_LEVELS, ...RESPONSE_LEVELS, ...RECOVERY_LEVELS, ...HISTORY_LEVELS, ...FINAL_LEVELS];
+  const LEVELS = [...BASIC_LEVELS, ...STRUCT_LEVELS, ...NONSTRUCT_LEVELS, ...RESPONSE_LEVELS, ...RECOVERY_LEVELS, ...HISTORY_LEVELS, ...SIM_LEVELS, ...FINAL_LEVELS];
   const LEVEL_BY_ID = Object.fromEntries(LEVELS.map(lv => [String(lv.id), lv]));
   const MAX_STARS = LEVELS.length * 3;
   const islandOf = lv => ISLANDS.find(is => is.id === lv.island);
@@ -2274,6 +2350,12 @@
   ];
 
   const PLAY = {
+    simQuake: lv => playSim(lv, SIM_QUAKE),
+    simVolcano: lv => playSim(lv, SIM_VOLCANO),
+    simSlide: lv => playSim(lv, SIM_SLIDE),
+    simMeteor: lv => playSim(lv, SIM_METEOR),
+    simSpeed: lv => playSim(lv, SIM_SPEED),
+    simArrival: lv => playSim(lv, SIM_ARRIVAL),
     recoverySteps: lv => playSequence(lv, RECOVERY_STEPS, 0),
     shelterPick: lv => playPick(lv, SHELTER_ITEMS, { hint: 'Ketuk semua kebutuhan utama di posko pengungsian.', count: 'Kebutuhan ditemukan', okTitle: 'Betul, itu kebutuhan utama!', badTitle: 'Bukan kebutuhan utama' }),
     firstAidQuiz: lv => playQuiz(lv, FIRSTAID_QS, 0),
@@ -2481,7 +2563,7 @@
     return i === 0 || starsOf(list[i - 1]) > 0;
   }
   const allDone = () => LEVELS.every(lv => starsOf(lv) > 0);
-  const SHORT_TAG = { basic: 'Dasar', struct: 'Struktural', nonstruct: 'Non-struktural', hist: 'Sejarah', final: 'Ujian' };
+  const SHORT_TAG = { basic: 'Dasar', struct: 'Struktural', nonstruct: 'Non-struktural', hist: 'Sejarah', sim: 'Simulasi', final: 'Ujian' };
   const shortTag = lv => SHORT_TAG[lv.phaseKey] || lv.phase;
   function updateHeader() {
     $('#starTotal').textContent = totalStars();
@@ -2611,13 +2693,14 @@
   // Peta Kepulauan: pulau-pulau di laut yang langsung diklik.
   // Posisi pulau (persen dari lebar/tinggi peta): peta lebar untuk layar besar, peta tinggi untuk HP.
   const ISLAND_SPOT = {
-    basic: { wide: [15, 17], tall: [32, 7] },
-    struct: { wide: [50, 16], tall: [68, 20.5] },
-    nonstruct: { wide: [85, 19], tall: [32, 34] },
-    response: { wide: [82, 50], tall: [68, 47.5] },
-    recovery: { wide: [48, 50], tall: [32, 61] },
-    history: { wide: [16, 54], tall: [68, 74.5] },
-    final: { wide: [50, 84], tall: [50, 89] }
+    basic: { wide: [15, 17], tall: [32, 6] },
+    struct: { wide: [50, 16], tall: [68, 18.5] },
+    nonstruct: { wide: [85, 19], tall: [32, 31] },
+    response: { wide: [82, 50], tall: [68, 43.5] },
+    recovery: { wide: [48, 50], tall: [32, 56] },
+    history: { wide: [16, 54], tall: [68, 68.5] },
+    sim: { wide: [28, 85], tall: [32, 81] },
+    final: { wide: [72, 84], tall: [56, 93] }
   };
   const MAP_HINT = 'Klik pulau yang ingin kamu jelajahi. Semua pulau bisa dibuka kapan saja.';
 
@@ -2660,8 +2743,8 @@
         <p>Klik pulau yang ingin kamu jelajahi. Setiap pulau berisi misi tentang satu jenis pengetahuan mitigasi.</p>
       </div>
       <div class="sea-map">
-        <svg class="sea-route wide" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true"><path d="M150 170 C280 80 400 100 500 160 C620 200 740 100 850 190 C960 280 900 420 820 500 C720 600 600 420 480 500 C380 570 280 420 160 540 C60 640 260 760 500 850"/></svg>
-        <svg class="sea-route tall" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true"><path d="M320 70 C600 80 760 120 680 205 C600 290 180 260 320 340 C460 420 820 390 680 475 C540 560 160 520 320 610 C480 700 840 660 680 745 C520 830 300 820 500 890"/></svg>
+        <svg class="sea-route wide" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true"><path d="M150 170 C280 80 400 100 500 160 C620 200 740 100 850 190 C960 280 900 420 820 500 C720 600 600 420 480 500 C380 570 280 420 160 540 C60 640 140 780 280 850 C420 920 580 920 720 840"/></svg>
+        <svg class="sea-route tall" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true"><path d="M320 60 C600 70 760 110 680 185 C600 260 180 230 320 310 C460 390 820 360 680 435 C540 510 160 480 320 560 C480 640 840 610 680 685 C520 760 160 730 320 810 C440 860 640 860 560 930"/></svg>
         <span class="sea-boat" aria-hidden="true">${ic('boat')}</span>
         <ol class="sea-islands">
           ${ISLANDS.map(is => {
@@ -2877,7 +2960,7 @@
           <p>yang telah menjelajahi ${ISLANDS.length} pulau, menyelesaikan ${LEVELS.length} misi mitigasi bencana tsunami, dan meraih <b>${total}</b> ${ic('star')}</p>
           <div class="cert-badges">
             <span>${ic('magnifier')} Ilmu tsunami</span><span>${ic('seawall')} Mitigasi struktural</span><span>${ic('siren')} Mitigasi non-struktural</span>
-            <span>${ic('lifebuoy')} Tanggap bencana</span><span>${ic('tent')} Pemulihan</span><span>${ic('book')} Sejarah tsunami</span>
+            <span>${ic('lifebuoy')} Tanggap bencana</span><span>${ic('tent')} Pemulihan</span><span>${ic('book')} Sejarah tsunami</span><span>${ic('timer')} Simulasi</span>
           </div>
         </div>
         <div class="row center">
@@ -3369,6 +3452,452 @@
     sync();
     showGoal();
   }
+
+  /* ================= Mesin simulasi (Pulau Simulasi) ================= */
+
+  // Simulasi umum: pemain mengatur kontrol, menjalankan simulasi, lalu melihat animasi, perhitungan, dan alasannya.
+  // cfg: scene() → SVG, controls[], init{}, paint(svg, st) untuk pratinjau, compute(st) → hasil, goals[], run [label, ikon].
+  // Hasil compute: { tsunami, danger, title, h (tinggi gelombang 0–1,8), cls[], rows: [[ok, label, teks]] }.
+  function playSim(lv, cfg) {
+    const st = Object.assign({}, cfg.init);
+    let goal = 0, busy = false, over = false;
+    const ctl = c => c.type === 'seg'
+      ? `<div class="lab-ctl"><span class="lab-lbl">${esc(c.label)}</span>
+          <div class="seg" role="group" aria-label="${esc(c.label)}">${c.options.map(([v, t, i]) =>
+            `<button type="button" data-k="${c.key}" data-v="${v}">${i ? ic(i) : ''} ${esc(t)}</button>`).join('')}</div></div>`
+      : `<label class="lab-ctl"><span class="lab-lbl">${esc(c.label)}: <b data-out="${c.key}"></b></span>
+          <input type="range" data-k="${c.key}" min="${c.min}" max="${c.max}" step="${c.step}" value="${st[c.key]}">
+          <span class="lab-scale"><span>${esc(c.fmt(c.min))}</span><span>${esc(c.fmt(c.max))}</span></span></label>`;
+    $('#stage').innerHTML = `
+      <div class="lab sim card">
+        <div class="lab-goal"><span class="lab-goal-n" id="simGoalN"></span><p id="simGoal"></p></div>
+        <div class="lab-scene sim-scene" id="simScene">${cfg.scene()}<p class="lab-result" id="simResult" aria-live="polite"></p></div>
+        <div class="lab-controls">${cfg.controls.map(ctl).join('')}</div>
+        <ul class="lab-checks" id="simChecks" hidden></ul>
+        <div class="row center"><button class="btn big" id="simBtn" type="button">${ic(cfg.run[1])} ${esc(cfg.run[0])}</button></div>
+      </div>`;
+    const scene = $('#simScene');
+    const svgEl = scene.querySelector('svg');
+
+    function sync() {
+      cfg.controls.forEach(c => {
+        if (c.type === 'seg') return;
+        $(`[data-out="${c.key}"]`).textContent = c.fmt(st[c.key]);
+      });
+      $$('.sim .seg button').forEach(b => b.setAttribute('aria-pressed', String(String(st[b.dataset.k]) === b.dataset.v)));
+      if (cfg.paint) cfg.paint(svgEl, st);
+    }
+    function showGoal() {
+      $('#simGoalN').textContent = `Tantangan ${goal + 1} dari ${cfg.goals.length}`;
+      $('#simGoal').textContent = cfg.goals[goal].text;
+    }
+    $$('.sim .seg button').forEach(b => b.addEventListener('click', () => {
+      if (busy || over) return;
+      const c = cfg.controls.find(x => x.key === b.dataset.k);
+      st[c.key] = c.num ? Number(b.dataset.v) : b.dataset.v;
+      sfx.click();
+      sync();
+    }));
+    $$('.sim input[type="range"]').forEach(inp => inp.addEventListener('input', () => {
+      st[inp.dataset.k] = Number(inp.value);
+      sync();
+    }));
+
+    $('#simBtn').addEventListener('click', () => {
+      if (busy || over) return;
+      busy = true;
+      const r = cfg.compute(Object.assign({}, st));
+      scene.className = 'lab-scene sim-scene';
+      scene.style.setProperty('--h', String(r.h || 0));
+      if (r.vars) Object.entries(r.vars).forEach(([k, v]) => scene.style.setProperty(k, v));
+      void scene.offsetWidth;
+      scene.classList.add('run', ...(r.cls || []));
+      if (r.tsunami) scene.classList.add('tsunami');
+      $('#simResult').textContent = '';
+      $('#simResult').className = 'lab-result';
+      $('#simChecks').hidden = true;
+      $('#simBtn').disabled = true;
+      sfx.click();
+      later(() => {
+        $('#simResult').textContent = r.title;
+        $('#simResult').className = 'lab-result ' + (r.danger ? 'yes' : 'no');
+        $('#simChecks').innerHTML = r.rows.map(([ok, label, txt]) =>
+          `<li class="${ok === null ? 'info' : ok ? 'ok' : 'no'}">${ic(ok === null ? 'bulb' : ok ? 'check' : 'cross')}<span><b>${esc(label)}:</b> ${esc(txt)}</span></li>`).join('');
+        $('#simChecks').hidden = false;
+        const g = cfg.goals[goal];
+        if (g.check(r, st)) {
+          sfx.good();
+          goal++;
+          if (goal === cfg.goals.length) {
+            over = true;
+            showFeedback({ good: true, title: 'Semua tantangan selesai!', text: cfg.doneText });
+            later(() => finishLevel(lv, lives), 2400);
+          } else {
+            showFeedback({ good: true, title: 'Tantangan berhasil!', text: g.why || 'Baca hasil perhitungan di bawah, lalu lanjut ke tantangan berikutnya.' });
+            showGoal();
+          }
+        } else {
+          setLives(lives - 1);
+          showFeedback({ good: false, title: 'Belum sesuai tantangan', text: g.hint });
+          if (lives <= 0) { over = true; later(() => failLevel(lv), 1900); }
+        }
+        busy = false;
+        $('#simBtn').disabled = over;
+      }, cfg.wait || 2600);
+    });
+
+    sync();
+    showGoal();
+  }
+
+  /* ----- Potongan gambar penampang untuk simulasi (600×260, permukaan laut di y = 70) ----- */
+
+  const SIM_SKY = '<rect x="0" y="0" width="600" height="260" fill="#d6efff"/>';
+  const SIM_SEA = '<rect x="0" y="70" width="460" height="200" fill="#2f8ee0"/>';
+  const SIM_SURFACE = '<path d="M0 70 H452" stroke="#fff" stroke-width="3"/>';
+  const SIM_COAST = `<path d="M430 280 L452 70 H620 V280 Z" fill="#c9965f" stroke="#23263a" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M452 70 H620 V84 H449 Z" fill="#7cd35a" stroke="#23263a" stroke-width="3" stroke-linejoin="round"/>
+    <rect x="476" y="50" width="22" height="20" fill="#fffaf0" stroke="#23263a" stroke-width="3"/><path d="M472 52 L487 38 L502 52 Z" fill="#ff6b6b" stroke="#23263a" stroke-width="3" stroke-linejoin="round"/>
+    <rect x="536" y="50" width="22" height="20" fill="#fffaf0" stroke="#23263a" stroke-width="3"/><path d="M532 52 L547 38 L562 52 Z" fill="#ffc93c" stroke="#23263a" stroke-width="3" stroke-linejoin="round"/>`;
+  // Punuk gelombang berpusat di x = 0; CSS menggesernya dari --sx ke pantai dan menskalakan tingginya dengan --h.
+  const simWave = sx => `<g class="sim-wave" style="--sx:${sx}px"><path d="M-70 70 C-36 70 -24 34 0 34 C24 34 36 70 70 70 Z" fill="#1565b8" stroke="#23263a" stroke-width="3"/>
+    <path d="M-14 40 C-6 36 4 36 12 40" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/></g>`;
+  const simLabels = (bed = 'DASAR LAUT', y = 228) => `<g font-size="15" font-weight="700" fill="#fff"><text x="24" y="100">LAUT</text><text x="24" y="${y}">${bed}</text></g>
+    <text x="530" y="150" font-size="15" font-weight="700" fill="#23263a" text-anchor="middle">DARAT</text>`;
+  const sizeName = { kecil: 'kecil', sedang: 'sedang', besar: 'besar' };
+  const SIZE_H = { kecil: .55, sedang: .9, besar: 1.35 };
+  const fmt1 = n => n.toFixed(1).replace('.', ',');
+  const fmtInt = n => Math.round(n).toLocaleString('id-ID');
+
+  /* ----- 1. Gempa tektonik ----- */
+  const SIM_QUAKE = {
+    run: ['Picu gempa!', 'tectonic'],
+    init: { sea: 'sea', move: 'up', mag: 7.2, depth: 30 },
+    controls: [
+      { type: 'seg', key: 'sea', label: 'Lokasi pusat gempa', options: [['sea', 'Di laut', 'wave'], ['land', 'Di darat', 'house']] },
+      { type: 'seg', key: 'move', label: 'Gerakan lempeng', options: [['up', 'Naik-turun', 'arrow-up'], ['side', 'Mendatar', 'arrow-right']] },
+      { type: 'range', key: 'mag', label: 'Magnitudo', min: 5, max: 9.5, step: 0.1, fmt: fmt1 },
+      { type: 'range', key: 'depth', label: 'Kedalaman pusat gempa', min: 10, max: 300, step: 10, fmt: v => `${v} km` }
+    ],
+    scene: () => `<svg class="lab-svg" viewBox="0 0 600 260" role="img" aria-label="Penampang laut dengan dua lempeng dasar laut">
+      ${SIM_SKY}${SIM_SEA}${simWave(232)}${SIM_SURFACE}
+      <g class="plate-a"><rect x="-20" y="190" width="262" height="90" fill="#b07a4f" stroke="#23263a" stroke-width="3"/></g>
+      <g class="plate-b"><path d="M232 190 H436 L430 280 H232 Z" fill="#c9965f" stroke="#23263a" stroke-width="3" stroke-linejoin="round"/></g>
+      ${SIM_COAST}
+      <g id="simEpi"><circle class="lab-ring" r="14" fill="none" stroke="#ff6b6b" stroke-width="3"/><circle class="lab-ring r2" r="14" fill="none" stroke="#ff6b6b" stroke-width="3"/>
+        <path d="M0 -11 L3.2 -3.5 L11 -3.4 L5 1.8 L7 9.6 L0 5.2 L-7 9.6 L-5 1.8 L-11 -3.4 L-3.2 -3.5 Z" fill="#ffc93c" stroke="#23263a" stroke-width="2.5" stroke-linejoin="round"/></g>
+      ${simLabels()}</svg>`,
+    paint: (svg, st) => {
+      const x = st.sea === 'sea' ? 232 : 530;
+      const y = st.sea === 'sea' ? 196 + (st.depth - 10) / 290 * 58 : 96 + (st.depth - 10) / 290 * 150;
+      svg.querySelector('#simEpi').setAttribute('transform', `translate(${x} ${Math.round(y)})`);
+    },
+    compute: st => {
+      const sea = st.sea === 'sea', up = st.move === 'up';
+      const tsunami = sea && up && st.mag > 7 && st.depth < 70;
+      const size = !tsunami ? '' : st.mag >= 8.5 ? 'besar' : st.mag >= 7.8 ? 'sedang' : 'kecil';
+      return {
+        tsunami, danger: tsunami, size, h: SIZE_H[size] || 0, cls: ['shake', up ? 'lift' : 'slide'],
+        title: tsunami ? `Tsunami ${sizeName[size]} terbentuk!` : 'Tidak terjadi tsunami.',
+        rows: [
+          [sea, 'Lokasi', sea ? 'di laut, air laut bisa terdorong' : 'di darat, air laut tidak terdorong'],
+          [st.mag > 7, `Magnitudo ${fmt1(st.mag)}`, st.mag > 7 ? 'cukup kuat (lebih dari 7,0)' : 'kurang kuat (7,0 atau kurang)'],
+          [st.depth < 70, `Kedalaman ${st.depth} km`, st.depth < 70 ? 'dangkal (kurang dari 70 km)' : 'terlalu dalam (70 km atau lebih)'],
+          [up, 'Gerakan', up ? 'naik-turun, mendorong kolom air' : 'mendatar, air hampir tidak terdorong'],
+          [null, 'Perkiraan ukuran', tsunami ? `tsunami ${size}: makin besar magnitudonya, makin banyak air yang terdorong` : 'tidak ada gelombang tsunami']
+        ]
+      };
+    },
+    goals: [
+      { text: 'Buat tsunami BESAR seperti Aceh 2004 (magnitudo 8,5 atau lebih).', check: r => r.tsunami && r.size === 'besar',
+        hint: 'Pusat gempa di laut, dangkal (kurang dari 70 km), gerakan naik-turun, dan magnitudo 8,5 atau lebih.' },
+      { text: 'Buat tsunami KECIL: semua syarat terpenuhi, tetapi magnitudo di bawah 7,8.', check: r => r.tsunami && r.size === 'kecil',
+        hint: 'Tetap di laut, dangkal, dan naik-turun. Atur magnitudo di antara 7,1 dan 7,7.' },
+      { text: 'Buat gempa sangat kuat (8,5 atau lebih) di darat. Apakah memicu tsunami?', check: (r, st) => st.sea === 'land' && st.mag >= 8.5 && !r.tsunami,
+        hint: 'Pilih lokasi di darat dan naikkan magnitudo sampai 8,5 atau lebih.' }
+    ],
+    doneText: 'Gempa tektonik memicu tsunami jika terjadi di laut, dangkal, kuat, dan menggeser dasar laut naik-turun.'
+  };
+
+  /* ----- 2. Letusan gunung api ----- */
+  const VOLC_NAMES = ['', 'sangat kecil', 'kecil', 'sedang', 'besar', 'dahsyat'];
+  const SIM_VOLCANO = {
+    run: ['Letuskan gunung!', 'volcano'],
+    init: { loc: 'sea', power: 3, event: 'erupt' },
+    controls: [
+      { type: 'seg', key: 'loc', label: 'Lokasi gunung api', options: [['sea', 'Di laut', 'wave'], ['land', 'Di daratan', 'mountain']] },
+      { type: 'seg', key: 'event', label: 'Yang terjadi', options: [['erupt', 'Hanya meletus', 'volcano'], ['collapse', 'Tubuh gunung longsor ke laut', 'landslide']] },
+      { type: 'range', key: 'power', label: 'Kekuatan letusan', min: 1, max: 5, step: 1, fmt: v => VOLC_NAMES[v] }
+    ],
+    scene: () => `<svg class="lab-svg" viewBox="0 0 600 260" role="img" aria-label="Penampang laut dengan gunung api di laut dan di daratan">
+      ${SIM_SKY}${SIM_SEA}${simWave(200)}
+      <rect x="-10" y="210" width="450" height="60" fill="#b07a4f" stroke="#23263a" stroke-width="3"/>
+      <g id="volcSea">
+        <path d="M110 212 L178 46 H222 L290 212 Z" fill="#8a6a5a" stroke="#23263a" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M178 46 C184 56 192 52 200 60 C208 52 216 56 222 46 Z" fill="#ff8a3d" stroke="#23263a" stroke-width="2.5" stroke-linejoin="round"/>
+        <g class="sim-chunk"><path d="M222 46 L290 212 H250 L216 90 Z" fill="#9c7a68" stroke="#23263a" stroke-width="3" stroke-linejoin="round"/></g>
+        <g class="sim-plume" style="--px:200px;--py:40px"><circle cx="200" cy="30" r="12" fill="#c9ccd8" stroke="#23263a" stroke-width="2.5"/><circle cx="186" cy="16" r="10" fill="#c9ccd8" stroke="#23263a" stroke-width="2.5"/><circle cx="214" cy="12" r="11" fill="#c9ccd8" stroke="#23263a" stroke-width="2.5"/></g>
+      </g>
+      ${SIM_SURFACE}${SIM_COAST}
+      <g id="volcLand">
+        <path d="M486 84 L520 30 H540 L574 84 Z" fill="#8a6a5a" stroke="#23263a" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M520 30 C524 36 528 34 530 40 C532 34 536 36 540 30 Z" fill="#ff8a3d" stroke="#23263a" stroke-width="2.5" stroke-linejoin="round"/>
+        <g class="sim-plume" style="--px:530px;--py:24px"><circle cx="530" cy="16" r="9" fill="#c9ccd8" stroke="#23263a" stroke-width="2.5"/><circle cx="518" cy="6" r="8" fill="#c9ccd8" stroke="#23263a" stroke-width="2.5"/><circle cx="542" cy="4" r="8" fill="#c9ccd8" stroke="#23263a" stroke-width="2.5"/></g>
+      </g>
+      ${simLabels('DASAR LAUT', 240)}</svg>`,
+    paint: (svg, st) => {
+      svg.querySelector('#volcSea').style.display = st.loc === 'sea' ? '' : 'none';
+      svg.querySelector('#volcLand').style.display = st.loc === 'land' ? '' : 'none';
+      svg.querySelectorAll('.sim-plume').forEach(p => p.style.setProperty('--p', String(.5 + st.power * .25)));
+    },
+    compute: st => {
+      const sea = st.loc === 'sea', big = st.power >= 5, collapse = st.event === 'collapse';
+      const tsunami = sea && (big || collapse);
+      const size = !tsunami ? '' : big && collapse ? 'besar' : 'sedang';
+      return {
+        tsunami, danger: tsunami, size, h: SIZE_H[size] || 0, cls: ['erupt', collapse && sea ? 'collapse' : ''].filter(Boolean),
+        title: tsunami ? `Tsunami ${size} terbentuk!` : 'Tidak terjadi tsunami.',
+        rows: [
+          [sea, 'Lokasi', sea ? 'gunung api di laut, letusan dan longsoran bisa mendorong air' : 'gunung api di daratan, material tidak masuk ke laut'],
+          [big, `Letusan ${VOLC_NAMES[st.power]}`, big ? 'letusan dahsyat dan runtuhnya kaldera bisa mendesak massa air' : 'letusannya tidak cukup kuat untuk mendesak massa air'],
+          [collapse, 'Longsoran', collapse ? 'sebagian tubuh gunung longsor dan menghantam air' : 'tidak ada bagian gunung yang longsor'],
+          [null, 'Contoh nyata', 'Krakatau 1883 (letusan dahsyat) dan Anak Krakatau 2018 (longsoran tubuh gunung)']
+        ]
+      };
+    },
+    goals: [
+      { text: 'Tiru Krakatau 1883: gunung api di laut, letusan dahsyat, dan tubuh gunung runtuh ke laut.', check: (r, st) => r.tsunami && st.power === 5 && st.event === 'collapse',
+        hint: 'Pilih Di laut, Tubuh gunung longsor ke laut, dan geser kekuatan letusan sampai dahsyat.' },
+      { text: 'Tiru Anak Krakatau 2018: letusannya TIDAK dahsyat, tetapi tubuh gunung longsor ke laut.', check: (r, st) => r.tsunami && st.power < 5 && st.event === 'collapse',
+        hint: 'Tetap di laut dan pilih longsor ke laut, lalu turunkan kekuatan letusan di bawah dahsyat.' },
+      { text: 'Buat letusan dahsyat yang TIDAK memicu tsunami.', check: (r, st) => st.power === 5 && !r.tsunami,
+        hint: 'Letusan dahsyat di laut bisa memicu tsunami. Coba pindahkan gunung api ke daratan.' }
+    ],
+    doneText: 'Gunung api memicu tsunami jika berada di laut atau tepi pantai dan letusan atau longsorannya mendesak massa air.'
+  };
+
+  /* ----- 3. Longsor bawah laut ----- */
+  const VOL_NAMES = ['', 'sangat sedikit', 'sedikit', 'sedang', 'banyak', 'sangat banyak'];
+  const SIM_SLIDE = {
+    run: ['Jalankan simulasi', 'landslide'],
+    init: { slope: 12, vol: 3, trig: 'quake' },
+    controls: [
+      { type: 'range', key: 'slope', label: 'Kemiringan lereng dasar laut', min: 5, max: 40, step: 1, fmt: v => `${v}°` },
+      { type: 'range', key: 'vol', label: 'Banyaknya material lereng', min: 1, max: 5, step: 1, fmt: v => VOL_NAMES[v] },
+      { type: 'seg', key: 'trig', label: 'Pemicu', options: [['quake', 'Gempa', 'quake'], ['volcano', 'Letusan', 'volcano'], ['none', 'Tidak ada', 'no-entry']] }
+    ],
+    scene: () => `<svg class="lab-svg" viewBox="0 0 600 260" role="img" aria-label="Penampang lereng dasar laut dengan material yang bisa longsor">
+      ${SIM_SKY}${SIM_SEA}${simWave(330)}${SIM_SURFACE}
+      <path id="slopeBed" d="" fill="#b07a4f" stroke="#23263a" stroke-width="3" stroke-linejoin="round"/>
+      <g class="sim-mass"><g id="slideMass"><path d="M-30 0 C-28 -14 -10 -20 4 -16 C16 -22 30 -12 30 0 Z" fill="#d9a46a" stroke="#23263a" stroke-width="3" stroke-linejoin="round"/>
+        <circle cx="-12" cy="-8" r="3" fill="#8a5a3a"/><circle cx="10" cy="-9" r="2.5" fill="#8a5a3a"/></g></g>
+      ${SIM_COAST}${simLabels('LERENG', 246)}</svg>`,
+    paint: (svg, st) => {
+      // Lereng: dari dasar laut dalam (y 240) naik ke tepi pantai (436, 110). Makin miring, makin pendek lerengnya.
+      const rad = st.slope * Math.PI / 180;
+      const x0 = Math.max(40, 436 - 130 / Math.tan(rad));
+      svg.querySelector('#slopeBed').setAttribute('d', `M-10 280 V240 H${Math.round(x0)} L436 110 L430 280 Z`);
+      // Material diletakkan di bagian atas lereng, ukurannya mengikuti banyaknya material.
+      const t = .22, mx = 436 - (436 - x0) * t, my = 110 + 130 * t;
+      const s = .55 + st.vol * .18;
+      svg.querySelector('#slideMass').setAttribute('transform', `translate(${Math.round(mx)} ${Math.round(my)}) rotate(${-st.slope}) scale(${s})`);
+      // Jarak luncur material saat longsor: menuruni lereng sampai dasar.
+      const dx = -(mx - x0) * .8, dy = (240 - my) * .8;
+      svg.closest('.sim-scene').style.setProperty('--dx', `${Math.round(dx)}px`);
+      svg.closest('.sim-scene').style.setProperty('--dy', `${Math.round(dy)}px`);
+    },
+    compute: st => {
+      const slide = (st.slope >= 20 && st.trig !== 'none') || st.slope >= 35;
+      const tsunami = slide && st.vol >= 3;
+      const size = !tsunami ? '' : st.vol === 5 ? 'besar' : st.vol === 4 ? 'sedang' : 'kecil';
+      return {
+        tsunami, danger: tsunami, size, h: SIZE_H[size] || 0, cls: [st.trig === 'quake' ? 'shake' : '', slide ? 'slide-go' : ''].filter(Boolean),
+        title: tsunami ? `Longsor! Tsunami ${size} terbentuk.` : slide ? 'Longsor kecil, tidak ada tsunami.' : 'Lereng tetap stabil.',
+        rows: [
+          [st.slope >= 20, `Kemiringan ${st.slope}°`, st.slope >= 20 ? 'lereng curam, material mudah meluncur' : 'lereng landai, material tertahan'],
+          [st.trig !== 'none' || st.slope >= 35, 'Pemicu', st.trig === 'quake' ? 'guncangan gempa melepaskan material' : st.trig === 'volcano' ? 'letusan gunung api mengguncang lereng' : st.slope >= 35 ? 'tanpa pemicu, tetapi lereng sangat curam sehingga runtuh sendiri' : 'tidak ada guncangan yang melepaskan material'],
+          [st.vol >= 3, `Material ${VOL_NAMES[st.vol]}`, st.vol >= 3 ? 'cukup banyak untuk mendorong massa air' : 'terlalu sedikit untuk membentuk tsunami'],
+          [null, 'Ingat', 'tsunami longsor biasanya dekat pantai, jadi datang sangat cepat']
+        ]
+      };
+    },
+    goals: [
+      { text: 'Picu longsor bawah laut yang menimbulkan tsunami.', check: r => r.tsunami,
+        hint: 'Buat lereng curam (20° atau lebih), pilih pemicu, dan beri material yang cukup banyak (sedang atau lebih).' },
+      { text: 'Buat lereng landai (di bawah 20°), lalu picu gempa. Apakah materialnya longsor?', check: (r, st) => st.slope < 20 && st.trig === 'quake' && !r.tsunami,
+        hint: 'Geser kemiringan di bawah 20° dan pilih pemicu Gempa.' },
+      { text: 'Buat longsor dengan material sedikit (sangat sedikit atau sedikit). Apakah tsunami terbentuk?', check: (r, st) => st.vol <= 2 && st.slope >= 20 && st.trig !== 'none' && !r.tsunami,
+        hint: 'Lereng tetap curam dengan pemicu, tetapi turunkan banyaknya material ke sedikit.' }
+    ],
+    doneText: 'Longsor bawah laut memicu tsunami jika lereng curam, ada pemicu, dan materialnya banyak. Gelombangnya bisa tiba sangat cepat.'
+  };
+
+  /* ----- 4. Hantaman meteor ----- */
+  const SIM_METEOR = {
+    run: ['Jatuhkan meteor!', 'meteor'],
+    init: { size: 100, loc: 'sea' },
+    controls: [
+      { type: 'range', key: 'size', label: 'Ukuran meteor', min: 10, max: 1000, step: 10, fmt: v => `${fmtInt(v)} m` },
+      { type: 'seg', key: 'loc', label: 'Tempat jatuh', options: [['sea', 'Laut dalam', 'wave'], ['land', 'Daratan', 'house']] }
+    ],
+    scene: () => `<svg class="lab-svg" viewBox="0 0 600 260" role="img" aria-label="Penampang laut dan daratan dengan meteor yang jatuh">
+      ${SIM_SKY}${SIM_SEA}${simWave(220)}${SIM_SURFACE}
+      <rect x="-10" y="226" width="450" height="44" fill="#b07a4f" stroke="#23263a" stroke-width="3"/>
+      ${SIM_COAST}
+      <g class="sim-splash" id="meteorHit"><circle cx="-14" cy="-8" r="9" fill="#fff" stroke="#23263a" stroke-width="2.5"/><circle cx="2" cy="-18" r="11" fill="#fff" stroke="#23263a" stroke-width="2.5"/><circle cx="18" cy="-8" r="8" fill="#fff" stroke="#23263a" stroke-width="2.5"/></g>
+      <g class="sim-meteor"><g id="meteorBody"><path d="M0 0 L-60 -40" stroke="#ffc93c" stroke-width="10" stroke-linecap="round"/><path d="M0 0 L-46 -30" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+        <circle r="12" fill="#8a6a5a" stroke="#23263a" stroke-width="3"/><circle cx="-3" cy="-3" r="3" fill="#5f4a3e"/></g></g>
+      ${simLabels('DASAR LAUT', 250)}</svg>`,
+    paint: (svg, st) => {
+      const x = st.loc === 'sea' ? 220 : 530, y = st.loc === 'sea' ? 70 : 72;
+      const s = .45 + Math.sqrt(st.size / 1000) * 1.2;
+      svg.querySelector('#meteorBody').setAttribute('transform', `scale(${s.toFixed(2)})`);
+      svg.querySelector('#meteorHit').setAttribute('transform', `translate(${x} ${y}) scale(${s.toFixed(2)})`);
+      const sc = svg.closest('.sim-scene');
+      sc.style.setProperty('--mx', `${x}px`);
+      sc.style.setProperty('--my', `${y}px`);
+    },
+    compute: st => {
+      const burn = st.size < 60, sea = st.loc === 'sea';
+      const tsunami = !burn && sea && st.size >= 200;
+      const size = !tsunami ? '' : st.size >= 600 ? 'besar' : 'sedang';
+      return {
+        tsunami, danger: tsunami, size, h: SIZE_H[size] || 0, cls: [burn ? 'burn' : 'impact'],
+        title: burn ? 'Meledak di udara.' : tsunami ? `Tsunami ${size} terbentuk!` : sea ? 'Gelombang kecil, cepat melemah.' : 'Terbentuk kawah, tidak ada tsunami.',
+        rows: [
+          [!burn, `Ukuran ${fmtInt(st.size)} m`, burn ? 'kecil, sehingga hancur dan meledak di udara sebelum menyentuh permukaan' : 'cukup besar untuk mencapai permukaan bumi'],
+          [sea, 'Tempat jatuh', sea ? 'di laut, sehingga memindahkan air seketika' : 'di daratan, sehingga hanya membentuk kawah'],
+          [st.size >= 200, 'Daya dorong', st.size >= 200 ? 'cukup besar untuk membentuk tsunami' : 'gelombang yang terbentuk kecil dan cepat melemah'],
+          [null, 'Ingat', 'tsunami karena meteor sangat jarang terjadi dibanding karena gempa']
+        ]
+      };
+    },
+    goals: [
+      { text: 'Buat meteor yang memicu tsunami.', check: r => r.tsunami,
+        hint: 'Meteor harus jatuh di laut dan cukup besar (200 m atau lebih).' },
+      { text: 'Buat meteor kecil yang meledak di udara sebelum menyentuh permukaan.', check: (r, st) => st.size < 60,
+        hint: 'Perkecil ukuran meteor sampai di bawah 60 m.' },
+      { text: 'Jatuhkan meteor besar (500 m atau lebih) di daratan. Apakah ada tsunami?', check: (r, st) => st.loc === 'land' && st.size >= 500 && !r.tsunami,
+        hint: 'Pilih Daratan dan perbesar ukuran meteor sampai 500 m atau lebih.' }
+    ],
+    doneText: 'Meteor bisa memicu tsunami jika cukup besar dan jatuh di laut, tetapi kejadiannya sangat jarang.'
+  };
+
+  /* ----- 5. Perambatan: laut dalam ke pantai ----- */
+  // Rumus perairan dangkal: kecepatan = akar(g × kedalaman). Tinggi memakai hukum Green (disederhanakan): naik saat laut makin dangkal.
+  const waveSpeed = depth => Math.sqrt(9.81 * depth) * 3.6;
+  const waveHeight = depth => .5 * Math.pow(4000 / depth, .25);
+  const SIM_SPEED = {
+    run: ['Lepas gelombang', 'ripple'],
+    init: { depth: 1000 },
+    controls: [
+      { type: 'range', key: 'depth', label: 'Kedalaman laut', min: 10, max: 7000, step: 10, fmt: v => `${fmtInt(v)} m` }
+    ],
+    scene: () => `<svg class="lab-svg" viewBox="0 0 600 260" role="img" aria-label="Penampang laut dengan kedalaman yang bisa diatur">
+      ${SIM_SKY}<rect x="0" y="70" width="600" height="200" fill="#2f8ee0"/>${simWave(40)}<path d="M0 70 H600" stroke="#fff" stroke-width="3"/>
+      <path id="speedBed" d="" fill="#b07a4f" stroke="#23263a" stroke-width="3"/>
+      <g font-size="15" font-weight="700" fill="#fff"><text x="20" y="100">LAUT</text></g>
+      <g id="speedGauge"><rect x="404" y="88" width="182" height="64" rx="12" fill="#fff" stroke="#23263a" stroke-width="3"/>
+        <text id="speedTxt" x="495" y="114" font-size="17" font-weight="700" text-anchor="middle" fill="#23263a"></text>
+        <text id="heightTxt" x="495" y="138" font-size="14" font-weight="600" text-anchor="middle" fill="#5d6278"></text></g></svg>`,
+    paint: (svg, st) => {
+      const y = 100 + Math.sqrt(st.depth / 7000) * 150;
+      svg.querySelector('#speedBed').setAttribute('d', `M-10 280 V${Math.round(y)} H610 V280 Z`);
+      svg.querySelector('#speedTxt').textContent = `±${fmtInt(waveSpeed(st.depth))} km/jam`;
+      svg.querySelector('#heightTxt').textContent = `tinggi ±${fmt1(waveHeight(st.depth))} m`;
+    },
+    compute: st => {
+      const kmh = waveSpeed(st.depth), h = waveHeight(st.depth);
+      const min100 = 100 / kmh * 60;
+      const jet = kmh > 700, car = kmh < 100;
+      return {
+        tsunami: true, danger: h > 2, h: Math.min(1.8, Math.max(.25, h / 1.4)), cls: [],
+        vars: { '--dur': `${Math.min(6, Math.max(1.2, 900 / kmh)).toFixed(2)}s` },
+        title: `±${fmtInt(kmh)} km/jam, tinggi ±${fmt1(h)} m`,
+        rows: [
+          [null, 'Kecepatan', `±${fmtInt(kmh)} km/jam${jet ? ', secepat pesawat jet' : car ? ', selambat mobil di jalan kota' : ''}`],
+          [null, 'Waktu tempuh 100 km', `±${fmtInt(min100)} menit`],
+          [null, 'Perkiraan tinggi', `±${fmt1(h)} m${h > 2 ? ', sangat berbahaya di pantai' : st.depth > 2000 ? ', hampir tidak terasa oleh kapal' : ''}`],
+          [null, 'Rumus', 'kecepatan = akar(9,81 × kedalaman). Makin dalam lautnya, makin cepat gelombangnya']
+        ]
+      };
+    },
+    wait: 2000,
+    goals: [
+      { text: 'Atur kedalaman laut sampai gelombang melaju lebih dari 700 km/jam, secepat pesawat jet.', check: (r, st) => waveSpeed(st.depth) > 700,
+        hint: 'Gelombang makin cepat di laut yang makin dalam. Geser kedalaman ke sekitar 4.000 m atau lebih.' },
+      { text: 'Atur kedalaman sampai gelombang melambat di bawah 100 km/jam, seperti saat mendekati pantai.', check: (r, st) => waveSpeed(st.depth) < 100,
+        hint: 'Gelombang melambat di laut dangkal. Geser kedalaman di bawah 80 m.' },
+      { text: 'Cari kedalaman tempat gelombang menjulang lebih dari 2 meter.', check: (r, st) => waveHeight(st.depth) > 2,
+        hint: 'Gelombang meninggi di perairan yang sangat dangkal. Geser kedalaman ke paling kecil.' }
+    ],
+    doneText: 'Di laut dalam tsunami melaju sangat cepat tetapi rendah. Di dekat pantai ia melambat dan menjulang.'
+  };
+
+  /* ----- 6. Waktu tiba gelombang vs waktu evakuasi ----- */
+  const EVAC_SPEED = { walk: 80, car: 30 }; // meter per menit: jalan cepat ±5 km/jam, mobil di jalan macet ±2 km/jam
+  const SIM_ARRIVAL = {
+    run: ['Hitung dan simulasikan', 'timer'],
+    init: { dist: 60, depth: 1000, home: 1200, mode: 'walk', delay: 0 },
+    controls: [
+      { type: 'range', key: 'dist', label: 'Jarak sumber gempa ke pantai', min: 10, max: 300, step: 10, fmt: v => `${v} km` },
+      { type: 'range', key: 'depth', label: 'Kedalaman laut rata-rata', min: 100, max: 4000, step: 100, fmt: v => `${fmtInt(v)} m` },
+      { type: 'range', key: 'home', label: 'Jarak rumah ke tempat aman', min: 200, max: 3000, step: 100, fmt: v => `${fmtInt(v)} m` },
+      { type: 'seg', key: 'mode', label: 'Cara evakuasi', options: [['walk', 'Jalan cepat', 'runner'], ['car', 'Mobil, jalan macet', 'car']] },
+      { type: 'seg', key: 'delay', label: 'Menunda berangkat', num: true, options: [['0', 'Langsung'], ['5', '5 menit'], ['10', '10 menit']] }
+    ],
+    scene: () => `<svg class="lab-svg" viewBox="0 0 600 260" role="img" aria-label="Diagram perbandingan waktu tiba gelombang dan waktu evakuasi">
+      <rect x="0" y="0" width="600" height="260" fill="#f4fbff"/>
+      <g font-size="15" font-weight="700" fill="#23263a">
+        <text x="20" y="40">Waktu tiba gelombang di pantai</text><text x="20" y="130">Waktu evakuasi sampai tempat aman</text></g>
+      <rect x="20" y="52" width="560" height="34" rx="10" fill="#e3e6ef" stroke="#23263a" stroke-width="2.5"/>
+      <rect x="20" y="142" width="560" height="34" rx="10" fill="#e3e6ef" stroke="#23263a" stroke-width="2.5"/>
+      <g class="sim-bar"><rect id="barWave" x="20" y="52" width="0" height="34" rx="10" fill="#2f8ee0" stroke="#23263a" stroke-width="2.5"/></g>
+      <g class="sim-bar b2"><rect id="barEvac" x="20" y="142" width="0" height="34" rx="10" fill="#7cd35a" stroke="#23263a" stroke-width="2.5"/></g>
+      <text id="txtWave" x="30" y="75" font-size="15" font-weight="700" fill="#fff"></text>
+      <text id="txtEvac" x="30" y="165" font-size="15" font-weight="700" fill="#23263a"></text>
+      <text id="txtGap" x="300" y="226" font-size="16" font-weight="700" text-anchor="middle" fill="#23263a"></text></svg>`,
+    paint: (svg, st) => {
+      const r = arrivalCalc(st);
+      const max = Math.max(r.arrive, r.evac, 10) * 1.1;
+      svg.querySelector('#barWave').setAttribute('width', String(Math.max(40, 560 * r.arrive / max)));
+      svg.querySelector('#barEvac').setAttribute('width', String(Math.max(40, 560 * r.evac / max)));
+      svg.querySelector('#txtWave').textContent = `${fmt1(r.arrive)} menit`;
+      svg.querySelector('#txtEvac').textContent = `${fmt1(r.evac)} menit`;
+      svg.querySelector('#txtGap').textContent = r.safe ? `Sempat! Sisa waktu ${fmt1(r.arrive - r.evac)} menit.` : `Tidak sempat! Kurang ${fmt1(r.evac - r.arrive)} menit.`;
+    },
+    compute: st => {
+      const r = arrivalCalc(st);
+      return {
+        tsunami: false, danger: !r.safe, h: 0, cls: [r.safe ? 'safe' : 'late'],
+        title: r.safe ? 'Warga sempat selamat.' : 'Warga tidak sempat!',
+        safe: r.safe,
+        rows: [
+          [null, 'Kecepatan gelombang', `±${fmtInt(r.kmh)} km/jam di laut sedalam ${fmtInt(st.depth)} m`],
+          [null, 'Gelombang tiba', `${st.dist} km ÷ ${fmtInt(r.kmh)} km/jam = ±${fmt1(r.arrive)} menit`],
+          [st.delay === 0, 'Menunda', st.delay === 0 ? 'langsung berangkat, tidak ada waktu terbuang' : `${st.delay} menit terbuang sebelum berangkat`],
+          [r.safe, 'Evakuasi', `${st.delay} menit menunda + ${fmtInt(st.home)} m ÷ ${EVAC_SPEED[st.mode]} m/menit = ±${fmt1(r.evac)} menit`]
+        ]
+      };
+    },
+    wait: 1600,
+    goals: [
+      { text: 'Sumber gempa 50 km atau lebih dekat ke pantai. Atur supaya warga tetap sempat sampai ke tempat aman.', check: (r, st) => st.dist <= 50 && r.safe,
+        hint: 'Gelombang dari sumber yang dekat tiba dalam beberapa menit. Pilih tempat aman yang dekat, jalan cepat, dan langsung berangkat.' },
+      { text: 'Dengan sumber yang tetap dekat (50 km atau kurang), tunda keberangkatan 10 menit. Apakah masih sempat?', check: (r, st) => st.dist <= 50 && st.delay === 10 && !r.safe,
+        hint: 'Pilih menunda 10 menit dan jaga jarak sumber gempa tetap 50 km atau kurang.' },
+      { text: 'Bandingkan: evakuasi dengan mobil saat jalan macet ke tempat aman yang jauhnya 1.000 m atau lebih.', check: (r, st) => st.mode === 'car' && st.home >= 1000 && !r.safe,
+        hint: 'Pilih Mobil, jalan macet, lalu atur jarak tempat aman 1.000 m atau lebih. Bandingkan waktunya.' }
+    ],
+    doneText: 'Makin dekat sumbernya, makin cepat gelombang tiba. Langsung berangkat, berjalan kaki, dan kenali tempat aman terdekat.'
+  };
+  function arrivalCalc(st) {
+    const kmh = waveSpeed(st.depth);
+    const arrive = st.dist / kmh * 60;
+    const evac = st.delay + st.home / EVAC_SPEED[st.mode];
+    return { kmh, arrive, evac, safe: evac < arrive };
+  }
+
 
   /* ================= Mesin "pilih semua yang benar" (dipakai Tanda Alam dll.) ================= */
 

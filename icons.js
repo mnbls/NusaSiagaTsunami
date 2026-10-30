@@ -351,6 +351,15 @@
       <path d="M38 96 V58" stroke-width="3"/><path d="M39 59 H56 L51 65 L56 71 H39 Z" fill="${C.grass}" stroke-width="2.5"/>
       <path d="M164 96 V58" stroke-width="3"/><path d="M163 59 H146 L151 65 L146 71 H163 Z" fill="${C.purple}" stroke-width="2.5"/>
       <path d="M150 34 L153 41 L160 42 L155 47 L156 54 L150 50 L144 54 L145 47 L140 42 L147 41 Z" fill="${C.sun}" stroke-width="2.5"/>`) },
+    // Laboratorium simulasi: layar grafik gelombang, gunung api kecil, dan meteor.
+    'island-sim': { vb: '0 0 200 130', body: isle(`
+      <path d="M28 94 L46 62 H54 L72 94 Z" fill="#8a6a5a"/><path d="M46 62 C48 67 51 65 50 70 C51 65 54 67 54 62 Z" fill="${C.orange}" stroke-width="2"/>
+      <circle cx="48" cy="50" r="5" fill="${C.grey}"/><circle cx="56" cy="44" r="4" fill="${C.grey}"/>
+      <path d="M100 96 V84" stroke-width="4"/><path d="M88 96 H112" stroke-width="3.5"/>
+      <rect x="74" y="44" width="52" height="40" rx="5" fill="#4b4f68"/><rect x="79" y="49" width="42" height="30" rx="3" fill="${C.sky}"/>
+      <path d="M82 70 H90 L94 58 L98 76 L102 64 H118" stroke="${C.coral}" stroke-width="2.5"/>
+      <path d="M140 94 C150 74 166 70 178 70 V94 Z" fill="#c9965f"/><path d="M150 82 C152 78 156 77 158 79" stroke-width="2.5"/>
+      <path d="M178 22 L156 40" stroke="${C.sun}" stroke-width="7"/><path d="M174 26 L160 37" stroke="${C.white}" stroke-width="2.5"/><circle cx="154" cy="42" r="6" fill="#8a6a5a"/>`) },
     'evac-map': { vb: '0 0 360 220', body: `
       <rect x="1.5" y="1.5" width="357" height="217" rx="14" fill="#d4f5c4"/>
       <rect x="40" y="2" width="112" height="216" fill="#ffd0d0" stroke="none"/><rect x="152" y="2" width="80" height="216" fill="#fff0b3" stroke="none"/>

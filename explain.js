@@ -386,10 +386,17 @@
     });
   }
 
-  // Enam pulau sebelumnya mengelilingi piala: semua materi diuji di sini.
+  function sceneSimLab() {
+    return orbit({
+      bg: '#f6fde0', tone: '#9cc531', center: 'monitor', label: 'Laboratorium tsunami',
+      cards: [['tectonic', 'Gempa', 'tektonik'], ['landslide', 'Longsor', 'bawah laut'], ['volcano', 'Letusan', 'gunung api'], ['meteor', 'Hantaman', 'meteor']]
+    });
+  }
+
+  // Tujuh pulau sebelumnya mengelilingi piala: semua materi diuji di sini.
   function sceneChampion() {
-    const items = [['magnifier', 'Ilmu'], ['seawall', 'Struktural'], ['siren', 'Non-struktural'], ['lifebuoy', 'Tanggap'], ['tent', 'Pemulihan'], ['book', 'Sejarah']];
-    const pos = i => { const a = -Math.PI / 2 + i * Math.PI / 3; return [240 + Math.cos(a) * 168, 136 + Math.sin(a) * 92]; };
+    const items = [['magnifier', 'Ilmu'], ['seawall', 'Struktural'], ['siren', 'Non-struktural'], ['lifebuoy', 'Tanggap'], ['tent', 'Pemulihan'], ['book', 'Sejarah'], ['monitor', 'Simulasi']];
+    const pos = i => { const a = -Math.PI / 2 + i * 2 * Math.PI / items.length; return [240 + Math.cos(a) * 168, 136 + Math.sin(a) * 92]; };
     return svg(`${sky('#e6fbf5')}
       <ellipse cx="240" cy="136" rx="168" ry="92" fill="none" stroke="#5cc9ad" stroke-width="4" stroke-dasharray="3 11" stroke-linecap="round" class="xp-dash" style="--p:14px"/>
       <circle class="xp-ringc" cx="240" cy="136" r="46" fill="none" stroke="${K.sun}" stroke-width="5"/>
@@ -405,7 +412,7 @@
         <path d="M180 156 H300" stroke="${K.ink}" stroke-width="2.5" stroke-dasharray="4 5"/>${text(240, 150, 'namamu di sini', 13, '#5d6278')}`)}
       ${[0, 1, 2].map(i => pop(1 + i * .4, icoG('star', 196 + i * 30, 166, 28))).join('')}
       ${pop(2.4, icoG('trophy', 330, 150, 56))}
-      ${chip(240, 242, 'Tuntaskan 70 misi untuk meraihnya', 2.8, '#fff4c2')}`);
+      ${chip(240, 242, 'Tuntaskan 76 misi untuk meraihnya', 2.8, '#fff4c2')}`);
   }
 
   /* ================= Naskah per pulau ================= */
@@ -575,19 +582,40 @@
       ]
     },
 
+    sim: {
+      name: 'Pulau Simulasi', theme: 'Simulasi Penyebab Tsunami',
+      slides: [
+        {
+          tag: 'Simulasi', phase: 'sim', title: 'Empat penyebab, satu laboratorium', scene: sceneSimLab,
+          alt: 'Layar laboratorium di tengah, dikelilingi empat penyebab tsunami: gempa tektonik, letusan gunung api, longsor bawah laut, dan meteor.',
+          text: 'Di pulau ini kamu jadi peneliti. Atur sendiri gempa, letusan gunung api, longsor bawah laut, dan meteor, lalu lihat kapan tsunami terbentuk dan seberapa besar.',
+          chips: [
+            { ic: 'tectonic', t: 'Ubah kontrolnya', d: 'Geser angka atau pilih tombol, misalnya magnitudo, kedalaman, atau ukuran meteor.' },
+            { ic: 'bulb', t: 'Baca hasilnya', d: 'Setiap simulasi menampilkan alasan dan perhitungan, bukan hanya benar atau salah.' }
+          ]
+        },
+        {
+          tag: 'Perhitungan', phase: 'sim', title: 'Hitung sebelum terlambat', scene: sceneTravel,
+          alt: 'Gelombang melaju dari laut dalam ke pantai, melambat dan meninggi.',
+          text: 'Dua simulasi terakhir memakai angka: kecepatan gelombang = akar(9,81 × kedalaman laut), dan waktu tiba = jarak ÷ kecepatan. Bandingkan dengan waktu yang kamu butuhkan untuk sampai ke tempat aman.',
+          note: 'Angka di simulasi ini disederhanakan untuk belajar, bukan untuk peringatan dini sungguhan. Peringatan resmi tetap dari BMKG.'
+        }
+      ]
+    },
+
     final: {
       name: 'Pulau Juara', theme: 'Ujian Akhir',
       slides: [
         {
           tag: 'Ujian akhir', phase: 'final', title: 'Semua pulau jadi satu', scene: sceneChampion,
-          alt: 'Piala di tengah dikelilingi enam ikon pulau: ilmu, struktural, non-struktural, tanggap, pemulihan, dan sejarah.',
-          text: 'Pulau Juara menggabungkan materi dari enam pulau sebelumnya. Soalnya campuran, dan beberapa misi punya waktu yang lebih ketat.',
+          alt: 'Piala di tengah dikelilingi tujuh ikon pulau: ilmu, struktural, non-struktural, tanggap, pemulihan, sejarah, dan simulasi.',
+          text: 'Pulau Juara menggabungkan materi dari tujuh pulau sebelumnya. Soalnya campuran, dan beberapa misi punya waktu yang lebih ketat.',
           note: 'Kalau ragu, kunjungi lagi pulau sebelumnya. Animasi penjelasannya bisa diputar ulang kapan saja.'
         },
         {
           tag: 'Sertifikat', phase: 'final', title: 'Raih gelar Pahlawan Siaga', scene: sceneCertificate,
           alt: 'Sertifikat Pahlawan Siaga Tsunami dengan tiga bintang dan sebuah piala.',
-          text: 'Selesaikan semua misi di ketujuh pulau untuk membuka sertifikat. Setelah itu, bagikan pengetahuanmu kepada keluarga dan teman.'
+          text: 'Selesaikan semua misi di kedelapan pulau untuk membuka sertifikat. Setelah itu, bagikan pengetahuanmu kepada keluarga dan teman.'
         }
       ]
     }
