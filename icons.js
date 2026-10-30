@@ -283,7 +283,17 @@
     'battery': { body: `<rect x="27" y="5" width="10" height="6" rx="1.5" fill="${C.grey}" stroke-width="2.5"/><rect x="14" y="10" width="36" height="48" rx="7" fill="#4b4f68"/>
       <path d="M35 18 L24 35 H32 L28 50 L41 31 H33 Z" fill="${C.sun}" stroke-width="2.5"/>` },
     'suitcase': { body: `<path d="M24 15 V9 H40 V15" stroke-width="3.5"/><path d="M14 15 C14 8 22 7 24 12 M40 12 C44 6 52 9 50 15" fill="${C.seaL}" stroke-width="2.5"/>
-      <rect x="8" y="15" width="48" height="40" rx="5" fill="${C.purple}"/><path d="M20 15 V55 M44 15 V55" stroke-width="3"/><circle cx="16" cy="57" r="2.5" fill="${C.ink}"/><circle cx="48" cy="57" r="2.5" fill="${C.ink}"/>` }
+      <rect x="8" y="15" width="48" height="40" rx="5" fill="${C.purple}"/><path d="M20 15 V55 M44 15 V55" stroke-width="3"/><circle cx="16" cy="57" r="2.5" fill="${C.ink}"/><circle cx="48" cy="57" r="2.5" fill="${C.ink}"/>` },
+    'tent': { body: `<path d="M4 56 H60" stroke="${C.greyD}"/><path d="M6 54 L32 10 L58 54 Z" fill="${C.orange}"/><path d="M32 10 L20 54 M32 10 L44 54" stroke-width="2.5"/>
+      <path d="M32 26 L24 54 H40 Z" fill="${C.sand}"/><path d="M32 10 V4" stroke-width="3"/><path d="M33 4 H42 L39 7 L42 10 H33 Z" fill="${C.coral}" stroke-width="2"/>` },
+    'gloves': { body: `<path d="M20 58 V34 C20 30 25 30 25 34 V16 C25 12 31 12 31 16 V30 V12 C31 8 37 8 37 12 V30 V15 C37 11 43 11 43 15 V32 V22 C43 18 49 18 49 22 V44 C49 52 43 58 35 58 Z" fill="${C.sun}"/>
+      <path d="M20 50 H48" stroke-width="2.5"/><path d="M25 34 C17 30 12 36 17 41 L22 46" fill="${C.sun}" stroke-width="3"/>` },
+    'boots': { body: `<path d="M16 6 H34 V38 L52 42 C57 43 59 47 59 51 V57 H16 Z" fill="${C.coral}"/><path d="M16 14 H34" stroke-width="2.5"/>
+      <path d="M16 50 H59" stroke-width="2.5"/><path d="M16 57 H59" stroke-width="5"/>` },
+    'calendar': { body: `<rect x="7" y="12" width="50" height="45" rx="6" fill="${C.white}"/><path d="M7 18 C7 14 10 12 13 12 H51 C54 12 57 14 57 18 V24 H7 Z" fill="${C.coral}"/>
+      <path d="M20 6 V16 M44 6 V16" stroke-width="4"/>
+      <g fill="${C.ink}" stroke="none"><circle cx="18" cy="33" r="2.6"/><circle cx="28" cy="33" r="2.6"/><circle cx="38" cy="33" r="2.6"/><circle cx="48" cy="33" r="2.6"/><circle cx="18" cy="43" r="2.6"/><circle cx="28" cy="43" r="2.6"/><circle cx="48" cy="43" r="2.6"/></g>
+      <circle cx="38" cy="43" r="5" fill="${C.sun}" stroke-width="2.5"/>` }
   };
 
   /* Ilustrasi besar (bukan ikon 64×64): pulau-pulau di peta dan peta jalur evakuasi. */
@@ -318,6 +328,29 @@
       <path d="M48 96 C62 88 78 80 92 70 S104 56 108 52" stroke="${C.sun}" stroke-width="3.5" stroke-dasharray="4 5"/>
       ${tinyHouse(36, 86, C.coral)}${tinyHouse(150, 84, C.orange)}
       <path d="M170 98 C170 88 172 80 175 74" stroke="${C.brown}" stroke-width="4"/><path d="M175 74 C168 66 160 67 155 71 C162 70 168 72 175 74 Z M175 74 C181 65 189 66 193 70 C186 69 180 71 175 74 Z" fill="${C.grass}" stroke-width="2.5"/>`) },
+    // Posko pengungsian, tenda kesehatan, dan derek yang membangun kembali rumah.
+    'island-recovery': { vb: '0 0 200 130', body: isle(`
+      <path d="M30 96 L50 64 L70 96 Z" fill="${C.orange}"/><path d="M50 74 L44 96 H56 Z" fill="${C.sand}" stroke-width="2.5"/>
+      <path d="M62 98 L80 70 L98 98 Z" fill="${C.seaL}"/><path d="M80 79 L75 98 H85 Z" fill="${C.sand}" stroke-width="2.5"/>
+      <path d="M100 96 V74 L118 64 L136 74 V96 Z" fill="${C.white}"/><path d="M114 76 H122 V81 H127 V88 H122 V93 H114 V88 H109 V81 H114 Z" fill="${C.coral}" stroke-width="2"/>
+      <path d="M160 96 V38 M160 40 H186 M160 50 L172 40" stroke-width="3.5"/><path d="M182 40 V56" stroke-width="2"/><path d="M178 56 H186" stroke-width="3"/>
+      <path d="M146 96 V80 L162 70 L178 80 V96" stroke="${C.brown}" stroke-width="3.5"/><path d="M150 84 H174" stroke="${C.brown}" stroke-width="2.5"/>`) },
+    // Museum peringatan, kapal yang terdampar di daratan, dan gunung api di laut.
+    'island-history': { vb: '0 0 200 130', body: isle(`
+      <path d="M18 92 L24 80 H70 L64 92 Z" fill="${C.coral}"/><rect x="34" y="66" width="22" height="14" rx="2" fill="${C.white}"/><path d="M45 66 V54" stroke-width="3"/><path d="M38 72 H42 M48 72 H52" stroke-width="2.5"/>
+      <path d="M80 60 L104 46 L128 60 Z" fill="${C.sun}"/><rect x="82" y="60" width="44" height="6" fill="${C.white}"/>
+      <path d="M88 66 V90 M98 66 V90 M110 66 V90 M120 66 V90" stroke-width="4"/><rect x="78" y="90" width="52" height="7" rx="2" fill="${C.grey}"/>
+      <path d="M150 92 L164 64 L172 72 L180 60 L192 92 Z" fill="#8a6a5a"/><path d="M164 64 C166 70 169 68 171 72 L172 72 L180 60 C178 66 176 66 174 70" fill="${C.orange}" stroke-width="2"/>
+      <circle cx="176" cy="48" r="5" fill="${C.grey}"/><circle cx="184" cy="42" r="4" fill="${C.grey}"/>`) },
+    // Podium juara dengan piala dan bendera.
+    'island-final': { vb: '0 0 200 130', body: isle(`
+      <rect x="62" y="74" width="26" height="20" fill="${C.seaL}"/><rect x="88" y="62" width="26" height="32" fill="${C.sun}"/><rect x="114" y="80" width="26" height="14" fill="${C.coral}"/>
+      <path d="M96 76 H106 M101 70 V82" stroke-width="3"/>
+      <path d="M91 30 H111 C111 44 106 50 101 50 C96 50 91 44 91 30 Z" fill="${C.sun}"/><path d="M91 34 H85 C85 42 89 44 93 44 M111 34 H117 C117 42 113 44 109 44" stroke-width="3"/>
+      <path d="M101 50 V56" stroke-width="3.5"/><rect x="94" y="56" width="14" height="6" rx="2" fill="${C.brown}"/>
+      <path d="M38 96 V58" stroke-width="3"/><path d="M39 59 H56 L51 65 L56 71 H39 Z" fill="${C.grass}" stroke-width="2.5"/>
+      <path d="M164 96 V58" stroke-width="3"/><path d="M163 59 H146 L151 65 L146 71 H163 Z" fill="${C.purple}" stroke-width="2.5"/>
+      <path d="M150 34 L153 41 L160 42 L155 47 L156 54 L150 50 L144 54 L145 47 L140 42 L147 41 Z" fill="${C.sun}" stroke-width="2.5"/>`) },
     'evac-map': { vb: '0 0 360 220', body: `
       <rect x="1.5" y="1.5" width="357" height="217" rx="14" fill="#d4f5c4"/>
       <rect x="40" y="2" width="112" height="216" fill="#ffd0d0" stroke="none"/><rect x="152" y="2" width="80" height="216" fill="#fff0b3" stroke="none"/>

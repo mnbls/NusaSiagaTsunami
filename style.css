@@ -22,6 +22,8 @@
   --struct: #ffc9a8;
   --nonstruct: #dccbff;
   --basic: #ffe39a;
+  --hist: #ffc8dc;
+  --final: #9ff0dc;
   --r: 22px;
 }
 
@@ -469,7 +471,7 @@ kbd { border: 2px solid var(--ink); border-radius: 6px; padding: 0 6px; backgrou
 
 /* ===== Peta Kepulauan: pulau-pulau di laut ===== */
 .sea-map {
-  position: relative; margin: 14px 0 0; aspect-ratio: 16 / 11; overflow: hidden;
+  position: relative; margin: 14px 0 0; aspect-ratio: 16 / 13; overflow: hidden;
   background:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='48' viewBox='0 0 96 48'%3E%3Cpath d='M6 14 q9 -8 18 0 t18 0' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' opacity='.55'/%3E%3Cpath d='M54 38 q9 -8 18 0 t18 0' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' opacity='.4'/%3E%3C/svg%3E"),
     linear-gradient(180deg, #8fd8ff, #3d9be6);
@@ -481,14 +483,18 @@ kbd { border: 2px solid var(--ink); border-radius: 6px; padding: 0 6px; backgrou
 .sea-route path { fill: none; stroke: #fff; stroke-width: 6; stroke-linecap: round; stroke-dasharray: 1 16; vector-effect: non-scaling-stroke; opacity: .85; animation: route-flow 1.6s linear infinite; }
 @keyframes route-flow { to { stroke-dashoffset: -17; } }
 .sea-route.tall { display: none; }
-.sea-boat { position: absolute; left: 47%; top: 86%; width: 62px; transform: translate(-50%, -50%); animation: bob 3.4s ease-in-out infinite; }
+.sea-boat { position: absolute; left: 22%; top: 87%; width: 62px; transform: translate(-50%, -50%); animation: bob 3.4s ease-in-out infinite; }
 .sea-boat .ico { width: 100%; height: auto; display: block; }
 .sea-islands { list-style: none; margin: 0; padding: 0; }
-.sea-islands li { position: absolute; left: var(--wx); top: var(--wy); width: 28%; transform: translate(-50%, -50%); }
+.sea-islands li { position: absolute; left: var(--wx); top: var(--wy); width: 24%; transform: translate(-50%, -50%); }
+.sea-islands li.final { width: 27%; }
 .sea-islands li.basic { --tone: var(--basic); --bd: 0s; }
 .sea-islands li.struct { --tone: var(--struct); --bd: -1s; }
 .sea-islands li.nonstruct { --tone: var(--nonstruct); --bd: -2s; }
 .sea-islands li.pre { --tone: var(--pre); --bd: -3s; }
+.sea-islands li.post { --tone: var(--post); --bd: -.5s; }
+.sea-islands li.hist { --tone: var(--hist); --bd: -1.5s; }
+.sea-islands li.final { --tone: var(--final); --bd: -2.5s; }
 .isle {
   display: flex; flex-direction: column; align-items: center; width: 100%; padding: 0;
   background: none; border: 0; border-radius: 24px; cursor: pointer; text-align: center; -webkit-tap-highlight-color: transparent;
@@ -521,11 +527,35 @@ kbd { border: 2px solid var(--ink); border-radius: 6px; padding: 0 6px; backgrou
   background: #fff; border: 3px solid var(--ink); border-radius: 18px; box-shadow: 0 4px 0 var(--ink);
 }
 .map-hint p { margin: 0; font-size: 17px; }
+
+/* ===== Papan peringkat ===== */
+.leader { margin-top: 22px; padding: 18px 20px; }
+.leader h3 { display: flex; align-items: center; gap: 10px; margin: 0 0 12px; font-size: 22px; }
+.leader h3 .ico { width: 30px; height: 30px; }
+.leader-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.leader-list li {
+  display: grid; grid-template-columns: 36px 38px 1fr auto; align-items: center; gap: 10px;
+  padding: 8px 14px; background: #fff; border: 3px solid var(--ink); border-radius: 16px;
+}
+.leader-list li.top { background: #fff4c2; }
+.leader-list li.me { background: var(--ok-bg); box-shadow: 0 4px 0 var(--ink); transform: translateX(4px); }
+.lb-rank { font-size: 20px; font-weight: 700; text-align: center; }
+.leader-list li.top .lb-rank { color: #c98a00; }
+.lb-ava {
+  display: grid; place-items: center; width: 38px; height: 38px; font-weight: 700; color: #fff;
+  background: var(--sea); border: 3px solid var(--ink); border-radius: 50%;
+}
+.leader-list li.me .lb-ava { background: var(--grass-d); }
+.lb-name { font-weight: 600; font-size: 18px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lb-name small { font-weight: 500; color: var(--muted); }
+.lb-stars { display: inline-flex; align-items: center; gap: 4px; font-weight: 700; font-size: 18px; }
+.lb-stars .ico { width: 22px; height: 22px; }
 @media (max-width: 700px) {
-  .sea-map { aspect-ratio: 1 / 2.2; }
+  .sea-map { aspect-ratio: 1 / 4; }
   .sea-route.wide, .sea-boat { display: none; }
   .sea-route.tall { display: block; }
-  .sea-islands li { left: var(--tx); top: var(--ty); width: 56%; }
+  .sea-islands li { left: var(--tx); top: var(--ty); width: 54%; }
+  .sea-islands li.final { width: 60%; }
   .isle-no, .isle-done { width: 32px; height: 32px; }
   .map-hint p { font-size: 16px; }
 }
@@ -713,6 +743,13 @@ kbd { border: 2px solid var(--ink); border-radius: 6px; padding: 0 6px; backgrou
 .node.basic { background: linear-gradient(180deg, var(--basic) 0 38%, var(--paper) 38%); }
 .phase-row li.basic { background: var(--basic); }
 .island-head.basic { background: var(--basic); }
+.island-head.post { background: var(--post); }
+.phase-row li.hist { background: var(--hist); }
+.phase-row li.final { background: var(--final); }
+.phase-tag.hist, .island-head.hist { background: var(--hist); }
+.phase-tag.final, .island-head.final { background: var(--final); }
+.node.hist { background: linear-gradient(180deg, var(--hist) 0 38%, var(--paper) 38%); }
+.node.final { background: linear-gradient(180deg, var(--final) 0 38%, var(--paper) 38%); }
 .sort-card.statement b { font-size: 20px; font-weight: 600; line-height: 1.35; }
 .sort-card.statement .ico { width: 72px; height: 72px; }
 

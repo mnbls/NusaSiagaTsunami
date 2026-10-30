@@ -223,21 +223,24 @@
 
   /* ================= Adegan: Pulau Siaga Warga ================= */
 
-  function sceneOrbit() {
-    const cards = [
-      ['siren', 'Peringatan', 'dini', 20, 22],
-      ['zoning', 'Tata ruang', 'pesisir', 20, 178],
-      ['map', 'Peta & jalur', 'evakuasi', 320, 22],
-      ['megaphone', 'Edukasi', '& latihan', 320, 178]
-    ];
+  // Satu pusat dengan empat kartu di sudut, dihubungkan garis yang mengalir ke pusat.
+  function orbit({ bg, tone, center, label, cards }) {
+    const spots = [[20, 22], [20, 178], [320, 22], [320, 178]];
     const lines = ['M160 57 L204 112', 'M160 213 L204 162', 'M320 57 L276 112', 'M320 213 L276 162'];
-    return svg(`${sky('#efe6ff')}
-      ${lines.map((d, i) => `<path class="xp-dash" d="${d}" fill="none" stroke="${K.purple}" stroke-width="5" stroke-dasharray="2 10" stroke-linecap="round" style="--d:${i * .15}s;--p:12px"/>`).join('')}
-      <circle class="xp-ringc" cx="240" cy="136" r="50" fill="none" stroke="${K.purple}" stroke-width="4"/>
-      <circle class="xp-ringc" cx="240" cy="136" r="50" fill="none" stroke="${K.purple}" stroke-width="4" style="--d:1.3s"/>
-      ${pop(.2, `<circle class="o" cx="240" cy="136" r="46" fill="#fff"/>${icoG('family', 208, 104, 64)}`)}
-      ${chip(240, 208, 'Warga yang siap', .6, '#fff4c2')}
-      ${cards.map(([name, l1, l2, x, y], i) => pop(.7 + i * .5, `<g transform="translate(${x} ${y})"><rect class="o" width="140" height="70" rx="16" fill="#fff"/>${icoG(name, 10, 13, 44)}${text(64, 33, l1, 13.5, K.ink, 'start')}${text(64, 51, l2, 13.5, K.ink, 'start')}</g>`)).join('')}`);
+    return svg(`${sky(bg)}
+      ${lines.map((d, i) => `<path class="xp-dash" d="${d}" fill="none" stroke="${tone}" stroke-width="5" stroke-dasharray="2 10" stroke-linecap="round" style="--d:${i * .15}s;--p:12px"/>`).join('')}
+      <circle class="xp-ringc" cx="240" cy="136" r="50" fill="none" stroke="${tone}" stroke-width="4"/>
+      <circle class="xp-ringc" cx="240" cy="136" r="50" fill="none" stroke="${tone}" stroke-width="4" style="--d:1.3s"/>
+      ${pop(.2, `<circle class="o" cx="240" cy="136" r="46" fill="#fff"/>${icoG(center, 208, 104, 64)}`)}
+      ${chip(240, 208, label, .6, '#fff4c2')}
+      ${cards.map(([name, l1, l2], i) => pop(.7 + i * .5, `<g transform="translate(${spots[i][0]} ${spots[i][1]})"><rect class="o" width="140" height="70" rx="16" fill="#fff"/>${icoG(name, 10, 13, 44)}${text(64, 33, l1, 13.5, K.ink, 'start')}${text(64, 51, l2, 13.5, K.ink, 'start')}</g>`)).join('')}`);
+  }
+
+  function sceneOrbit() {
+    return orbit({
+      bg: '#efe6ff', tone: K.purple, center: 'family', label: 'Warga yang siap',
+      cards: [['siren', 'Peringatan', 'dini'], ['zoning', 'Tata ruang', 'pesisir'], ['map', 'Peta & jalur', 'evakuasi'], ['megaphone', 'Edukasi', '& latihan']]
+    });
   }
 
   function sceneChain() {
@@ -334,6 +337,75 @@
       <g class="xp-r3-ok">${icoG('verified', 396, 128, 38)}</g>
       ${chip(160, 30, 'Gelombang bisa datang berkali-kali', .3, '#ffe0e0')}
       <g class="xp-r3-ok">${chip(396, 108, 'Tunggu info resmi', 0, '#dcf7cf', false)}</g>`);
+  }
+
+  /* ================= Adegan: Pulau Pulih, Sejarah, Juara ================= */
+
+  // Jalan pemulihan: tiga tahap muncul bergantian, warga berjalan melewatinya.
+  function sceneRecover() {
+    const nodes = [['lifebuoy', 80, 'Tanggap darurat', '#ffe0e0'], ['broom', 240, 'Rehabilitasi', '#dcf7cf'], ['crane', 400, 'Rekonstruksi', '#cfe9ff']];
+    const road = 'M30 178 H450';
+    return svg(`${sky('#e4f4ff')}${cloud(30, 20, .8)}${cloud(380, 26, .7)}
+      <path class="o" d="M0 196 H480 V274 H0 Z" fill="${K.grass}"/>
+      <path d="${road}" stroke="${K.ink}" stroke-width="22" stroke-linecap="round" fill="none"/><path d="${road}" stroke="#d9d3c4" stroke-width="16" stroke-linecap="round" fill="none"/>
+      <path d="M40 178 H440" stroke="#fff" stroke-width="3" stroke-dasharray="12 12" fill="none"/>
+      ${nodes.map(([name, x, label, bg], i) => pop(.4 + i * .9, `<circle class="o" cx="${x}" cy="104" r="40" fill="${bg}"/>${icoG(name, x - 26, 78, 52)}<path class="o" d="M${x} 144 V166" fill="none"/>`) + chip(x, 232, label, .7 + i * .9, '#fff')).join('')}
+      ${pop(1.2, `<path d="M128 104 H186 M178 96 L188 104 L178 112 M288 104 H346 M338 96 L348 104 L338 112" stroke="${K.ink}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`)}
+      ${walker(road, 8, 1, 6, K.coral, [440, 178])}
+      ${chip(240, 30, 'Pulih bersama, bangun lebih aman', 3.2, '#fff4c2')}`);
+  }
+
+  function sceneShelter() {
+    return orbit({
+      bg: '#e2f2ff', tone: K.sea, center: 'tent', label: 'Posko pengungsian',
+      cards: [['water', 'Air bersih', '& makanan'], ['firstaid', 'P3K &', 'kesehatan'], ['trash', 'Kebersihan', '& sanitasi'], ['heart', 'Pulihkan', 'hati']]
+    });
+  }
+
+  // Garis waktu: penanda tahun muncul satu per satu, titik waktu berjalan dari kiri ke kanan.
+  function sceneTimeline() {
+    const ev = [['volcano', '1883', 'Krakatau'], ['tectonic', '1992', 'Flores'], ['wave', '2004', 'Aceh'], ['shoal', '2006', 'Pangandaran'], ['boat', '2010', 'Mentawai'], ['quake', '2018', 'Palu &|Selat Sunda']];
+    const x = i => 50 + i * 76;
+    const dot = reduceMotion ? '' :
+      `<g><circle r="8" fill="${K.coral}" stroke="${K.ink}" stroke-width="3"/><animateMotion path="M40 150 H440" dur="7s" repeatCount="indefinite" calcMode="linear" keyPoints="0;1;1" keyTimes="0;.85;1"/></g>`;
+    return svg(`${sky('#fff0f6')}
+      <path d="M30 150 H450" stroke="${K.ink}" stroke-width="6" stroke-linecap="round" fill="none"/>
+      ${ev.map(([name, year, place], i) => pop(.3 + i * .45, `
+        ${icoG(name, x(i) - 20, 62, 40)}
+        <circle class="o" cx="${x(i)}" cy="150" r="9" fill="${K.sun}"/>
+        <rect class="o" x="${x(i) - 28}" y="168" width="56" height="26" rx="13" fill="#fff"/>${text(x(i), 186, year, 15)}
+        ${place.split('|').map((p, k) => text(x(i), 212 + k * 15, p, 12.5, '#5d6278')).join('')}`)).join('')}
+      ${dot}
+      ${chip(240, 30, 'Tsunami berulang di Indonesia', 3.2, '#ffc8dc')}`);
+  }
+
+  function sceneLessons() {
+    return orbit({
+      bg: '#fff0f6', tone: '#e86aa0', center: 'book', label: 'Belajar dari sejarah',
+      cards: [['megaphone', 'Smong:', 'cerita penyelamat'], ['quake', 'Guncangan', 'lemah? Waspada'], ['volcano', 'Tanpa gempa', 'tetap waspada'], ['monitor', 'Lahirnya', 'peringatan dini']]
+    });
+  }
+
+  // Enam pulau sebelumnya mengelilingi piala: semua materi diuji di sini.
+  function sceneChampion() {
+    const items = [['magnifier', 'Ilmu'], ['seawall', 'Struktural'], ['siren', 'Non-struktural'], ['lifebuoy', 'Tanggap'], ['tent', 'Pemulihan'], ['book', 'Sejarah']];
+    const pos = i => { const a = -Math.PI / 2 + i * Math.PI / 3; return [240 + Math.cos(a) * 168, 136 + Math.sin(a) * 92]; };
+    return svg(`${sky('#e6fbf5')}
+      <ellipse cx="240" cy="136" rx="168" ry="92" fill="none" stroke="#5cc9ad" stroke-width="4" stroke-dasharray="3 11" stroke-linecap="round" class="xp-dash" style="--p:14px"/>
+      <circle class="xp-ringc" cx="240" cy="136" r="46" fill="none" stroke="${K.sun}" stroke-width="5"/>
+      ${pop(.2, `<circle class="o" cx="240" cy="136" r="44" fill="#fff"/>${icoG('trophy', 210, 106, 60)}`)}
+      ${items.map(([name, label], i) => { const [cx, cy] = pos(i); return pop(.5 + i * .35, `<circle class="o" cx="${cx}" cy="${cy}" r="27" fill="#fff"/>${icoG(name, cx - 18, cy - 18, 36)}${text(cx, cy + 42, label, 12.5)}`); }).join('')}`);
+  }
+
+  // Sertifikat dengan bintang yang muncul satu per satu.
+  function sceneCertificate() {
+    return svg(`${sky('#e6fbf5')}${cloud(24, 24, .8)}${cloud(390, 30, .7)}
+      ${pop(.2, `<rect class="o" x="130" y="40" width="220" height="170" rx="12" fill="${K.paper}"/><rect x="142" y="52" width="196" height="146" rx="8" fill="none" stroke="${K.sun}" stroke-width="4"/>
+        ${text(240, 84, 'SERTIFIKAT', 18, K.ink)}${text(240, 108, 'Pahlawan Siaga Tsunami', 14, '#5d6278')}
+        <path d="M180 156 H300" stroke="${K.ink}" stroke-width="2.5" stroke-dasharray="4 5"/>${text(240, 150, 'namamu di sini', 13, '#5d6278')}`)}
+      ${[0, 1, 2].map(i => pop(1 + i * .4, icoG('star', 196 + i * 30, 166, 28))).join('')}
+      ${pop(2.4, icoG('trophy', 330, 150, 56))}
+      ${chip(240, 242, 'Tuntaskan 70 misi untuk meraihnya', 2.8, '#fff4c2')}`);
   }
 
   /* ================= Naskah per pulau ================= */
@@ -461,6 +533,61 @@
           tag: 'Sesudah', phase: 'post', title: 'Tunggu kabar resmi', scene: sceneSurges,
           alt: 'Tiga gelombang datang bergantian. Warga tetap di bukit dan menunggu informasi resmi.',
           text: 'Gelombang pertama belum tentu yang terbesar. Tetap di tempat aman sampai BMKG atau BPBD menyatakan aman, lalu bantu sesama dan hindari area terdampak.'
+        }
+      ]
+    },
+
+    recovery: {
+      name: 'Pulau Pulih', theme: 'Pascabencana dan Pemulihan',
+      slides: [
+        {
+          tag: 'Pascabencana', phase: 'post', title: 'Tahap demi tahap pulih', scene: sceneRecover,
+          alt: 'Jalan dengan tiga tahap: tanggap darurat, rehabilitasi, dan rekonstruksi. Seorang warga berjalan melewatinya.',
+          text: 'Setelah gelombang berlalu, kehidupan dipulihkan bertahap. Tanggap darurat menyelamatkan korban dan memenuhi kebutuhan dasar. Menurut UU No. 24 Tahun 2007, pascabencana meliputi rehabilitasi dan rekonstruksi.',
+          chips: [
+            { ic: 'broom', t: 'Rehabilitasi', d: 'Memperbaiki dan memulihkan: lingkungan, rumah warga, kesehatan, dan perasaan.' },
+            { ic: 'crane', t: 'Rekonstruksi', d: 'Membangun kembali prasarana dan sarana dengan rancang bangun yang lebih baik dan tahan bencana.' }
+          ]
+        },
+        {
+          tag: 'Posko pengungsian', phase: 'post', title: 'Saling jaga di pengungsian', scene: sceneShelter,
+          alt: 'Tenda posko di tengah, dikelilingi empat kebutuhan: air dan makanan, P3K, kebersihan, dan pemulihan hati.',
+          text: 'Di posko, pengungsi butuh air bersih, makanan, layanan kesehatan, dan tempat yang bersih. Perasaan juga perlu dipulihkan: takut dan sedih setelah bencana itu wajar.',
+          note: 'Jauhi kabel listrik, bau gas, dan bangunan retak. Pulang hanya setelah petugas menyatakan aman.'
+        }
+      ]
+    },
+
+    history: {
+      name: 'Pulau Sejarah', theme: 'Jejak Tsunami Indonesia',
+      slides: [
+        {
+          tag: 'Sejarah', phase: 'hist', title: 'Tsunami pernah datang berkali-kali', scene: sceneTimeline,
+          alt: 'Garis waktu berisi tahun 1883, 1992, 2004, 2006, 2010, dan 2018 beserta tempat terjadinya tsunami.',
+          text: 'Indonesia berada di pertemuan lempeng dan punya banyak gunung api, sehingga tsunami terjadi berulang kali: dari Krakatau 1883 sampai Palu dan Selat Sunda 2018.'
+        },
+        {
+          tag: 'Pelajaran', phase: 'hist', title: 'Setiap peristiwa meninggalkan pelajaran', scene: sceneLessons,
+          alt: 'Buku di tengah, dikelilingi empat pelajaran: smong, guncangan lemah, tsunami tanpa gempa, dan lahirnya peringatan dini.',
+          text: 'Warga Simeulue selamat berkat smong. Pangandaran 2006 datang setelah guncangan yang terasa lemah, Selat Sunda 2018 datang tanpa gempa kuat, dan Aceh 2004 mendorong lahirnya sistem peringatan dini.',
+          note: 'Pelajaran ini akan kamu temui lagi di misi Pulau Sejarah.'
+        }
+      ]
+    },
+
+    final: {
+      name: 'Pulau Juara', theme: 'Ujian Akhir',
+      slides: [
+        {
+          tag: 'Ujian akhir', phase: 'final', title: 'Semua pulau jadi satu', scene: sceneChampion,
+          alt: 'Piala di tengah dikelilingi enam ikon pulau: ilmu, struktural, non-struktural, tanggap, pemulihan, dan sejarah.',
+          text: 'Pulau Juara menggabungkan materi dari enam pulau sebelumnya. Soalnya campuran, dan beberapa misi punya waktu yang lebih ketat.',
+          note: 'Kalau ragu, kunjungi lagi pulau sebelumnya. Animasi penjelasannya bisa diputar ulang kapan saja.'
+        },
+        {
+          tag: 'Sertifikat', phase: 'final', title: 'Raih gelar Pahlawan Siaga', scene: sceneCertificate,
+          alt: 'Sertifikat Pahlawan Siaga Tsunami dengan tiga bintang dan sebuah piala.',
+          text: 'Selesaikan semua misi di ketujuh pulau untuk membuka sertifikat. Setelah itu, bagikan pengetahuanmu kepada keluarga dan teman.'
         }
       ]
     }
