@@ -1590,39 +1590,66 @@
     $('#okHow').onclick = closeModal;
   }
 
-  // Peta Kepulauan: daftar pulau beserta progresnya.
+  // Peta Kepulauan: pulau-pulau di laut yang langsung diklik.
+  // Posisi pulau (persen dari lebar/tinggi peta): peta lebar untuk layar besar, peta tinggi untuk HP.
+  const ISLAND_SPOT = {
+    basic: { wide: [20, 30], tall: [34, 12] },
+    struct: { wide: [70, 26], tall: [66, 37] },
+    nonstruct: { wide: [28, 72], tall: [34, 62] },
+    response: { wide: [76, 70], tall: [66, 87] }
+  };
+  const MAP_HINT = 'Klik pulau yang ingin kamu jelajahi. Semua pulau bisa dibuka kapan saja.';
+
   function showMap() {
     const done = allDone();
     render(`<section class="screen">
       <div class="screen-head">
         <h2>Peta Kepulauan</h2>
-        <p>Pilih pulau yang ingin kamu jelajahi. Setiap pulau berisi misi tentang satu jenis pengetahuan mitigasi.</p>
+        <p>Klik pulau yang ingin kamu jelajahi. Setiap pulau berisi misi tentang satu jenis pengetahuan mitigasi.</p>
       </div>
-      <ol class="island-map">
-        ${ISLANDS.map(is => {
-          const list = levelsOf(is.id);
-          const got = totalStars(list);
-          const max = list.length * 3;
-          const finished = list.every(lv => starsOf(lv) > 0);
-          return `<li><button class="island card ${is.tag}" data-island="${is.id}" type="button"
-              aria-label="Pulau ${is.no}: ${esc(is.name)}, ${esc(is.theme)}, ${got} dari ${max} bintang">
-            <span class="island-no">Pulau ${is.no}</span>
-            ${finished ? `<span class="island-done">${ic('check')} Tuntas</span>` : ''}
-            <span class="island-art" aria-hidden="true">${art(is.art)}</span>
-            <span class="island-name">${esc(is.name)}</span>
-            <span class="phase-tag ${is.tag}">${esc(is.theme)}</span>
-            <span class="island-desc">${esc(is.desc)}</span>
-            <span class="island-progress" aria-hidden="true">
-              <span class="meter"><i style="width:${(got / max) * 100}%"></i></span>
-              <span class="island-stars">${ic('star')} ${got}/${max}</span>
-            </span>
-            <span class="island-count">${list.length} misi ${ic('arrow-right')}</span>
-          </button></li>`;
-        }).join('')}
-      </ol>
+      <div class="sea-map">
+        <svg class="sea-route wide" viewBox="0 0 1000 688" preserveAspectRatio="none" aria-hidden="true"><path d="M200 206 C340 110 560 110 700 179 C860 260 420 380 280 495 C400 600 640 600 760 482"/></svg>
+        <svg class="sea-route tall" viewBox="0 0 1000 2200" preserveAspectRatio="none" aria-hidden="true"><path d="M340 264 C920 360 920 640 660 814 C380 1000 80 1180 340 1364 C560 1520 920 1700 660 1914"/></svg>
+        <span class="sea-boat" aria-hidden="true">${ic('boat')}</span>
+        <ol class="sea-islands">
+          ${ISLANDS.map(is => {
+            const list = levelsOf(is.id);
+            const got = totalStars(list);
+            const max = list.length * 3;
+            const finished = list.every(lv => starsOf(lv) > 0);
+            const spot = ISLAND_SPOT[is.id];
+            return `<li class="${is.tag}" style="--wx:${spot.wide[0]}%;--wy:${spot.wide[1]}%;--tx:${spot.tall[0]}%;--ty:${spot.tall[1]}%">
+              <button class="isle" data-island="${is.id}" type="button"
+                aria-label="Pulau ${is.no}: ${esc(is.name)}, ${esc(is.theme)}, ${got} dari ${max} bintang${finished ? ', tuntas' : ''}">
+                <span class="isle-art" aria-hidden="true">
+                  ${art(is.art)}
+                  <span class="isle-no">${is.no}</span>
+                  ${finished ? `<span class="isle-done">${ic('check')}</span>` : ''}
+                </span>
+                <span class="isle-plate" aria-hidden="true">
+                  <b class="isle-name">${esc(is.name)}</b>
+                  <span class="isle-theme">${esc(is.theme)}</span>
+                  <span class="isle-stars">${ic('star')} ${got}/${max}</span>
+                </span>
+              </button></li>`;
+          }).join('')}
+        </ol>
+      </div>
+      <div class="map-hint">${mascot('happy', 'mini')}<p id="mapInfo">${MAP_HINT}</p></div>
       ${done ? `<div class="row center final-cta"><button class="btn big" id="finalBtn" type="button">${ic('trophy')} Lihat sertifikat</button></div>` : ''}
     </section>`);
-    $$('.island').forEach(b => b.addEventListener('click', () => { sfx.click(); showIsland(b.dataset.island); }));
+    // Penjelasan pulau muncul di bawah peta saat disorot kursor atau fokus keyboard.
+    const info = $('#mapInfo');
+    $$('.isle').forEach(b => {
+      const is = ISLANDS.find(x => x.id === b.dataset.island);
+      const show = () => { info.innerHTML = `<b>${esc(is.name)}</b> · ${esc(is.theme)}. ${esc(is.desc)}`; };
+      const reset = () => { info.textContent = MAP_HINT; };
+      b.addEventListener('mouseenter', show);
+      b.addEventListener('focus', show);
+      b.addEventListener('mouseleave', reset);
+      b.addEventListener('blur', reset);
+      b.addEventListener('click', () => { sfx.click(); showIsland(is.id); });
+    });
     if (done) $('#finalBtn').onclick = showFinal;
   }
 
