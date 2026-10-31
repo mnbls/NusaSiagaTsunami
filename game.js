@@ -2494,7 +2494,7 @@
   // Simpanan versi 2: beberapa profil siswa di satu perangkat dan pengaturan bersama.
   // `save` adalah tampilan profil yang sedang bermain, digabung dengan pengaturan, supaya kode lain tetap memakai save.xxx.
   const PROFILE_KEYS = ['name', 'cls', 'stars', 'explained', 'stats', 'tests'];
-  const SETTING_KEYS = ['sound', 'relaxed', 'introSeen', 'young'];
+  const SETTING_KEYS = ['sound', 'relaxed', 'introSeen', 'young', 'talk'];
   const store = loadStore();
   const save = {};
   useProfile(store.current);
@@ -2504,7 +2504,7 @@
   }
   function loadStore() {
     const obj = v => (v && typeof v === 'object' ? v : {});
-    const defaults = { sound: true, relaxed: false, introSeen: false, young: false };
+    const defaults = { sound: true, relaxed: false, introSeen: false, young: false, talk: true };
     let raw = null;
     try { raw = JSON.parse(localStorage.getItem(SAVE_KEY)); } catch (e) { /* penyimpanan tidak tersedia */ }
     if (raw && raw.v === 2 && raw.profiles && typeof raw.profiles === 'object') {
@@ -2678,7 +2678,8 @@
   }
 
   let fbTimer = 0;
-  function showFeedback({ good = true, title, text, next = null, nextLabel = 'Lanjut', nextIcon = 'arrow-right', autoHide = 2800 }) {
+  function showFeedback({ good = true, title, text, next = null, nextLabel = 'Lanjut', nextIcon = 'arrow-right', autoHide = 2800, sayPrefix = '' }) {
+    autoSay(`${sayPrefix ? sayPrefix + ' ' : ''}${good ? cheer() + ' ' : 'Tidak apa-apa. '}${title}. ${text}`);
     const fb = $('#feedback');
     clearTimeout(fbTimer);
     fb.className = 'feedback show ' + (good ? 'good' : 'bad');
@@ -2748,6 +2749,7 @@
             <button class="btn ghost small" id="testBtnHome" type="button">${ic('doc')} Tes Siaga</button>
             <button class="btn ghost small" id="reportBtn" type="button">${ic('monitor')} Laporan Belajar</button>
             <button class="btn ghost small" id="relaxBtn" type="button" aria-pressed="${save.relaxed}">${ic('timer')} Mode santai: <b>${save.relaxed ? 'Nyala' : 'Mati'}</b></button>
+            <button class="btn ghost small" id="talkBtn" type="button" aria-pressed="${save.talk}">${ic('sound-on')} Tuti bicara: <b>${save.talk ? 'Nyala' : 'Mati'}</b></button>
             <button class="btn ghost small" id="youngBtn" type="button" aria-pressed="${save.young}">${ic('kid')} Usia 9–10 tahun: <b>${save.young ? 'Nyala' : 'Mati'}</b></button>
           </div>
         </div>
@@ -2769,6 +2771,18 @@
     };
     $('#howBtn').onclick = showHowTo;
     $('#storyBtn').onclick = openIntro;
+    $('#talkBtn').onclick = () => {
+      save.talk = !save.talk;
+      persist();
+      sfx.click();
+      showHome();
+      if (save.talk) speak('Hore! Tuti akan membacakan cerita, soal, dan penjelasan untukmu.');
+      else stopSpeech();
+    };
+    if (greetedFor !== store.current) {
+      greetedFor = store.current;
+      autoSay(`Halo${save.name ? ', ' + save.name : ''}! Aku Tuti si Penyu. Ayo jelajahi pulau-pulau, selesaikan misinya, dan jadi Pahlawan Siaga Tsunami! Tekan Main sekarang untuk mulai.`);
+    }
     $('#testBtnHome').onclick = () => { sfx.click(); showTestMenu(); };
     $('#reportBtn').onclick = () => { sfx.click(); showReport(); };
     $('#relaxBtn').onclick = () => {
@@ -2914,13 +2928,17 @@
       ${done ? `<div class="row center final-cta"><button class="btn big" id="finalBtn" type="button">${ic('trophy')} Lihat sertifikat</button></div>`
         : coreDone() ? `<div class="row center final-cta"><button class="btn big" id="coreCertBtn" type="button">${ic('star')} Sertifikat Jalur Inti</button></div>` : ''}
     </section>`);
+    if (!mapGreeted) {
+      mapGreeted = true;
+      autoSay('Ini Peta Kepulauan. Ketuk pulau yang ingin kamu jelajahi. Mulai dari Pulau Ilmu, ya!');
+    }
     // Penjelasan pulau muncul di bawah peta saat disorot kursor atau fokus keyboard.
     const info = $('#mapInfo');
     $$('.isle').forEach(b => {
       const is = ISLANDS.find(x => x.id === b.dataset.island);
       const show = () => { info.innerHTML = `<b>${esc(is.name)}</b> · ${esc(is.theme)}. ${esc(is.desc)}`; };
       const reset = () => { info.textContent = MAP_HINT; };
-      b.addEventListener('mouseenter', show);
+      b.addEventListener('mouseenter', () => { show(); autoSay(`${is.name}. ${is.theme}.`); });
       b.addEventListener('focus', show);
       b.addEventListener('mouseleave', reset);
       b.addEventListener('blur', reset);
@@ -2979,6 +2997,7 @@
       if (isUnlocked(lv)) { sfx.click(); startLevel(lv.id); }
       else showFeedback({ good: false, title: 'Masih terkunci', text: 'Selesaikan misi sebelumnya di pulau ini dulu, ya!' });
     }));
+    autoSay(`Selamat datang di ${is.name}! Temanya ${is.theme}. Pilih misi yang sudah terbuka, ya.`);
     if (!save.explained[id]) openExplain(id);
   }
 
@@ -2990,6 +3009,8 @@
     if (lost && lives === 1 && currentLv) {
       const b = $('.mission .bubble');
       if (b) b.innerHTML = `${ic('bulb')} <b>Petunjuk Tuti:</b> ${esc(currentLv.recap[0])}`;
+      const hintLv = currentLv;
+      setTimeout(() => autoSay(`Psst, petunjuk dari Tuti: ${hintLv.recap[0]}`, true), 0);
     }
     const el = $('#hearts');
     if (!el) return;
@@ -3027,6 +3048,7 @@
       ${GENTLE.has(String(lv.id)) ? `<p class="gentle-note">${ic('heart')}<span>Misi ini membahas hal yang menyedihkan. Kalau kamu merasa takut atau sedih, berhenti sebentar dan ceritakan kepada orang dewasa yang kamu percaya. Sekarang kamu aman.</span></p>` : ''}
       <ol class="how">${lv.how.map(h => `<li>${esc(h)}</li>`).join('')}</ol>
       <button class="btn big green" id="goBtn" type="button">Ayo mulai! ${ic('play')}</button>`);
+    autoSay(`Misi ${levelNo(lv)}: ${lv.title}. ${lv.mission} Caranya: ${lv.how.join(' ')} Kalau sudah siap, tekan Ayo mulai!`);
     $('#goBtn').onclick = () => { closeModal(); sfx.click(); music.mood('mission'); recordPlay(lv, 'start'); PLAY[lv.type](lv); };
   }
 
@@ -3066,6 +3088,7 @@
       </div>
     </section>`);
     sfx.win();
+    autoSay(`${cheer()} Misi selesai! Kamu dapat ${stars} bintang. ${msg} Ingat ya: ${lv.recap[0]}`);
     if (stars === 3 || !nextLv) confetti();
     $('#retryBtn').onclick = () => startLevel(lv.id);
     $('#mapBtn').onclick = () => showIsland(lv.island);
@@ -3093,6 +3116,7 @@
     </section>`);
     $('#retryBtn').onclick = () => startLevel(lv.id);
     $('#mapBtn').onclick = () => showIsland(lv.island);
+    autoSay(`${title} ${text}`);
     $('#retryBtn').focus({ preventScroll: true });
   }
 
@@ -3129,6 +3153,7 @@
     </section>`);
     confetti();
     sfx.win();
+    autoSay(`Selamat, ${name()}! ${core ? 'Kamu sudah menyelesaikan semua misi Jalur Inti.' : 'Kamu sudah menjelajahi semua pulau.'} Kamu resmi jadi Pahlawan Siaga Tsunami! Jangan lupa ceritakan ilmumu kepada keluarga, ya.`);
     const inp = $('#nameIn');
     inp.addEventListener('input', () => {
       save.name = inp.value.trim();
@@ -3189,6 +3214,7 @@
       if (pick) pick.classList.add('selected');
       if (isLeft) selL = pick; else selR = pick;
       sfx.click();
+      if (pick) autoSay(pick.textContent.trim());
       check();
     }));
   }
@@ -3446,6 +3472,7 @@
       $('#sortCount').textContent = `${cfg.unit} ${i + 1} dari ${items.length}`;
       const card = $('#sortCard');
       card.innerHTML = `${ic(it.ic)}<b>${esc(it.label)}</b>`;
+      autoSay(it.label, true);
       card.classList.remove('pop');
       void card.offsetWidth;
       card.classList.add('pop');
@@ -3693,12 +3720,12 @@
             showFeedback({ good: true, title: 'Semua tantangan selesai!', text: cfg.doneText });
             later(() => finishLevel(lv, lives), 2400);
           } else {
-            showFeedback({ good: true, title: 'Tantangan berhasil!', text: g.why || 'Baca hasil perhitungan di bawah, lalu lanjut ke tantangan berikutnya.' });
+            showFeedback({ good: true, title: 'Tantangan berhasil!', text: g.why || 'Baca hasil perhitungan di bawah, lalu lanjut ke tantangan berikutnya.', sayPrefix: r.title });
             showGoal();
           }
         } else {
           setLives(lives - 1);
-          showFeedback({ good: false, title: 'Belum sesuai tantangan', text: g.hint });
+          showFeedback({ good: false, title: 'Belum sesuai tantangan', text: g.hint, sayPrefix: r.title });
           if (lives <= 0) { over = true; later(() => failLevel(lv), 1900); }
         }
         busy = false;
@@ -4381,6 +4408,7 @@
           </div>
         </div>`;
       $$('.opt').forEach(b => b.addEventListener('click', () => answer(opts, opts[Number(b.dataset.i)], b)));
+      autoSay(`${q.text} Pilihannya: ${opts.map((o, k) => `${k + 1}, ${o.text}`).join('. ')}.`);
       // Pastikan situasi dan pilihan terlihat tanpa perlu scroll saat waktu berjalan.
       $('.quiz').scrollIntoView({ block: 'start', behavior: qi ? 'smooth' : 'auto' });
       if (secs) {
@@ -4518,6 +4546,7 @@
     jumpBtn.addEventListener('click', e => { if (e.detail === 0) jump(); });
 
     function hit() {
+      autoSay('Awas! Gelombang mendekat. Ayo lompat!');
       setLives(lives - 1);
       invuln = 1.1;
       shake = 0.35;
@@ -4848,23 +4877,74 @@
   const GENTLE = new Set(['b5', 'b9', 'p6', 'h5', 'h9']);
   let currentLv = null;
 
-  /* ----- Narasi suara (Web Speech API, bawaan browser, tanpa server) ----- */
+  /* ----- Narasi suara Tuti (Web Speech API, bawaan browser, tanpa server) ----- */
+  // Suara dibuat ceria seperti teman bermain: nada lebih tinggi dan tempo riang.
+  // Dipilih suara bahasa Indonesia yang tersedia di perangkat (misalnya Gadis, Damayanti, atau Google Bahasa Indonesia).
   const canSpeak = 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
+  const VOICE_PREF = [/gadis/i, /damayanti/i, /google.*indonesia/i, /indonesia/i];
+  let idVoice = null;
+  function pickVoice() {
+    const vs = window.speechSynthesis.getVoices().filter(v => /^id/i.test(v.lang) || /indonesia/i.test(v.name));
+    idVoice = VOICE_PREF.map(re => vs.find(v => re.test(v.name))).find(Boolean) || vs[0] || null;
+  }
+  if (canSpeak) {
+    pickVoice();
+    if (window.speechSynthesis.addEventListener) window.speechSynthesis.addEventListener('voiceschanged', pickVoice);
+  }
+  const CHEERS = ['Hore!', 'Keren!', 'Hebat!', 'Mantap!', 'Wah, pintar!'];
+  const cheer = () => CHEERS[Math.floor(Math.random() * CHEERS.length)];
+  // Browser baru mengizinkan suara setelah layar disentuh, jadi kalimat pertama disimpan dulu.
+  let activated = false, pendingSay = '';
+
   function sayBtn(textToSay) {
     if (!canSpeak) return '';
-    return `<button class="say-btn" type="button" data-say="${esc(textToSay)}" aria-label="Dengarkan">${ic('sound-on')}<span>Dengarkan</span></button>`;
+    return `<button class="say-btn" type="button" data-say="${esc(textToSay)}" aria-label="Dengarkan" title="Dengarkan">${ic('sound-on')}</button>`;
   }
   function stopSpeech() { if (canSpeak) window.speechSynthesis.cancel(); }
-  function speak(textToSay) {
-    if (!canSpeak) return;
-    stopSpeech();
-    const u = new SpeechSynthesisUtterance(textToSay);
-    u.lang = 'id-ID';
-    u.rate = 0.92;
-    const voice = window.speechSynthesis.getVoices().find(v => /^id/i.test(v.lang));
-    if (voice) u.voice = voice;
-    window.speechSynthesis.speak(u);
+  // queue = true: ucapkan setelah kalimat yang sedang berjalan, tanpa memotongnya.
+  function speak(textToSay, queue = false) {
+    if (!canSpeak || !textToSay) return;
+    if (!activated) { pendingSay = textToSay; return; }
+    if (!queue) stopSpeech();
+    // Dipecah per kalimat supaya jedanya terdengar alami dan teks panjang tidak terpotong.
+    // Rapikan tanda baca ganda seperti '?.' agar jeda terdengar wajar.
+    const clean = String(textToSay).replace(/([!?])\./g, '$1').replace(/\.\./g, '.');
+    (clean.match(/[^.!?]+[.!?]*/g) || [clean]).forEach(part => {
+      const t = part.trim();
+      if (!t) return;
+      const u = new SpeechSynthesisUtterance(t);
+      u.lang = 'id-ID';
+      u.rate = 1.02;
+      u.pitch = 1.35;
+      if (idVoice) u.voice = idVoice;
+      window.speechSynthesis.speak(u);
+    });
   }
+  // Suara otomatis hanya jika pengaturan "Tuti bicara" menyala.
+  function autoSay(textToSay, queue = false) { if (save.talk) speak(textToSay, queue); }
+  const activate = () => {
+    if (activated) return;
+    activated = true;
+    if (pendingSay && save.talk) {
+      const t = pendingSay;
+      pendingSay = '';
+      setTimeout(() => { if (!window.speechSynthesis.speaking) speak(t); }, 80);
+    }
+  };
+  window.addEventListener('pointerdown', activate, true);
+  window.addEventListener('keydown', activate, true);
+  // Begitu anak mengetuk sesuatu (selain tombol dengarkan), suara yang sedang berjalan berhenti supaya tidak menumpuk.
+  window.addEventListener('pointerdown', e => { if (activated && !e.target.closest('[data-say]')) stopSpeech(); }, true);
+  // Kartu di permainan pilih dan urutkan dibacakan saat disorot kursor.
+  let hoverCard = null;
+  document.addEventListener('mouseover', e => {
+    const c = e.target.closest('.sign-card, .seq-card');
+    if (c === hoverCard) return;
+    hoverCard = c;
+    if (c && !c.disabled && activated) autoSay(c.textContent.trim());
+  });
+  window.SiagaVoice = { auto: t => autoSay(t), stop: stopSpeech };
+  let greetedFor = null, mapGreeted = false;
   document.addEventListener('click', e => {
     const b = e.target.closest('[data-say]');
     if (!b) return;
@@ -5126,6 +5206,7 @@
       </form>
       ${list.length ? `<div class="row center"><button class="btn blue" id="classRepBtn" type="button">${ic('monitor')} Laporan Kelas</button></div>` : ''}
     </section>`);
+    autoSay(list.length ? 'Halo! Siapa yang mau bermain? Ketuk namamu. Kalau belum ada, tulis nama dan kelasmu, lalu tekan Tambah dan main.' : 'Halo, teman baru! Tulis nama dan kelasmu, lalu tekan Tambah dan main.');
     const enter = () => {
       persist();
       updateHeader();

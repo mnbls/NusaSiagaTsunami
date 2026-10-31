@@ -172,6 +172,7 @@
   }
 
   function close(reason) {
+    if (window.SiagaVoice) window.SiagaVoice.stop();
     cancelAnimationFrame(raf);
     root.classList.remove('open');
     document.body.classList.remove('intro-open');
@@ -182,6 +183,8 @@
     if (i < 0 || i >= SCENES.length) return;
     idx = i;
     const s = SCENES[i];
+    // Tuti membacakan judul dan isi adegan.
+    if (window.SiagaVoice) window.SiagaVoice.auto(`${s.title}. ${s.text || (s.chips ? s.chips.map(c => c.t).join(', ') + '.' : '')}${s.note ? ' ' + s.note : ''}`);
     const mascot = opts.mascot ? opts.mascot('happy', 'small') : '';
     const body = root.querySelector('.intro-body');
     body.innerHTML = `

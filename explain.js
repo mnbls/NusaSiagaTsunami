@@ -702,8 +702,9 @@
   function go(i) {
     if (!cur || i < 0 || i >= cur.slides.length) return;
     idx = i;
-    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
     const s = cur.slides[i];
+    // Tuti membacakan setiap slide jika pengaturan suara otomatis menyala.
+    if (window.SiagaVoice) window.SiagaVoice.auto(`${s.title}. ${s.text}${s.note ? ' ' + s.note : ''}`);
     const mascot = opts.mascot ? opts.mascot('happy', 'small') : '';
     const body = root.querySelector('.xp-body');
     body.innerHTML = `
@@ -752,6 +753,7 @@
 
   function close(reason) {
     if (!root || !root.classList.contains('open')) return;
+    if (window.SiagaVoice) window.SiagaVoice.stop();
     root.classList.remove('open');
     document.body.classList.remove('xp-open');
     root.querySelector('.xp-scene').innerHTML = '';
