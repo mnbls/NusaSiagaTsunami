@@ -2539,6 +2539,7 @@
     const p = store.current && store.profiles[store.current];
     if (p) PROFILE_KEYS.forEach(k => { p[k] = save[k]; });
     try { localStorage.setItem(SAVE_KEY, JSON.stringify(store)); } catch (e) { /* abaikan */ }
+    pushCloud();
   }
 
   let actx = null;
@@ -2605,6 +2606,7 @@
   }
   const music = window.SiagaMusic || { play() {}, stop() {}, mood() {} };
   function render(html) {
+    screenName = '';
     clearScreen();
     music.mood('calm');
     closeModal();
@@ -2734,7 +2736,7 @@
       <div class="hero card">
         <div class="hero-art">${mascot('happy', 'big bob')}</div>
         <div class="hero-text">
-          <p class="player-chip">${ic('kid')} Pemain: <b>${esc(save.name || '-')}</b>${save.cls ? ` · Kelas ${esc(save.cls)}` : ''}
+          <p class="player-chip">${ic('kid')} Pemain: <b>${esc(save.name || '-')}</b>${save.cls ? ` · Kelas ${esc(save.cls)}` : ''}${store.current && store.current.startsWith('g_') ? ` <span class="cloud-tag">${ic('verified')} akun online</span>` : ''}
             <button class="btn ghost small" id="switchBtn" type="button">Ganti pemain</button></p>
           <p class="kicker">Petualangan mitigasi tsunami</p>
           <h1>Nusa Siaga</h1>
@@ -2869,6 +2871,7 @@
   }
 
   function leaderboardHtml() {
+    if (cloudOn()) return onlineBoardHtml();
     const rows = leaderRows();
     return `<section class="leader card" aria-labelledby="leaderTitle">
       <h3 id="leaderTitle">${ic('trophy')} Papan Peringkat Latihan</h3>
@@ -2925,9 +2928,9 @@
       </div>
       <div class="map-hint">${mascot('happy', 'mini')}<p id="mapInfo">${MAP_HINT}</p></div>
       ${leaderboardHtml()}
-      ${done ? `<div class="row center final-cta"><button class="btn big" id="finalBtn" type="button">${ic('trophy')} Lihat sertifikat</button></div>`
-        : coreDone() ? `<div class="row center final-cta"><button class="btn big" id="coreCertBtn" type="button">${ic('star')} Sertifikat Jalur Inti</button></div>` : ''}
+      ${certShelfHtml()}
     </section>`);
+    screenName = 'map';
     if (!mapGreeted) {
       mapGreeted = true;
       autoSay('Ini Peta Kepulauan. Ketuk pulau yang ingin kamu jelajahi. Mulai dari Pulau Ilmu, ya!');
@@ -2950,8 +2953,13 @@
         sfx.click(); showIsland(is.id);
       });
     });
-    if (done) $('#finalBtn').onclick = () => showFinal();
-    else if (coreDone()) $('#coreCertBtn').onclick = () => showFinal(true);
+    $$('.cert-stamp').forEach(b => b.addEventListener('click', () => {
+      const kind = b.dataset.cert;
+      if (certReady(kind)) { sfx.click(); showCert(kind); return; }
+      showFeedback({ good: false, title: 'Sertifikat belum didapat', text: kind === 'full' ? 'Tuntaskan semua misi di semua pulau dulu.'
+        : kind === 'core' ? `Tuntaskan semua misi Inti dulu. Sekarang ${coreCount()} dari ${CORE.size}.`
+        : `Tuntaskan semua misi di ${ISLANDS.find(x => x.id === kind).name} dulu.` });
+    }));
   }
 
   // Layar satu pulau: daftar misinya.
@@ -2963,6 +2971,7 @@
         <div class="island-actions">
           <button class="btn ghost small" id="backWorld" type="button">${ic('arrow-left')} Peta Kepulauan</button>
           <button class="btn blue small" id="explainBtn" type="button">${ic('play')} Animasi penjelasan</button>
+          ${islandDone(id) ? `<button class="btn green small" id="islandCertBtn" type="button">${ic('trophy')} Sertifikat pulau</button>` : ''}
         </div>
         <div class="island-head-main">
           <span class="island-head-art" aria-hidden="true">${art(is.art)}</span>
@@ -2992,6 +3001,7 @@
     </section>`);
     $('#backWorld').onclick = showMap;
     $('#explainBtn').onclick = () => { sfx.click(); openExplain(id); };
+    if (islandDone(id)) $('#islandCertBtn').onclick = () => { sfx.click(); showCert(id); };
     $$('.node').forEach(b => b.addEventListener('click', () => {
       const lv = LEVEL_BY_ID[b.dataset.id];
       if (isUnlocked(lv)) { sfx.click(); startLevel(lv.id); }
@@ -3077,13 +3087,13 @@
           <h3>${ic('bulb')} 3 hal yang perlu kamu ingat ${sayBtn(lv.recap.join(' '))}</h3>
           <ol>${lv.recap.map(r => `<li>${esc(r)}</li>`).join('')}</ol>
         </div>
-        ${!nextLv ? `<p class="island-cleared">${ic('check')} ${esc(is.name)} tuntas! ${allDone() ? 'Semua pulau sudah kamu jelajahi.' : 'Jelajahi pulau lain di Peta Kepulauan.'}</p>` : ''}
+        ${!nextLv && islandDone(lv.island) ? `<p class="island-cleared">${ic('check')} ${esc(is.name)} tuntas! Kamu dapat sertifikat pulau ini.${allDone() ? ' Semua pulau juga sudah tuntas, sertifikat Pahlawan Siaga menunggumu di peta.' : ''}</p>` : ''}
         <div class="row center">
           <button class="btn ghost" id="retryBtn" type="button">${ic('retry')} Ulangi</button>
           <button class="btn ghost" id="mapBtn" type="button">${ic('map')} Pulau</button>
           <button class="btn green" id="nextBtn" type="button">${nextLv
             ? `Lanjut ke misi ${levelNo(nextLv)} ${ic('arrow-right')}`
-            : allDone() ? `${ic('trophy')} Lihat sertifikat` : `${ic('map')} Peta Kepulauan`}</button>
+            : islandDone(lv.island) ? `${ic('trophy')} Ambil sertifikat pulau` : `${ic('map')} Peta Kepulauan`}</button>
         </div>
       </div>
     </section>`);
@@ -3092,7 +3102,7 @@
     if (stars === 3 || !nextLv) confetti();
     $('#retryBtn').onclick = () => startLevel(lv.id);
     $('#mapBtn').onclick = () => showIsland(lv.island);
-    $('#nextBtn').onclick = () => (nextLv ? startLevel(nextLv.id) : allDone() ? showFinal() : showMap());
+    $('#nextBtn').onclick = () => (nextLv ? startLevel(nextLv.id) : islandDone(lv.island) ? showCert(lv.island) : showMap());
     $('#nextBtn').focus({ preventScroll: true });
   }
 
@@ -3120,30 +3130,45 @@
     $('#retryBtn').focus({ preventScroll: true });
   }
 
-  // core = true: sertifikat Jalur Inti (17 misi wajib); selain itu sertifikat lengkap.
-  function showFinal(core = false) {
-    const total = totalStars();
+  // Sertifikat: 'full' (semua pulau), 'core' (Jalur Inti), atau id pulau (sertifikat per pulau).
+  function showFinal(core = false) { showCert(core ? 'core' : 'full'); }
+
+  function certInfo(kind) {
+    if (kind === 'full') return { title: 'Pahlawan Siaga Tsunami', kicker: 'Semua pulau tuntas', icon: 'trophy',
+      body: `yang telah menjelajahi ${ISLANDS.length} pulau, menyelesaikan ${LEVELS.length} misi mitigasi bencana tsunami, dan meraih <b>${totalStars()}</b> ${ic('star')}`,
+      say: 'Kamu sudah menjelajahi semua pulau. Kamu resmi jadi Pahlawan Siaga Tsunami!' };
+    if (kind === 'core') return { title: 'Siaga Tsunami: Jalur Inti', kicker: 'Semua misi Jalur Inti tuntas', icon: 'star',
+      body: `yang telah menyelesaikan ${CORE.size} misi inti kesiapsiagaan tsunami: tanda alam, evakuasi, mitigasi, dan informasi resmi`,
+      say: 'Kamu sudah menyelesaikan semua misi Jalur Inti. Hebat sekali!' };
+    const is = ISLANDS.find(x => x.id === kind);
+    const list = levelsOf(kind);
+    return { title: `Sertifikat ${is.name}`, kicker: `Pulau ${is.no} tuntas`, island: is,
+      body: `yang telah menuntaskan ${list.length} misi di <b>${esc(is.name)}</b> (${esc(is.theme)}) dan meraih <b>${totalStars(list)}</b> dari ${list.length * 3} ${ic('star')}`,
+      say: `Kamu sudah menuntaskan semua misi di ${is.name}. Kamu dapat sertifikat ${is.name}!` };
+  }
+
+  function showCert(kind = 'full') {
+    const info = certInfo(kind);
     const name = () => save.name || 'Pahlawan Siaga';
+    const date = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
     render(`<section class="screen final">
       <div class="card final-card">
         <div class="final-top">
           ${mascot('happy', 'big bob')}
-          <p class="kicker">${core ? 'Semua misi Jalur Inti selesai' : 'Semua misi selesai'}</p>
-          <h2>Kamu Siaga Tsunami! ${ic('trophy')}</h2>
-          <p class="lead">Kamu mengumpulkan <b>${total}</b> dari ${MAX_STARS} bintang.</p>
+          <p class="kicker">${esc(info.kicker)}</p>
+          <h2>Selamat, kamu dapat sertifikat! ${ic('trophy')}</h2>
         </div>
         <label class="name-field" for="nameIn">Tulis namamu untuk sertifikat</label>
         <input id="nameIn" class="name-input" maxlength="40" placeholder="Nama kamu" value="${esc(save.name)}" autocomplete="off">
-        <div class="cert" id="cert">
+        <div class="cert ${info.island ? 'cert-island ' + info.island.tag : ''}" id="cert">
+          ${info.island ? `<div class="cert-art" aria-hidden="true">${art(info.island.art)}</div>` : ''}
           <p class="cert-k">Sertifikat</p>
-          <h3>${core ? 'Siaga Tsunami: Jalur Inti' : 'Pahlawan Siaga Tsunami'}</h3>
+          <h3>${esc(info.title)}</h3>
           <p>diberikan kepada</p>
           <p class="cert-name" id="certName">${esc(name())}</p>
-          <p>${core ? `yang telah menyelesaikan ${CORE.size} misi inti kesiapsiagaan tsunami: tanda alam, evakuasi, mitigasi, dan informasi resmi` : `yang telah menjelajahi ${ISLANDS.length} pulau, menyelesaikan ${LEVELS.length} misi mitigasi bencana tsunami, dan meraih <b>${total}</b> ${ic('star')}`}</p>
-          <div class="cert-badges">
-            <span>${ic('magnifier')} Ilmu tsunami</span><span>${ic('seawall')} Mitigasi struktural</span><span>${ic('siren')} Mitigasi non-struktural</span>
-            <span>${ic('lifebuoy')} Tanggap bencana</span><span>${ic('tent')} Pemulihan</span><span>${ic('book')} Sejarah tsunami</span><span>${ic('timer')} Simulasi</span>
-          </div>
+          <p>${info.body}</p>
+          ${kind === 'full' ? `<div class="cert-badges">${ISLANDS.filter(is => is.id !== 'final').map(is => `<span>${ic('check')} ${esc(is.name)}</span>`).join('')}</div>` : ''}
+          <div class="cert-foot"><span>${esc(date)}</span><span>Tuti si Penyu<br><small>Pemandu Nusa Siaga</small></span></div>
         </div>
         <div class="row center">
           <button class="btn" id="printBtn" type="button">${ic('print')} Cetak sertifikat</button>
@@ -3153,7 +3178,7 @@
     </section>`);
     confetti();
     sfx.win();
-    autoSay(`Selamat, ${name()}! ${core ? 'Kamu sudah menyelesaikan semua misi Jalur Inti.' : 'Kamu sudah menjelajahi semua pulau.'} Kamu resmi jadi Pahlawan Siaga Tsunami! Jangan lupa ceritakan ilmumu kepada keluarga, ya.`);
+    autoSay(`Selamat, ${name()}! ${info.say} Jangan lupa ceritakan ilmumu kepada keluarga, ya.`);
     const inp = $('#nameIn');
     inp.addEventListener('input', () => {
       save.name = inp.value.trim();
@@ -3162,6 +3187,33 @@
     });
     $('#printBtn').onclick = () => window.print();
     $('#mapBtn').onclick = showMap;
+  }
+
+  // Koleksi sertifikat di Peta Kepulauan: satu per pulau, ditambah Jalur Inti dan sertifikat lengkap.
+  function certShelfHtml() {
+    const items = ISLANDS.map(is => {
+      const list = levelsOf(is.id);
+      const done = list.filter(lv => starsOf(lv) > 0).length;
+      const got = done === list.length;
+      return `<li><button class="cert-stamp ${got ? 'got ' + is.tag : ''}" data-cert="${is.id}" type="button"
+          aria-label="${got ? 'Buka sertifikat ' + esc(is.name) : esc(is.name) + ', ' + done + ' dari ' + list.length + ' misi'}">
+        <span class="cs-art" aria-hidden="true">${art(is.art)}</span>
+        <b>${esc(is.name)}</b><small>${got ? `${ic('check')} Dapat` : `${done}/${list.length} misi`}</small></button></li>`;
+    });
+    const coreGot = coreDone(), fullGot = allDone();
+    items.push(`<li><button class="cert-stamp special ${coreGot ? 'got' : ''}" data-cert="core" type="button">
+        <span class="cs-ico" aria-hidden="true">${ic('star')}</span><b>Jalur Inti</b><small>${coreGot ? `${ic('check')} Dapat` : `${coreCount()}/${CORE.size} misi`}</small></button></li>`);
+    items.push(`<li><button class="cert-stamp special ${fullGot ? 'got' : ''}" data-cert="full" type="button">
+        <span class="cs-ico" aria-hidden="true">${ic('trophy')}</span><b>Pahlawan Siaga</b><small>${fullGot ? `${ic('check')} Dapat` : 'semua pulau'}</small></button></li>`);
+    const count = ISLANDS.filter(is => islandDone(is.id)).length + (coreGot ? 1 : 0) + (fullGot ? 1 : 0);
+    return `<section class="cert-shelf card" aria-labelledby="shelfTitle">
+      <h3 id="shelfTitle">${ic('doc')} Koleksi Sertifikat <small>${count} dari ${ISLANDS.length + 2}</small></h3>
+      <p class="leader-note">Tuntaskan semua misi di satu pulau untuk mendapat sertifikat pulau itu. Ketuk sertifikat yang sudah didapat untuk mencetaknya.</p>
+      <ul class="cert-grid">${items.join('')}</ul>
+    </section>`;
+  }
+  function certReady(kind) {
+    return kind === 'full' ? allDone() : kind === 'core' ? coreDone() : islandDone(kind);
   }
 
   /* ================= Mesin "pasangkan": nama di kiri, penjelasan di kanan ================= */
@@ -5183,12 +5235,15 @@
   const starsSum = p => Object.values(p.stars).reduce((a, n) => a + (Number(n) || 0), 0);
 
   function showProfiles() {
-    const list = Object.entries(store.profiles);
+    // Profil akun online tidak ditampilkan di daftar; aksesnya lewat kartu akun.
+    const list = Object.entries(store.profiles).filter(([id]) => !id.startsWith('g_'));
     render(`<section class="screen profiles">
       <div class="screen-head">
         <h2>${ic('family')} Siapa yang bermain?</h2>
         <p>Pilih namamu. Setiap siswa punya bintang, tes, dan laporan sendiri.</p>
       </div>
+      ${accountCardHtml()}
+      ${list.length ? `<h3 class="pf-sub">${ic('kid')} Pemain di perangkat ini <small>(tanpa akun)</small></h3>` : ''}
       ${list.length ? `<ul class="profile-list">${list.map(([id, p]) => `<li class="${id === store.current ? 'active' : ''}">
           <button class="profile-pick card" data-id="${id}" type="button">
             <span class="lb-ava" aria-hidden="true">${esc((p.name || '?').charAt(0).toUpperCase())}</span>
@@ -5243,6 +5298,8 @@
     });
     const cr = $('#classRepBtn');
     if (cr) cr.onclick = showClassReport;
+    bindAccountCard();
+    screenName = 'profiles';
   }
 
   /* ----- Laporan Kelas: rekap semua profil di perangkat ini ----- */
@@ -5313,6 +5370,219 @@
     a.click();
     a.remove();
     setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }
+
+
+  /* ----- Akun online: login Google/email, sinkron progres, papan peringkat realtime (lihat cloud.js) ----- */
+  const cloud = () => window.SiagaCloud;
+  const cloudOn = () => !!(cloud() && cloud().enabled);
+  const cloudId = uid => 'g_' + uid;
+  let screenName = '';
+  let pendingLogin = false, linking = false, emailMode = 'masuk';
+
+  function cloudPayload() {
+    const p = store.profiles[store.current];
+    return {
+      name: (p.name || 'Pemain').trim().slice(0, 40) || 'Pemain', cls: (p.cls || '').slice(0, 20), stars: starsSum(p),
+      done: LEVELS.filter(lv => (p.stars[lv.id] || 0) > 0).length,
+      progress: { name: p.name, cls: p.cls, stars: p.stars, explained: p.explained, stats: p.stats, tests: p.tests }
+    };
+  }
+  function pushCloud() {
+    const u = cloudOn() && cloud().user;
+    if (u && store.current === cloudId(u.uid)) cloud().saveProgress(cloudPayload());
+  }
+  // Gabungkan progres online ke profil di perangkat: bintang tertinggi yang dipakai, tidak ada yang hilang.
+  function mergeProgress(p, d) {
+    if (!d) return;
+    Object.entries(d.stars || {}).forEach(([k, v]) => { p.stars[k] = Math.max(p.stars[k] || 0, Number(v) || 0); });
+    Object.assign(p.explained, d.explained || {});
+    ['pre', 'post'].forEach(k => { if (d.tests && d.tests[k] && !p.tests[k]) p.tests[k] = d.tests[k]; });
+    Object.entries(d.stats || {}).forEach(([k, st]) => { const cur = p.stats[k]; if (!cur || (st.plays || 0) > (cur.plays || 0)) p.stats[k] = st; });
+    if (d.name) p.name = d.name;
+    if (d.cls) p.cls = d.cls;
+  }
+  async function linkCloudUser(u) {
+    if (linking) return;
+    linking = true;
+    try {
+      const id = cloudId(u.uid);
+      const guestId = store.current && !store.current.startsWith('g_') ? store.current : null;
+      if (!store.profiles[id]) store.profiles[id] = blankProfile((u.name || 'Pemain').slice(0, 40), '');
+      let d = null;
+      try { d = await cloud().loadProgress(); } catch (e) {
+        showFeedback({ good: false, title: 'Progres online belum bisa dimuat', text: cloud().errorText(e) });
+      }
+      mergeProgress(store.profiles[id], d);
+      const guest = guestId && store.profiles[guestId];
+      useProfile(id);
+      persist();
+      updateHeader();
+      showHome();
+      if (!save.introSeen) openIntro();
+      // Akun baru dan sebelumnya bermain sebagai tamu: tawarkan membawa bintangnya.
+      if (!d && guest && starsSum(guest) > 0) {
+        openModal(`<h2>${ic('star')} Bawa progres?</h2>
+          <p>Sebelumnya kamu bermain sebagai <b>${esc(guest.name)}</b> dengan ${starsSum(guest)} bintang. Bawa progres itu ke akun ini?</p>
+          <div class="row center"><button class="btn green" id="carryYes" type="button">${ic('check')} Ya, bawa</button>
+            <button class="btn ghost" id="carryNo" type="button">Tidak</button></div>`);
+        $('#carryNo').onclick = closeModal;
+        $('#carryYes').onclick = () => {
+          mergeProgress(store.profiles[id], { stars: guest.stars, explained: guest.explained, stats: guest.stats, tests: guest.tests, cls: guest.cls });
+          useProfile(id);
+          persist();
+          updateHeader();
+          closeModal();
+          showHome();
+          showFeedback({ good: true, title: 'Progres dibawa!', text: 'Bintangmu sekarang tersimpan online.' });
+        };
+      }
+    } finally {
+      linking = false;
+    }
+  }
+  function onCloudEvent(e) {
+    const type = e.detail && e.detail.type;
+    const c = cloud();
+    if (!c) return;
+    if (type === 'auth' || type === 'init') {
+      const u = c.user;
+      if (u && (pendingLogin || store.current === cloudId(u.uid))) {
+        const fresh = pendingLogin;
+        pendingLogin = false;
+        if (fresh || !linking) {
+          if (fresh) linkCloudUser(u);
+          else {
+            // Muat ulang halaman saat sudah login: gabungkan progres online diam-diam tanpa pindah layar.
+            c.loadProgress().then(d => { mergeProgress(store.profiles[cloudId(u.uid)], d); useProfile(cloudId(u.uid)); persist(); updateHeader(); }).catch(() => {});
+          }
+        }
+        return;
+      }
+      if (!u && store.current && store.current.startsWith('g_')) {
+        // Keluar: salinan data akun di perangkat dihapus (datanya tetap aman online).
+        delete store.profiles[store.current];
+        const first = Object.keys(store.profiles).find(id => !id.startsWith('g_')) || null;
+        useProfile(first);
+        persist();
+        updateHeader();
+        showProfiles();
+        return;
+      }
+      if (screenName === 'profiles') showProfiles();
+      if (screenName === 'map') refreshLeader();
+    } else if (type === 'board') {
+      if (screenName === 'map') refreshLeader();
+    } else if (type === 'error' && c.user && c.state.error) {
+      showFeedback({ good: false, title: 'Masalah koneksi online', text: c.state.error });
+    }
+  }
+  window.addEventListener('siaga-cloud', onCloudEvent);
+  function refreshLeader() {
+    const el = $('.leader');
+    if (el) el.outerHTML = leaderboardHtml();
+  }
+
+  function onlineBoardHtml() {
+    const c = cloud();
+    const me = c.user && c.user.uid;
+    const rows = c.board.slice(0, 20);
+    const inBoard = rows.some(r => r.uid === me);
+    const mineActive = me && store.current === cloudId(me);
+    const row = (r, rank) => `<li class="${r.uid === me ? 'me' : ''} ${rank === 1 ? 'top' : ''}">
+        <span class="lb-rank">${rank}</span>
+        <span class="lb-ava" aria-hidden="true">${esc(String(r.name || '?').charAt(0).toUpperCase())}</span>
+        <span class="lb-name">${esc(r.name || 'Pemain')}${r.cls ? ` <small>${esc(r.cls)}</small>` : ''}${r.uid === me ? ' <small>(kamu)</small>' : ''}</span>
+        <span class="lb-stars">${ic('star')} ${Number(r.stars) || 0}</span></li>`;
+    return `<section class="leader card online" aria-labelledby="leaderTitle">
+      <h3 id="leaderTitle">${ic('trophy')} Papan Peringkat Online <span class="live-dot" title="Berubah langsung saat pemain lain mendapat bintang">langsung</span></h3>
+      <p class="leader-note">${!c.user ? 'Masuk dengan akun di layar Pilih Pemain supaya namamu ikut tampil di sini.'
+        : !mineActive ? 'Kamu sedang bermain tanpa akun. Pilih akunmu di layar Pilih Pemain supaya bintangmu ikut tercatat.'
+        : inBoard ? 'Bintangmu tersimpan online dan langsung terlihat oleh semua pemain.' : 'Kumpulkan bintang untuk masuk 20 besar!'}</p>
+      ${rows.length ? `<ol class="leader-list">${rows.map((r, i) => row(r, i + 1)).join('')}</ol>`
+        : '<p class="muted-note">Belum ada pemain online. Jadilah yang pertama!</p>'}
+      ${mineActive && !inBoard && starsSum(store.profiles[store.current]) > 0
+        ? `<ol class="leader-list"><li class="me"><span class="lb-rank">-</span><span class="lb-ava">${esc((save.name || '?').charAt(0).toUpperCase())}</span>
+            <span class="lb-name">${esc(save.name)} <small>(kamu)</small></span><span class="lb-stars">${ic('star')} ${totalStars()}</span></li></ol>` : ''}
+    </section>`;
+  }
+
+  function accountCardHtml() {
+    const c = cloud();
+    if (!cloudOn()) {
+      return `<p class="acct-off">${ic('lock')} ${c && c.state.error ? esc(c.state.error) : 'Login online belum diaktifkan di game ini. Kamu tetap bisa bermain tanpa akun di bawah.'}</p>`;
+    }
+    if (!c.state.ready) return `<div class="acct card"><p>${ic('timer')} Memeriksa akun...</p></div>`;
+    if (c.user) {
+      return `<div class="acct card signed">
+        <span class="lb-ava" aria-hidden="true">${esc((c.user.name || '?').charAt(0).toUpperCase())}</span>
+        <div class="acct-who"><b>${esc(c.user.name || 'Pemain')}</b><small>${esc(c.user.email)} · tersimpan online</small></div>
+        <div class="acct-actions"><button class="btn green" id="acctPlay" type="button">${ic('play')} Main dengan akun ini</button>
+          <button class="btn ghost small" id="acctOut" type="button">Keluar</button></div>
+      </div>`;
+    }
+    const daftar = emailMode === 'daftar';
+    return `<div class="acct card">
+      <h3>${ic('verified')} Masuk supaya bintangmu tersimpan online</h3>
+      <p class="acct-tip">Dengan akun, progresmu aman walau ganti perangkat, dan namamu tampil di Papan Peringkat Online. Anak di bawah 13 tahun: minta bantuan guru atau orang tua.</p>
+      <button class="btn google" id="googleBtn" type="button">${googleLogo()} Masuk dengan Google</button>
+      <div class="acct-or"><span>atau pakai email</span></div>
+      <div class="acct-tabs" role="tablist">
+        <button type="button" role="tab" data-mode="masuk" aria-selected="${!daftar}">Masuk</button>
+        <button type="button" role="tab" data-mode="daftar" aria-selected="${daftar}">Daftar</button>
+      </div>
+      <form id="emailForm" class="acct-form">
+        ${daftar ? '<label>Nama panggilan <input id="acName" class="name-input" maxlength="40" required autocomplete="nickname"></label>' : ''}
+        <label>Email <input id="acEmail" class="name-input" type="email" required autocomplete="email"></label>
+        <label>Kata sandi <input id="acPass" class="name-input" type="password" minlength="6" required autocomplete="${daftar ? 'new-password' : 'current-password'}"></label>
+        <p class="acct-err" id="acErr" role="alert"></p>
+        <div class="row"><button class="btn" type="submit">${daftar ? `${ic('check')} Daftar dan main` : `${ic('play')} Masuk`}</button>
+          ${daftar ? '' : '<button class="btn ghost small" id="forgotBtn" type="button">Lupa kata sandi?</button>'}</div>
+      </form>
+    </div>`;
+  }
+  function googleLogo() {
+    return '<svg class="g-logo" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3 0 5.8 1.1 7.9 3l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>';
+  }
+  function bindAccountCard() {
+    const c = cloud();
+    if (!cloudOn()) return;
+    const err = msg => { const el = $('#acErr'); if (el) el.textContent = msg; };
+    const go = async (fn, okText) => {
+      pendingLogin = true;
+      try {
+        await fn();
+        if (okText) sfx.good();
+      } catch (e) {
+        pendingLogin = false;
+        err(c.errorText(e));
+        if (!$('#acErr')) showFeedback({ good: false, title: 'Gagal masuk', text: c.errorText(e) });
+      }
+    };
+    const play = $('#acctPlay');
+    if (play) {
+      play.onclick = () => { sfx.click(); linkCloudUser(c.user); };
+      $('#acctOut').onclick = () => { sfx.click(); c.signOut(); };
+      return;
+    }
+    const g = $('#googleBtn');
+    if (g) g.onclick = () => go(() => c.signInGoogle(), true);
+    $$('.acct-tabs button').forEach(b => b.addEventListener('click', () => { emailMode = b.dataset.mode; sfx.click(); showProfiles(); }));
+    const form = $('#emailForm');
+    if (form) form.addEventListener('submit', e => {
+      e.preventDefault();
+      err('');
+      const email = $('#acEmail').value.trim(), pass = $('#acPass').value;
+      if (emailMode === 'daftar') go(() => c.signUpEmail(email, pass, $('#acName').value.trim()), true);
+      else go(() => c.signInEmail(email, pass), true);
+    });
+    const forgot = $('#forgotBtn');
+    if (forgot) forgot.onclick = async () => {
+      const email = $('#acEmail').value.trim();
+      if (!email) { err('Tulis email dulu, lalu tekan Lupa kata sandi.'); return; }
+      try { await c.resetPassword(email); err('Tautan untuk mengganti kata sandi sudah dikirim ke email.'); }
+      catch (e) { err(c.errorText(e)); }
+    };
   }
 
   /* ================= Mulai ================= */

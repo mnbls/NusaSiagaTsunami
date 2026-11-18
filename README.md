@@ -29,6 +29,8 @@ Game edukasi berbasis web tentang **mitigasi bencana tsunami**. Pemain ditemani 
 - **Jalur Inti**: 17 misi bertanda *Inti* adalah jalur wajib untuk 1–2 kali pelajaran di kelas. Misi lain adalah bonus.
 - **Tuti bicara**: Tuti si Penyu membacakan secara otomatis dengan suara ceria (nada tinggi, tempo riang, suara bahasa Indonesia jika tersedia di perangkat): sambutan, pilih pemain, peta, cara bermain tiap misi, soal dan kartu, umpan balik, petunjuk, hasil menang atau gagal, hasil simulasi, cerita pembuka, animasi penjelasan, dan sertifikat. Suara mulai setelah layar pertama kali disentuh (aturan browser), berhenti saat anak mengetuk, dan bisa dimatikan lewat tombol *Tuti bicara* di beranda.
 - **Ramah anak**: tombol speaker kuning membacakan ulang soal dan penjelasan, kuis berwaktu memberi waktu baca 5 detik, dan *Mode santai* di beranda mematikan semua batas waktu. Setelah dua kesalahan, Tuti memberi petunjuk. Misi yang membahas korban atau kehilangan diawali catatan penenang.
+- **Sertifikat per pulau**: setiap pulau yang tuntas langsung memberi sertifikat pulau itu, tanpa harus menunggu semua misi selesai. Koleksi sertifikat (8 pulau, Jalur Inti, dan Pahlawan Siaga) tampil di Peta Kepulauan dan bisa dicetak.
+- **Login dan database online (opsional)**: masuk dengan Google atau email lewat Firebase Authentication, progres tersimpan di Cloud Firestore, dan Papan Peringkat Online berubah langsung (realtime). Aktifkan dengan mengikuti [SETUP-FIREBASE.md](SETUP-FIREBASE.md). Tanpa konfigurasi, game tetap berjalan dalam mode tamu.
 - **Profil siswa**: beberapa siswa bisa bermain bergantian di satu perangkat. Bintang, tes, dan laporan disimpan per siswa. Simpanan versi lama otomatis menjadi profil pertama.
 - **Tes Siaga dan Laporan Belajar** (pengolahan informasi untuk guru): tes awal (paket A) dan tes akhir (paket B) masing-masing 8 soal dengan topik setara, kenaikan skor per topik, rekap penguasaan per pulau, misi yang perlu diulang, kenaikan skor, serta unduhan CSV dan cetak. **Laporan Kelas** merekap semua siswa di perangkat (rata-rata tes awal, tes akhir, kenaikan, dan misi yang paling banyak salah) dengan unduhan CSV kelas. Tes Akhir terbuka setelah Tes Awal dan semua misi Jalur Inti tuntas. Semua data tersimpan di perangkat, tanpa server.
 - **Sertifikat Jalur Inti** terbuka setelah 17 misi Inti tuntas. Pulau Juara terbuka setelah semua misi Inti tuntas atau 4 pulau lain tuntas.
@@ -57,6 +59,9 @@ Pada kunjungan pertama dibutuhkan internet untuk memuat font Fredoka dan Three.j
 | `explain.js` | Animasi penjelasan di awal tiap pulau (SVG + CSS, tanpa pustaka tambahan) |
 | `music.js` | Musik latar yang disusun langsung dengan Web Audio (tanpa file lagu) |
 | `game.js` | Data pulau dan misi, serta seluruh logika permainan |
+| `cloud.js` | Login (Google/email) dan database online Firebase, termasuk papan peringkat realtime |
+| `firebase-config.js` | Konfigurasi proyek Firebase (kosong = mode tamu) |
+| `firestore.rules` | Aturan keamanan database untuk ditempel di Firebase Console |
 
 ## Sumber materi
 
