@@ -4930,11 +4930,12 @@
   let currentLv = null;
 
   /* ----- Narasi suara Tuti (Web Speech API, bawaan browser, tanpa server) ----- */
-  // Suara dibuat seperti anak sekitar 8 tahun: nada jauh lebih tinggi dan tempo sedikit lebih cepat.
-  // Suara mesin hanya bisa mendekati suara anak; suara anak sungguhan butuh rekaman asli.
-  // Dipilih suara bahasa Indonesia yang tersedia di perangkat (misalnya Gadis, Damayanti, atau Google Bahasa Indonesia).
+  // Utamakan suara Google Bahasa Indonesia karena artikulasinya paling jelas.
+  // Nada hanya sedikit dinaikkan dan tempo sedikit diperlambat: tetap ramah anak tanpa merusak pelafalan.
+  // Kalau suara Google tidak ada (misalnya di Edge atau Safari), dipakai suara Indonesia lain di perangkat.
   const canSpeak = 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
-  const VOICE_PREF = [/gadis/i, /damayanti/i, /google.*indonesia/i, /indonesia/i];
+  const VOICE_PREF = [/google.*indonesia/i, /^google/i, /gadis.*natural/i, /gadis/i, /damayanti/i, /indonesia/i];
+  const VOICE_RATE = 0.95, VOICE_PITCH = 1.1;
   let idVoice = null;
   function pickVoice() {
     const vs = window.speechSynthesis.getVoices().filter(v => /^id/i.test(v.lang) || /indonesia/i.test(v.name));
@@ -4967,8 +4968,8 @@
       if (!t) return;
       const u = new SpeechSynthesisUtterance(t);
       u.lang = 'id-ID';
-      u.rate = 1.1;
-      u.pitch = 1.8;
+      u.rate = VOICE_RATE;
+      u.pitch = VOICE_PITCH;
       if (idVoice) u.voice = idVoice;
       window.speechSynthesis.speak(u);
     });
