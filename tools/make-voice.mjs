@@ -1,18 +1,22 @@
-// Pembuat suara Tuti dari Google Cloud Text-to-Speech (suara Chirp 3 HD).
+// Pembuat suara Tuti: setiap kalimat dijadikan file MP3 dengan suara AI.
 //
-// Kunci API disimpan di tools/tts-key.txt (sudah diabaikan git, jangan pernah di-commit).
+// Layanan yang dipakai dipilih otomatis dari berkas kunci yang ada (keduanya diabaikan git, jangan di-commit):
+//   tools/azure-speech.txt  Azure AI Speech. Baris 1: KEY 1, baris 2: region (misalnya southeastasia).
+//                           Suara bawaan: id-ID-GadisNeural.
+//   tools/tts-key.txt       Google Cloud Text-to-Speech. Isi: kunci API. Suara bawaan: id-ID-Chirp3-HD-Leda.
 //
 // Langkah:
 //   1. node tools/make-voice.mjs voices
-//        Menampilkan suara Chirp 3 HD bahasa Indonesia yang tersedia.
+//        Menampilkan suara bahasa Indonesia yang tersedia.
 //   2. node tools/make-voice.mjs sample
-//        Membuat contoh MP3 untuk beberapa suara di tools/voice-samples/ supaya bisa dipilih yang paling ceria.
+//        Membuat contoh MP3 beberapa gaya suara di tools/voice-samples/ supaya bisa dipilih yang paling ceria.
 //   3. node tools/make-voice.mjs serve
 //        Menjalankan game di http://localhost:5175. Buka alamat itu, lalu di konsol browser jalankan
 //        SiagaVoice.exportCorpus()  -> daftar semua kalimat Tuti tersimpan di tools/voice-corpus.json.
-//   4. node tools/make-voice.mjs build [--voice id-ID-Chirp3-HD-Leda] [--rate 1.0] [--prune]
+//   4. node tools/make-voice.mjs build [--voice NAMA] [--pitch +8%] [--rate +4%] [--prune]
 //        Membuat MP3 untuk setiap kalimat yang belum punya file, lalu memperbarui audio/voice/manifest.js.
 //        Bisa diulang kapan saja: kalimat yang sudah punya MP3 dilewati, jadi kuota tidak terbuang.
+//        Kalau suara, nada, atau tempo diganti, semua MP3 dibuat ulang.
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -20,123 +24,183 @@ import http from 'node:http';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const KEY_FILE = path.join(ROOT, 'tools', 'tts-key.txt');
+const AZURE_FILE = path.join(ROOT, 'tools', 'azure-speech.txt');
+const GOOGLE_FILE = path.join(ROOT, 'tools', 'tts-key.txt');
 const CORPUS = path.join(ROOT, 'tools', 'voice-corpus.json');
 const OUT_DIR = path.join(ROOT, 'audio', 'voice');
+const SAMPLE_DIR = path.join(ROOT, 'tools', 'voice-samples');
 const MANIFEST = path.join(OUT_DIR, 'manifest.js');
-const API = 'https://texttospeech.googleapis.com/v1/';
 
 const args = process.argv.slice(2);
 const cmd = args[0] || 'help';
 const opt = (name, def) => { const i = args.indexOf('--' + name); return i >= 0 && args[i + 1] ? args[i + 1] : def; };
 const flag = name => args.includes('--' + name);
-
-function apiKey() {
-  if (!fs.existsSync(KEY_FILE)) throw new Error('Kunci belum ada. Simpan kunci API di tools/tts-key.txt');
-  const k = fs.readFileSync(KEY_FILE, 'utf8').trim();
-  if (!k) throw new Error('tools/tts-key.txt masih kosong.');
-  return k;
-}
-async function call(endpoint, body) {
-  const res = await fetch(API + endpoint, {
-    method: body ? 'POST' : 'GET',
-    headers: { 'Content-Type': 'application/json', 'X-Goog-Api-Key': apiKey() },
-    body: body ? JSON.stringify(body) : undefined
-  });
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) {
-    const err = new Error((data.error && data.error.message) || res.statusText);
-    err.status = res.status;
-    throw err;
-  }
-  return data;
-}
 const sleep = ms => new Promise(r => setTimeout(r, ms));
-async function synth(text, voice, rate) {
-  const body = { input: { text }, voice: { languageCode: 'id-ID', name: voice }, audioConfig: { audioEncoding: 'MP3' } };
-  if (rate && rate !== 1) body.audioConfig.speakingRate = rate;
+const readLines = f => fs.readFileSync(f, 'utf8').split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+
+class HttpError extends Error { constructor(msg, status) { super(msg); this.status = status; } }
+
+/* ---------- Azure AI Speech ---------- */
+function azure() {
+  const [key, region = 'southeastasia'] = readLines(AZURE_FILE);
+  if (!key) throw new Error('tools/azure-speech.txt masih kosong. Baris 1: KEY 1, baris 2: region.');
+  const base = `https://${region}.tts.speech.microsoft.com/cognitiveservices/`;
+  const xml = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+  return {
+    name: 'Azure',
+    defaults: { voice: 'id-ID-GadisNeural', pitch: '+8%', rate: '+4%' },
+    async voices() {
+      const res = await fetch(base + 'voices/list', { headers: { 'Ocp-Apim-Subscription-Key': key } });
+      if (!res.ok) throw new HttpError(`${res.status} ${await res.text()}`, res.status);
+      return (await res.json()).filter(v => v.Locale === 'id-ID').map(v => `${v.ShortName.padEnd(28)} ${v.Gender}${v.StyleList ? '  gaya: ' + v.StyleList.join(', ') : ''}`);
+    },
+    async synth(text, { voice, pitch, rate }) {
+      const ssml = `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="id-ID">` +
+        `<voice name="${voice}"><prosody pitch="${pitch}" rate="${rate}">${xml(text)}</prosody></voice></speak>`;
+      const res = await fetch(base + 'v1', {
+        method: 'POST',
+        headers: {
+          'Ocp-Apim-Subscription-Key': key,
+          'Content-Type': 'application/ssml+xml',
+          'X-Microsoft-OutputFormat': 'audio-24khz-48kbitrate-mono-mp3',
+          'User-Agent': 'nusa-siaga-voice'
+        },
+        body: ssml
+      });
+      if (!res.ok) throw new HttpError(`${res.status} ${res.statusText} ${await res.text()}`.trim(), res.status);
+      return Buffer.from(await res.arrayBuffer());
+    },
+    samples: [
+      { name: 'Gadis-biasa', voice: 'id-ID-GadisNeural', pitch: '+0%', rate: '+0%' },
+      { name: 'Gadis-ceria', voice: 'id-ID-GadisNeural', pitch: '+8%', rate: '+4%' },
+      { name: 'Gadis-sangat-ceria', voice: 'id-ID-GadisNeural', pitch: '+15%', rate: '+8%' },
+      { name: 'Ardi-ceria', voice: 'id-ID-ArdiNeural', pitch: '+8%', rate: '+4%' }
+    ]
+  };
+}
+
+/* ---------- Google Cloud Text-to-Speech ---------- */
+function google() {
+  const [key] = readLines(GOOGLE_FILE);
+  if (!key) throw new Error('tools/tts-key.txt masih kosong.');
+  const API = 'https://texttospeech.googleapis.com/v1/';
+  const call = async (endpoint, body) => {
+    const res = await fetch(API + endpoint, {
+      method: body ? 'POST' : 'GET',
+      headers: { 'Content-Type': 'application/json', 'X-Goog-Api-Key': key },
+      body: body ? JSON.stringify(body) : undefined
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new HttpError((data.error && data.error.message) || res.statusText, res.status);
+    return data;
+  };
+  const pct = s => 1 + (parseFloat(s) || 0) / 100;
+  return {
+    name: 'Google',
+    defaults: { voice: 'id-ID-Chirp3-HD-Leda', pitch: '+0%', rate: '+0%' },
+    async voices() {
+      const { voices: list = [] } = await call('voices?languageCode=id-ID');
+      return list.map(v => `${v.name.padEnd(36)} ${v.ssmlGender}`);
+    },
+    async synth(text, { voice, rate }) {
+      const body = { input: { text }, voice: { languageCode: 'id-ID', name: voice }, audioConfig: { audioEncoding: 'MP3' } };
+      if (pct(rate) !== 1) body.audioConfig.speakingRate = pct(rate);
+      return Buffer.from((await call('text:synthesize', body)).audioContent, 'base64');
+    },
+    samples: ['Leda', 'Laomedeia', 'Zephyr', 'Autonoe', 'Puck'].map(n => ({ name: n, voice: 'id-ID-Chirp3-HD-' + n, pitch: '+0%', rate: '+0%' }))
+  };
+}
+
+function provider() {
+  if (fs.existsSync(AZURE_FILE)) return azure();
+  if (fs.existsSync(GOOGLE_FILE)) return google();
+  throw new Error('Kunci belum ada. Simpan kunci Azure di tools/azure-speech.txt (baris 1: KEY 1, baris 2: region).');
+}
+async function synthRetry(p, text, style) {
   for (let attempt = 0; ; attempt++) {
     try {
-      return Buffer.from((await call('text:synthesize', body)).audioContent, 'base64');
+      return await p.synth(text, style);
     } catch (e) {
-      if ((e.status === 429 || e.status >= 500) && attempt < 5) { await sleep(1000 * 2 ** attempt); continue; }
+      if ((e.status === 429 || e.status >= 500 || !e.status) && attempt < 6) { await sleep(1500 * 2 ** attempt); continue; }
       throw e;
     }
   }
 }
+
 function readManifest() {
   if (!fs.existsSync(MANIFEST)) return { voice: '', files: {} };
   const src = fs.readFileSync(MANIFEST, 'utf8');
-  const json = src.slice(src.indexOf('{'), src.lastIndexOf('}') + 1);
-  return JSON.parse(json);
+  return JSON.parse(src.slice(src.indexOf('{'), src.lastIndexOf('}') + 1));
 }
 function writeManifest(m) {
   fs.mkdirSync(OUT_DIR, { recursive: true });
-  const sorted = Object.fromEntries(Object.keys(m.files).sort().map(k => [k, 1]));
+  const files = Object.fromEntries(Object.keys(m.files).sort().map(k => [k, 1]));
   fs.writeFileSync(MANIFEST,
     '/* Dibuat otomatis oleh tools/make-voice.mjs. Daftar kalimat Tuti yang sudah punya file MP3. */\n' +
-    'window.SIAGA_VOICE = ' + JSON.stringify({ voice: m.voice, rate: m.rate || 1, files: sorted }) + ';\n');
+    'window.SIAGA_VOICE = ' + JSON.stringify({ voice: m.voice, files }) + ';\n');
 }
 
 async function voices() {
-  const { voices: list = [] } = await call('voices?languageCode=id-ID');
-  list.filter(v => /Chirp3-HD/.test(v.name)).forEach(v => console.log(v.name.padEnd(36), v.ssmlGender));
-  console.log('\nSuara lain:', list.filter(v => !/Chirp3-HD/.test(v.name)).map(v => v.name).join(', '));
+  const p = provider();
+  console.log(`Suara bahasa Indonesia di ${p.name}:`);
+  (await p.voices()).forEach(v => console.log('  ' + v));
 }
 
 async function sample() {
-  const text = 'Halo! Aku Tuti si Penyu. Ayo jelajahi pulau-pulau dan jadi Pahlawan Siaga Tsunami! Hore, kamu dapat tiga bintang!';
-  const names = (opt('voices', '') || 'Leda,Laomedeia,Zephyr,Autonoe,Aoede,Kore,Puck').split(',');
-  const dir = path.join(ROOT, 'tools', 'voice-samples');
-  fs.mkdirSync(dir, { recursive: true });
-  for (const n of names) {
-    const voice = n.includes('-') ? n : 'id-ID-Chirp3-HD-' + n;
+  const p = provider();
+  const text = opt('text', 'Halo! Aku Tuti si Penyu. Ayo jelajahi pulau-pulau dan jadi Pahlawan Siaga Tsunami! Hore, kamu dapat tiga bintang! Kalau gempa kuat, segera lari ke tempat tinggi, ya.');
+  fs.mkdirSync(SAMPLE_DIR, { recursive: true });
+  for (const s of p.samples) {
     try {
-      fs.writeFileSync(path.join(dir, voice + '.mp3'), await synth(text, voice, Number(opt('rate', 1))));
-      console.log('ok   ', voice);
-    } catch (e) { console.log('gagal', voice, '-', e.message); }
+      fs.writeFileSync(path.join(SAMPLE_DIR, s.name + '.mp3'), await synthRetry(p, text, s));
+      console.log(`ok     ${s.name.padEnd(20)} ${s.voice} nada ${s.pitch} tempo ${s.rate}`);
+    } catch (e) { console.log(`gagal  ${s.name} - ${e.message}`); }
   }
-  console.log('\nDengarkan file di', dir);
+  console.log('\nDengarkan file di', SAMPLE_DIR);
 }
 
 async function build() {
+  const p = provider();
   if (!fs.existsSync(CORPUS)) throw new Error('tools/voice-corpus.json belum ada. Jalankan langkah 3 (serve) dulu.');
-  apiKey();
   const corpus = JSON.parse(fs.readFileSync(CORPUS, 'utf8'));
+  const style = {
+    voice: opt('voice', p.defaults.voice),
+    pitch: opt('pitch', p.defaults.pitch),
+    rate: opt('rate', p.defaults.rate)
+  };
+  const id = `${p.name}:${style.voice}|nada ${style.pitch}|tempo ${style.rate}`;
   const m = readManifest();
-  const voice = opt('voice', m.voice || 'id-ID-Chirp3-HD-Leda');
-  const rate = Number(opt('rate', m.rate || 1));
-  if ((m.voice && m.voice !== voice) || (m.rate || 1) !== rate) {
-    console.log(`Suara atau tempo berubah (${m.voice} ${m.rate || 1} -> ${voice} ${rate}): semua MP3 dibuat ulang.`);
+  if (m.voice && m.voice !== id) {
+    console.log(`Suara berubah (${m.voice} -> ${id}): semua MP3 dibuat ulang.`);
     m.files = {};
   }
-  m.voice = voice;
-  m.rate = rate;
+  m.voice = id;
   fs.mkdirSync(OUT_DIR, { recursive: true });
   const todo = corpus.filter(c => !m.files[c.k] || !fs.existsSync(path.join(OUT_DIR, c.k + '.mp3')));
   const chars = todo.reduce((n, c) => n + c.s.length, 0);
-  console.log(`${corpus.length} kalimat, ${todo.length} perlu dibuat (${chars} karakter). Suara ${voice}, tempo ${rate}.`);
-  let done = 0, failed = 0, i = 0;
+  console.log(`${corpus.length} kalimat, ${todo.length} perlu dibuat (${chars} karakter). ${id}`);
+  let done = 0, failed = 0, i = 0, fatal = null;
   const worker = async () => {
-    while (i < todo.length) {
+    while (i < todo.length && !fatal) {
       const c = todo[i++];
       try {
-        fs.writeFileSync(path.join(OUT_DIR, c.k + '.mp3'), await synth(c.s, voice, rate));
+        fs.writeFileSync(path.join(OUT_DIR, c.k + '.mp3'), await synthRetry(p, c.s, style));
         m.files[c.k] = 1;
       } catch (e) {
         failed++;
-        console.log('\ngagal:', c.s.slice(0, 60), '-', e.message);
-        if (e.status === 400 && /speaking/i.test(e.message)) throw e;
-        if (e.status === 403) throw e;
+        console.log(`\ngagal: "${c.s.slice(0, 60)}" - ${e.message}`);
+        if (e.status === 400 || e.status === 401 || e.status === 403) fatal = e;
       }
       if (++done % 25 === 0) { writeManifest(m); process.stdout.write(`\r${done}/${todo.length}`); }
     }
   };
   try {
-    await Promise.all([worker(), worker(), worker(), worker()]);
+    // Paket gratis Azure membatasi jumlah permintaan bersamaan, jadi cukup 2 sekaligus.
+    await Promise.all([worker(), worker()]);
   } finally {
     writeManifest(m);
   }
+  if (fatal) throw fatal;
   if (flag('prune')) {
     const keep = new Set(corpus.map(c => c.k));
     let removed = 0;
@@ -171,7 +235,7 @@ function serve() {
     }
     const url = decodeURIComponent(req.url.split('?')[0]);
     const file = path.join(ROOT, url === '/' ? 'index.html' : url);
-    if (!file.startsWith(ROOT)) { res.writeHead(403); res.end(); return; }
+    if (!file.startsWith(ROOT) || /tools[\\/].*\.txt$/.test(file)) { res.writeHead(403); res.end(); return; }
     fs.readFile(file, (err, data) => {
       if (err) { res.writeHead(404); res.end('not found'); return; }
       res.writeHead(200, { 'Content-Type': types[path.extname(file)] || 'application/octet-stream', 'Cache-Control': 'no-store' });
