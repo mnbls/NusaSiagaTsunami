@@ -4957,7 +4957,8 @@
   function stopSpeech() { if (canSpeak) window.speechSynthesis.cancel(); }
   // queue = true: ucapkan setelah kalimat yang sedang berjalan, tanpa memotongnya.
   function speak(textToSay, queue = false) {
-    if (!canSpeak || !textToSay) return;
+    // Tombol suara di pojok atas mematikan semua bunyi, termasuk suara Tuti.
+    if (!canSpeak || !textToSay || !save.sound) return;
     if (!activated) { pendingSay = textToSay; return; }
     if (!queue) stopSpeech();
     // Dipecah per kalimat supaya jedanya terdengar alami dan teks panjang tidak terpotong.
@@ -4979,7 +4980,7 @@
   const activate = () => {
     if (activated) return;
     activated = true;
-    if (pendingSay && save.talk) {
+    if (pendingSay && save.talk && save.sound) {
       const t = pendingSay;
       pendingSay = '';
       setTimeout(() => { if (!window.speechSynthesis.speaking) speak(t); }, 80);
@@ -5597,7 +5598,7 @@
     persist();
     updateHeader();
     sfx.click();
-    if (save.sound) music.play(); else music.stop();
+    if (save.sound) music.play(); else { music.stop(); stopSpeech(); }
   });
   // Browser hanya mengizinkan suara setelah pemain menyentuh layar, jadi musik dimulai di sentuhan pertama.
   const firstTouch = () => {
