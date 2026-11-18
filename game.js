@@ -2778,12 +2778,12 @@
       persist();
       sfx.click();
       showHome();
-      if (save.talk) speak('Hore! Tuti akan membacakan cerita, soal, dan penjelasan untukmu.');
+      if (save.talk) speak(SAY.talkOn);
       else stopSpeech();
     };
     if (greetedFor !== store.current) {
       greetedFor = store.current;
-      autoSay(`Halo${save.name ? ', ' + save.name : ''}! Aku Tuti si Penyu. Ayo jelajahi pulau-pulau, selesaikan misinya, dan jadi Pahlawan Siaga Tsunami! Tekan Main sekarang untuk mulai.`);
+      autoSay(SAY.home(save.name));
     }
     $('#testBtnHome').onclick = () => { sfx.click(); showTestMenu(); };
     $('#reportBtn').onclick = () => { sfx.click(); showReport(); };
@@ -2933,7 +2933,7 @@
     screenName = 'map';
     if (!mapGreeted) {
       mapGreeted = true;
-      autoSay('Ini Peta Kepulauan. Ketuk pulau yang ingin kamu jelajahi. Mulai dari Pulau Ilmu, ya!');
+      autoSay(SAY.map);
     }
     // Penjelasan pulau muncul di bawah peta saat disorot kursor atau fokus keyboard.
     const info = $('#mapInfo');
@@ -2941,7 +2941,7 @@
       const is = ISLANDS.find(x => x.id === b.dataset.island);
       const show = () => { info.innerHTML = `<b>${esc(is.name)}</b> · ${esc(is.theme)}. ${esc(is.desc)}`; };
       const reset = () => { info.textContent = MAP_HINT; };
-      b.addEventListener('mouseenter', () => { show(); autoSay(`${is.name}. ${is.theme}.`); });
+      b.addEventListener('mouseenter', () => { show(); autoSay(SAY.islandHover(is)); });
       b.addEventListener('focus', show);
       b.addEventListener('mouseleave', reset);
       b.addEventListener('blur', reset);
@@ -3007,7 +3007,7 @@
       if (isUnlocked(lv)) { sfx.click(); startLevel(lv.id); }
       else showFeedback({ good: false, title: 'Masih terkunci', text: 'Selesaikan misi sebelumnya di pulau ini dulu, ya!' });
     }));
-    autoSay(`Selamat datang di ${is.name}! Temanya ${is.theme}. Pilih misi yang sudah terbuka, ya.`);
+    autoSay(SAY.islandWelcome(is));
     if (!save.explained[id]) openExplain(id);
   }
 
@@ -3020,7 +3020,7 @@
       const b = $('.mission .bubble');
       if (b) b.innerHTML = `${ic('bulb')} <b>Petunjuk Tuti:</b> ${esc(currentLv.recap[0])}`;
       const hintLv = currentLv;
-      setTimeout(() => autoSay(`Psst, petunjuk dari Tuti: ${hintLv.recap[0]}`, true), 0);
+      setTimeout(() => autoSay(SAY.hint(hintLv), true), 0);
     }
     const el = $('#hearts');
     if (!el) return;
@@ -3058,7 +3058,7 @@
       ${GENTLE.has(String(lv.id)) ? `<p class="gentle-note">${ic('heart')}<span>Misi ini membahas hal yang menyedihkan. Kalau kamu merasa takut atau sedih, berhenti sebentar dan ceritakan kepada orang dewasa yang kamu percaya. Sekarang kamu aman.</span></p>` : ''}
       <ol class="how">${lv.how.map(h => `<li>${esc(h)}</li>`).join('')}</ol>
       <button class="btn big green" id="goBtn" type="button">Ayo mulai! ${ic('play')}</button>`);
-    autoSay(`Misi ${levelNo(lv)}: ${lv.title}. ${lv.mission} Caranya: ${lv.how.join(' ')} Kalau sudah siap, tekan Ayo mulai!`);
+    autoSay(SAY.levelIntro(lv));
     $('#goBtn').onclick = () => { closeModal(); sfx.click(); music.mood('mission'); recordPlay(lv, 'start'); PLAY[lv.type](lv); };
   }
 
@@ -3071,9 +3071,7 @@
     const list = levelsOf(lv.island);
     const nextLv = list[list.indexOf(lv) + 1];
     const is = islandOf(lv);
-    const msg = stars === 3 ? 'Sempurna! Kamu benar-benar siaga.'
-      : stars === 2 ? 'Bagus sekali! Sedikit lagi sempurna.'
-      : 'Kamu berhasil! Main lagi untuk dapat bintang lebih banyak.';
+    const msg = SAY.winMsg(stars);
     render(`<section class="screen result">
       <div class="card result-card">
         ${mascot('happy', 'big bob')}
@@ -3098,7 +3096,7 @@
       </div>
     </section>`);
     sfx.win();
-    autoSay(`${cheer()} Misi selesai! Kamu dapat ${stars} bintang. ${msg} Ingat ya: ${lv.recap[0]}`);
+    autoSay(SAY.win(lv, stars, msg));
     if (stars === 3 || !nextLv) confetti();
     $('#retryBtn').onclick = () => startLevel(lv.id);
     $('#mapBtn').onclick = () => showIsland(lv.island);
@@ -3178,7 +3176,7 @@
     </section>`);
     confetti();
     sfx.win();
-    autoSay(`Selamat, ${name()}! ${info.say} Jangan lupa ceritakan ilmumu kepada keluarga, ya.`);
+    autoSay(SAY.cert(name(), info.say));
     const inp = $('#nameIn');
     inp.addEventListener('input', () => {
       save.name = inp.value.trim();
@@ -4452,7 +4450,7 @@
           <p class="q-count">Situasi ${qi + 1} dari ${questions.length}</p>
           ${q.art
             ? `<div class="scene card map-scene"><div class="map-art">${art(q.art)}</div><p>${esc(q.text)}</p></div>`
-            : `<div class="scene card"><span class="scene-emo" aria-hidden="true">${ic(q.ic)}</span><p>${esc(q.text)}</p>${sayBtn(q.text + ' Pilihannya: ' + opts.map(o => o.text).join('. '))}</div>`}
+            : `<div class="scene card"><span class="scene-emo" aria-hidden="true">${ic(q.ic)}</span><p>${esc(q.text)}</p>${sayBtn(SAY.quizBtn(q, opts))}</div>`}
           ${secs ? '<div class="timer" aria-hidden="true"><i id="tbar"></i></div>' : ''}
           <div class="options">
             ${opts.map((o, i) => `<button class="opt card" data-i="${i}" type="button">
@@ -4460,7 +4458,7 @@
           </div>
         </div>`;
       $$('.opt').forEach(b => b.addEventListener('click', () => answer(opts, opts[Number(b.dataset.i)], b)));
-      autoSay(`${q.text} Pilihannya: ${opts.map((o, k) => `${k + 1}, ${o.text}`).join('. ')}.`);
+      autoSay(SAY.quiz(q, opts));
       // Pastikan situasi dan pilihan terlihat tanpa perlu scroll saat waktu berjalan.
       $('.quiz').scrollIntoView({ block: 'start', behavior: qi ? 'smooth' : 'auto' });
       if (secs) {
@@ -4929,24 +4927,100 @@
   const GENTLE = new Set(['b5', 'b9', 'p6', 'h5', 'h9']);
   let currentLv = null;
 
-  /* ----- Narasi suara Tuti (Web Speech API, bawaan browser, tanpa server) ----- */
-  // Utamakan suara Google Bahasa Indonesia karena artikulasinya paling jelas.
-  // Nada hanya sedikit dinaikkan dan tempo sedikit diperlambat: tetap ramah anak tanpa merusak pelafalan.
-  // Kalau suara Google tidak ada (misalnya di Edge atau Safari), dipakai suara Indonesia lain di perangkat.
-  const canSpeak = 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
+  /* ----- Narasi suara Tuti ----- */
+  // Jalur utama: file MP3 suara AI Google (Chirp 3 HD) yang dibuat sekali lewat tools/make-voice.mjs.
+  //   Setiap kalimat punya file sendiri: audio/voice/<kunci>.mp3, daftarnya di audio/voice/manifest.js.
+  // Cadangan: suara bawaan browser (Web Speech API) untuk kalimat yang belum punya MP3, misalnya nama pemain.
+  const canSynth = 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
+  const canSpeak = canSynth || typeof Audio !== 'undefined';
   const VOICE_PREF = [/google.*indonesia/i, /^google/i, /gadis.*natural/i, /gadis/i, /damayanti/i, /indonesia/i];
   const VOICE_RATE = 0.95, VOICE_PITCH = 1.1;
+  const VOICE_DIR = 'audio/voice/';
   let idVoice = null;
   function pickVoice() {
     const vs = window.speechSynthesis.getVoices().filter(v => /^id/i.test(v.lang) || /indonesia/i.test(v.name));
     idVoice = VOICE_PREF.map(re => vs.find(v => re.test(v.name))).find(Boolean) || vs[0] || null;
   }
-  if (canSpeak) {
+  if (canSynth) {
     pickVoice();
     if (window.speechSynthesis.addEventListener) window.speechSynthesis.addEventListener('voiceschanged', pickVoice);
   }
   const CHEERS = ['Hore!', 'Keren!', 'Hebat!', 'Mantap!', 'Wah, pintar!'];
   const cheer = () => CHEERS[Math.floor(Math.random() * CHEERS.length)];
+
+  // Kalimat yang diucapkan Tuti. Dipakai saat bermain dan saat menyusun daftar kalimat untuk dibuat MP3-nya.
+  const SAY = {
+    home: n => `Halo${n ? ', ' + n : ''}! Aku Tuti si Penyu. Ayo jelajahi pulau-pulau, selesaikan misinya, dan jadi Pahlawan Siaga Tsunami! Tekan Main sekarang untuk mulai.`,
+    talkOn: 'Hore! Tuti akan membacakan cerita, soal, dan penjelasan untukmu.',
+    map: 'Ini Peta Kepulauan. Ketuk pulau yang ingin kamu jelajahi. Mulai dari Pulau Ilmu, ya!',
+    islandHover: is => `${is.name}. ${is.theme}.`,
+    islandWelcome: is => `Selamat datang di ${is.name}! Temanya ${is.theme}. Pilih misi yang sudah terbuka, ya.`,
+    hint: lv => `Psst, petunjuk dari Tuti! ${lv.recap[0]}`,
+    levelIntro: lv => `Misi ${levelNo(lv)}: ${lv.title}. ${lv.mission} Caranya: ${lv.how.join(' ')} Kalau sudah siap, tekan Ayo mulai!`,
+    win: (lv, stars, msg, c = cheer()) => `${c} Misi selesai! Kamu dapat ${stars} bintang. ${msg} Ingat ya: ${lv.recap[0]}`,
+    winMsg: stars => (stars === 3 ? 'Sempurna! Kamu benar-benar siaga.'
+      : stars === 2 ? 'Bagus sekali! Sedikit lagi sempurna.'
+      : 'Kamu berhasil! Main lagi untuk dapat bintang lebih banyak.'),
+    cert: (n, say) => `Selamat, ${n}! ${say} Jangan lupa ceritakan ilmumu kepada keluarga, ya.`,
+    quiz: (q, opts) => `${q.text} Pilihannya. ${opts.map((o, k) => `${k + 1}, ${o.text}`).join('. ')}.`,
+    quizBtn: (q, opts) => `${q.text} Pilihannya. ${opts.map(o => o.text).join('. ')}`,
+    profiles: any => (any ? 'Halo! Siapa yang mau bermain? Ketuk namamu. Kalau belum ada, tulis nama dan kelasmu, lalu tekan Tambah dan main.'
+      : 'Halo, teman baru! Tulis nama dan kelasmu, lalu tekan Tambah dan main.')
+  };
+
+  // Teks dipecah per kalimat. Cara memecah ini sama persis dengan yang dipakai saat menyusun daftar MP3.
+  function sentencesOf(text) {
+    const clean = String(text).replace(/([!?])\./g, '$1').replace(/\.\./g, '.').replace(/\s+/g, ' ');
+    return (clean.match(/[^.!?]+[.!?]*/g) || [clean]).map(s => s.trim()).filter(s => /[0-9A-Za-z]/.test(s));
+  }
+  // Kunci file: dua hash FNV-1a 32-bit digabung, supaya nama file pendek tetapi hampir tidak mungkin bentrok.
+  function voiceKey(s) {
+    let a = 0x811c9dc5, b = 0x5bd1e995;
+    for (let i = 0; i < s.length; i++) {
+      const c = s.charCodeAt(i);
+      a = Math.imul(a ^ c, 0x01000193) >>> 0;
+      b = Math.imul(b ^ c, 0x5bd1e995) >>> 0;
+    }
+    return a.toString(16).padStart(8, '0') + b.toString(16).padStart(8, '0');
+  }
+  const voiceFiles = () => (window.SIAGA_VOICE && window.SIAGA_VOICE.files) || {};
+  // Kalimat yang belum punya MP3 dicatat (hanya saat dicoba di komputer sendiri) supaya bisa dibuatkan nanti.
+  const isDevHost = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
+  const voiceMisses = new Set();
+
+  // Antrean bicara: setiap kalimat diputar bergantian, MP3 dulu, suara browser bila MP3 tidak ada.
+  let sayQueue = [], sayBusy = false, sayToken = 0, sayAudio = null;
+  function sayNext() {
+    const s = sayQueue.shift();
+    if (!s) { sayBusy = false; return; }
+    sayBusy = true;
+    const token = sayToken;
+    const done = () => { if (token === sayToken) sayNext(); };
+    const key = voiceKey(s);
+    if (voiceFiles()[key]) {
+      const a = new Audio(VOICE_DIR + key + '.mp3');
+      sayAudio = a;
+      a.onended = done;
+      a.onerror = () => { if (token === sayToken) synth(s, done); };
+      a.play().catch(() => { if (token === sayToken) synth(s, done); });
+    } else {
+      if (isDevHost) voiceMisses.add(s);
+      synth(s, done);
+    }
+  }
+  function synth(s, done) {
+    if (!canSynth) { done(); return; }
+    const u = new SpeechSynthesisUtterance(s);
+    u.lang = 'id-ID';
+    u.rate = VOICE_RATE;
+    u.pitch = VOICE_PITCH;
+    if (idVoice) u.voice = idVoice;
+    u.onend = done;
+    u.onerror = done;
+    window.speechSynthesis.speak(u);
+  }
+  const isSpeaking = () => sayBusy;
+
   // Browser baru mengizinkan suara setelah layar disentuh, jadi kalimat pertama disimpan dulu.
   let activated = false, pendingSay = '';
 
@@ -4954,26 +5028,21 @@
     if (!canSpeak) return '';
     return `<button class="say-btn" type="button" data-say="${esc(textToSay)}" aria-label="Dengarkan" title="Dengarkan">${ic('sound-on')}</button>`;
   }
-  function stopSpeech() { if (canSpeak) window.speechSynthesis.cancel(); }
+  function stopSpeech() {
+    sayToken++;
+    sayQueue = [];
+    sayBusy = false;
+    if (sayAudio) { sayAudio.onended = sayAudio.onerror = null; sayAudio.pause(); sayAudio = null; }
+    if (canSynth) window.speechSynthesis.cancel();
+  }
   // queue = true: ucapkan setelah kalimat yang sedang berjalan, tanpa memotongnya.
   function speak(textToSay, queue = false) {
     // Tombol suara di pojok atas mematikan semua bunyi, termasuk suara Tuti.
     if (!canSpeak || !textToSay || !save.sound) return;
     if (!activated) { pendingSay = textToSay; return; }
     if (!queue) stopSpeech();
-    // Dipecah per kalimat supaya jedanya terdengar alami dan teks panjang tidak terpotong.
-    // Rapikan tanda baca ganda seperti '?.' agar jeda terdengar wajar.
-    const clean = String(textToSay).replace(/([!?])\./g, '$1').replace(/\.\./g, '.');
-    (clean.match(/[^.!?]+[.!?]*/g) || [clean]).forEach(part => {
-      const t = part.trim();
-      if (!t) return;
-      const u = new SpeechSynthesisUtterance(t);
-      u.lang = 'id-ID';
-      u.rate = VOICE_RATE;
-      u.pitch = VOICE_PITCH;
-      if (idVoice) u.voice = idVoice;
-      window.speechSynthesis.speak(u);
-    });
+    sayQueue.push(...sentencesOf(textToSay));
+    if (!sayBusy) sayNext();
   }
   // Suara otomatis hanya jika pengaturan "Tuti bicara" menyala.
   function autoSay(textToSay, queue = false) { if (save.talk) speak(textToSay, queue); }
@@ -4983,7 +5052,7 @@
     if (pendingSay && save.talk && save.sound) {
       const t = pendingSay;
       pendingSay = '';
-      setTimeout(() => { if (!window.speechSynthesis.speaking) speak(t); }, 80);
+      setTimeout(() => { if (!isSpeaking()) speak(t); }, 80);
     }
   };
   window.addEventListener('pointerdown', activate, true);
@@ -4998,7 +5067,64 @@
     hoverCard = c;
     if (c && !c.disabled && activated) autoSay(c.textContent.trim());
   });
-  window.SiagaVoice = { auto: t => autoSay(t), stop: stopSpeech };
+
+  // Daftar semua kalimat yang mungkin diucapkan Tuti, untuk dibuatkan MP3-nya (lihat tools/make-voice.mjs).
+  async function voiceCorpus() {
+    const out = new Set();
+    const add = t => { if (t) sentencesOf(t).forEach(s => out.add(s)); };
+    const SKIP = new Set(['ic', 'id', 'type', 'art', 'phase', 'phaseKey', 'island', 'color', 'key', 'kind', 'cls', 'shape', 'img']);
+    const seen = new Set();
+    const walk = (v, k) => {
+      if (typeof v === 'string') { if (!SKIP.has(k) && !/^[a-z0-9_-]+$/.test(v)) add(v); return; }
+      if (!v || typeof v !== 'object' || seen.has(v)) return;
+      seen.add(v);
+      if (Array.isArray(v)) { v.forEach(x => walk(x, k)); return; }
+      Object.keys(v).forEach(key => walk(v[key], key));
+      // Soal pilihan ganda dibacakan bersama nomor pilihannya; urutan pilihan diacak, jadi semua nomor disiapkan.
+      if (typeof v.text === 'string' && Array.isArray(v.options)) {
+        add(SAY.quizBtn(v, v.options));
+        v.options.forEach(o => { for (let k = 1; k <= v.options.length; k++) add(`${k}, ${o.text}.`); });
+      }
+    };
+    walk(ISLANDS); walk(LEVELS); walk(TEST_A); walk(TEST_B);
+    CHEERS.forEach(add);
+    ['', 'Pahlawan Siaga'].forEach(n => add(SAY.home(n)));
+    add(SAY.talkOn); add(SAY.map); add(SAY.profiles(true)); add(SAY.profiles(false));
+    add('Tidak apa-apa.');
+    ISLANDS.forEach(is => { add(SAY.islandHover(is)); add(SAY.islandWelcome(is)); add(certInfo(is.id).say); });
+    ['full', 'core'].forEach(k => add(certInfo(k).say));
+    add(SAY.cert('Pahlawan Siaga', ''));
+    LEVELS.forEach(lv => {
+      add(SAY.levelIntro(lv)); add(SAY.hint(lv));
+      [1, 2, 3].forEach(st => add(SAY.win(lv, st, SAY.winMsg(st), CHEERS[0])));
+    });
+    if (window.SiagaExplain && window.SiagaExplain.corpus) window.SiagaExplain.corpus().forEach(add);
+    if (window.SiagaIntro && window.SiagaIntro.corpus) window.SiagaIntro.corpus().forEach(add);
+    // Teks lain yang tertulis langsung di kode (judul umpan balik, pesan gagal, dan lainnya).
+    for (const f of ['game.js', 'explain.js', 'intro.js']) {
+      try {
+        const src = await (await fetch(f, { cache: 'no-store' })).text();
+        const re = /'((?:[^'\\\n]|\\.)*)'|`((?:[^`\\$]|\\.|\$(?!\{))*)`/g;
+        let m;
+        while ((m = re.exec(src))) {
+          const t = (m[1] !== undefined ? m[1] : m[2]).replace(/\\(.)/g, '$1');
+          if (t.length > 3 && / [a-z]/.test(t) && !/[<>{}=;|]/.test(t)) add(t);
+        }
+      } catch (e) { /* abaikan */ }
+    }
+    voiceMisses.forEach(s => out.add(s));
+    return [...out].filter(s => s.length <= 600);
+  }
+  window.SiagaVoice = {
+    auto: t => autoSay(t), stop: stopSpeech,
+    key: voiceKey, sentences: sentencesOf, corpus: voiceCorpus, misses: () => [...voiceMisses],
+    // Dipakai bersama tools/make-voice.mjs serve: mengirim daftar kalimat beserta kunci file MP3-nya.
+    exportCorpus: async () => {
+      const list = (await voiceCorpus()).map(t => ({ k: voiceKey(t), s: t }));
+      const res = await fetch('/__voice-corpus', { method: 'POST', body: JSON.stringify(list) });
+      return res.ok ? list.length + ' kalimat tersimpan' : 'Gagal: jalankan node tools/make-voice.mjs serve';
+    }
+  };
   let greetedFor = null, mapGreeted = false;
   document.addEventListener('click', e => {
     const b = e.target.closest('[data-say]');
@@ -5264,7 +5390,7 @@
       </form>
       ${list.length ? `<div class="row center"><button class="btn blue" id="classRepBtn" type="button">${ic('monitor')} Laporan Kelas</button></div>` : ''}
     </section>`);
-    autoSay(list.length ? 'Halo! Siapa yang mau bermain? Ketuk namamu. Kalau belum ada, tulis nama dan kelasmu, lalu tekan Tambah dan main.' : 'Halo, teman baru! Tulis nama dan kelasmu, lalu tekan Tambah dan main.');
+    autoSay(SAY.profiles(list.length > 0));
     const enter = () => {
       persist();
       updateHeader();

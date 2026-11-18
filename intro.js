@@ -179,12 +179,14 @@
     if (opts.onClose) opts.onClose(reason);
   }
 
+  const sceneSay = s => `${s.title}. ${s.text || (s.chips ? s.chips.map(c => c.t).join(', ') + '.' : '')}${s.note ? ' ' + s.note : ''}`;
+
   function go(i, instant) {
     if (i < 0 || i >= SCENES.length) return;
     idx = i;
     const s = SCENES[i];
     // Tuti membacakan judul dan isi adegan.
-    if (window.SiagaVoice) window.SiagaVoice.auto(`${s.title}. ${s.text || (s.chips ? s.chips.map(c => c.t).join(', ') + '.' : '')}${s.note ? ' ' + s.note : ''}`);
+    if (window.SiagaVoice) window.SiagaVoice.auto(sceneSay(s));
     const mascot = opts.mascot ? opts.mascot('happy', 'small') : '';
     const body = root.querySelector('.intro-body');
     body.innerHTML = `
@@ -777,6 +779,8 @@
   // _step(detik): memajukan animasi secara langsung, dipakai untuk pengujian.
   window.SiagaIntro = {
     open,
+    // Semua kalimat yang dibacakan Tuti di cerita pembuka (untuk dibuatkan MP3).
+    corpus: () => SCENES.map(sceneSay),
     _step(seconds) { if (world) for (let s = 0; s < seconds; s += 1 / 30) world.update(1 / 30); }
   };
 })();

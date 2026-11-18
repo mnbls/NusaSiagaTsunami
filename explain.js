@@ -699,12 +699,14 @@
     box.setAttribute('aria-label', slide.alt || slide.title);
   }
 
+  const slideSay = s => `${s.title}. ${s.text}${s.note ? ' ' + s.note : ''}`;
+
   function go(i) {
     if (!cur || i < 0 || i >= cur.slides.length) return;
     idx = i;
     const s = cur.slides[i];
     // Tuti membacakan setiap slide jika pengaturan suara otomatis menyala.
-    if (window.SiagaVoice) window.SiagaVoice.auto(`${s.title}. ${s.text}${s.note ? ' ' + s.note : ''}`);
+    if (window.SiagaVoice) window.SiagaVoice.auto(slideSay(s));
     const mascot = opts.mascot ? opts.mascot('happy', 'small') : '';
     const body = root.querySelector('.xp-body');
     body.innerHTML = `
@@ -761,5 +763,9 @@
     if (opts.onClose) opts.onClose(reason);
   }
 
-  window.SiagaExplain = { open, has: id => !!ISLAND_DATA[id] };
+  window.SiagaExplain = {
+    open, has: id => !!ISLAND_DATA[id],
+    // Semua kalimat yang dibacakan Tuti di animasi penjelasan (untuk dibuatkan MP3).
+    corpus: () => Object.values(ISLAND_DATA).flatMap(d => d.slides.map(slideSay))
+  };
 })();

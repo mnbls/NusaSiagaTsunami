@@ -62,6 +62,19 @@ Pada kunjungan pertama dibutuhkan internet untuk memuat font Fredoka dan Three.j
 | `cloud.js` | Login (Google/email) dan database online Firebase, termasuk papan peringkat realtime |
 | `firebase-config.js` | Konfigurasi proyek Firebase (kosong = mode tamu) |
 | `firestore.rules` | Aturan keamanan database untuk ditempel di Firebase Console |
+| `audio/voice/` | MP3 suara Tuti (Google Chirp 3 HD), satu file per kalimat, dan `manifest.js` daftarnya |
+| `tools/make-voice.mjs` | Pembuat MP3 suara Tuti dari Google Cloud Text-to-Speech |
+
+## Suara Tuti (Google Chirp 3 HD)
+
+Tuti membacakan teks dari file MP3 suara AI Google yang lebih manusiawi. Kalimat yang belum punya MP3 (misalnya yang memuat nama pemain) dibacakan suara bawaan browser.
+
+1. Buat kunci API Google Cloud Text-to-Speech, simpan di `tools/tts-key.txt` (berkas ini diabaikan git).
+2. `node tools/make-voice.mjs sample` membuat contoh beberapa suara di `tools/voice-samples/` untuk dipilih.
+3. `node tools/make-voice.mjs serve`, buka http://localhost:5175, lalu jalankan `SiagaVoice.exportCorpus()` di konsol browser.
+4. `node tools/make-voice.mjs build --voice id-ID-Chirp3-HD-Leda` membuat MP3 semua kalimat.
+
+Ulangi langkah 3–4 setiap kali teks game berubah. Kalimat yang sudah punya MP3 dilewati, jadi kuota tidak terbuang.
 
 ## Sumber materi
 
