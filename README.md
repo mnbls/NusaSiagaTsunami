@@ -2,7 +2,7 @@
 
 **Petualangan Mitigasi Tsunami.** Jelajahi pulau, kuasai mitigasi, selamatkan diri.
 
-Game edukasi berbasis web tentang **mitigasi bencana tsunami**. Pemain ditemani **Tuti si Penyu**, menjelajahi 8 pulau, dan menyelesaikan 77 misi: mulai dari mengenal tsunami, cara mengurangi risikonya, cara menyelamatkan diri, pemulihan setelah bencana, sejarah tsunami Indonesia, simulasi penyebab tsunami, sampai ujian akhir.
+Game edukasi berbasis web tentang **mitigasi bencana tsunami**. Pemain ditemani **Tuti si Penyu**, menjelajahi 8 pulau, dan menyelesaikan 40 misi (5 per pulau, mengutamakan game interaktif): mulai dari mengenal tsunami, cara mengurangi risikonya, cara menyelamatkan diri, pemulihan setelah bencana, sejarah tsunami Indonesia, simulasi penyebab tsunami, sampai ujian akhir.
 
 ## Isi game
 
@@ -12,28 +12,30 @@ Game edukasi berbasis web tentang **mitigasi bencana tsunami**. Pemain ditemani 
 
 | Pulau | Tema | Misi |
 |---|---|---|
-| 1. Pulau Ilmu | Mengenal tsunami | Apa Itu Tsunami?, Proses Terjadinya Tsunami, Detektif Penyebab, Lab Gempa Pemicu, Kuis Dampak Tsunami, Laut Dalam vs Pantai, Ombak Biasa atau Tsunami?, Kamus Tsunami, Jejak Tsunami di Indonesia, Ujian Ilmu Tsunami |
-| 2. Pulau Simulasi | Simulasi penyebab tsunami | Simulasi Gempa Tektonik, Simulasi Letusan Gunung Api, Simulasi Longsor Bawah Laut, Simulasi Hantaman Meteor, Simulasi Perambatan Gelombang, Simulasi Waktu Tiba dan Evakuasi |
-| 3. Pulau Benteng | Mitigasi struktural | Kenali Bangunan Pelindung, Tanam Sabuk Mangrove, Susun Benteng Pantai, Kuis Insinyur Pantai, Rumah Tahan Gempa, Menara Evakuasi Ideal, Rawat Benteng Pantai, Lari ke Menara Evakuasi, Kuis Kilat Benteng, Masalah dan Solusi |
-| 4. Pulau Siaga Warga | Mitigasi non-struktural | Rantai Peringatan Dini, Atur Tata Ruang Pesisir, Baca Peta Evakuasi, Latihan Evakuasi Rutin, Kuis Duta Edukasi, Kenali Rambu Evakuasi, Resmi atau Hoaks?, Rencana Siaga Keluarga, Evakuasi dari Sekolah, Ujian Duta Siaga |
-| 5. Pulau Tanggap | Sebelum, saat, dan sesudah tsunami | Kenali Tanda Alam, Siapkan Tas Siaga, Cari Jalur Evakuasi, Saat Gempa Terjadi, Lari ke Bukit, Setelah Gelombang, Tas Siaga Keluarga, Evakuasi Malam Hari, Bantu Sesama, Ujian Tanggap Darurat |
-| 6. Pulau Pulih | Pascabencana dan pemulihan | Tahapan Pemulihan, Kebutuhan Posko Pengungsian, Pertolongan Pertama, Aman atau Bahaya?, Air Bersih Badan Sehat, Pulihkan Hati, Rehabilitasi atau Rekonstruksi?, Bersih-Bersih Aman, Bangun Kembali Lebih Aman, Ujian Pemulihan |
-| 7. Pulau Sejarah | Jejak tsunami Indonesia | Garis Waktu Tsunami, Peristiwa dan Pemicunya, Kisah Smong Simeulue, Pelajaran Pangandaran 2006, Palu 2018, Selat Sunda Tanpa Gempa, Lahirnya Peringatan Dini, Fakta atau Mitos?, Pelajaran Tiap Peristiwa, Ujian Sejarah |
-| 8. Pulau Juara | Ujian akhir | Pemanasan Benar-Salah, Struktural atau Non-Struktural?, Kapan Dilakukan?, Urutan Selamat, Kamus Siaga, Lari ke Bukit: Final, Rute Evakuasi Final, Pilih Tindakan Terbaik, Kuis Kilat, Ujian Pahlawan Siaga |
+| 1. Pulau Ilmu | Mengenal tsunami | Apa Itu Tsunami?, Proses Terjadinya Tsunami, Detektif Penyebab, Lab Gempa Pemicu, Laut Dalam vs Pantai |
+| 2. Pulau Simulasi | Simulasi penyebab tsunami | Simulasi Gempa Tektonik, Simulasi Letusan Gunung Api, Simulasi Longsor Bawah Laut, Simulasi Hantaman Meteor, Simulasi Waktu Tiba dan Evakuasi |
+| 3. Pulau Benteng | Mitigasi struktural | Kenali Bangunan Pelindung, Tanam Sabuk Mangrove, Susun Benteng Pantai, Rumah Tahan Gempa, Lari ke Menara Evakuasi |
+| 4. Pulau Siaga Warga | Mitigasi non-struktural | Rantai Peringatan Dini, Latihan Evakuasi Rutin, Kenali Rambu Evakuasi, Resmi atau Hoaks?, Evakuasi dari Sekolah |
+| 5. Pulau Tanggap | Sebelum, saat, dan sesudah tsunami | Kenali Tanda Alam, Siapkan Tas Siaga, Cari Jalur Evakuasi, Lari ke Bukit, Ujian Tanggap Darurat |
+| 6. Pulau Pulih | Pascabencana dan pemulihan | Tahapan Pemulihan, Kebutuhan Posko Pengungsian, Aman atau Bahaya?, Pulihkan Hati, Bersih-Bersih Aman |
+| 7. Pulau Sejarah | Jejak tsunami Indonesia | Garis Waktu Tsunami, Peristiwa dan Pemicunya, Kisah Smong Simeulue, Fakta atau Mitos?, Pelajaran Tiap Peristiwa |
+| 8. Pulau Juara | Ujian akhir | Struktural atau Non-Struktural?, Urutan Selamat, Lari ke Bukit: Final, Rute Evakuasi Final, Ujian Pahlawan Siaga |
 
-- Setiap misi memberi 3 nyawa, dan sisa nyawa menjadi jumlah bintang (maksimal 231 bintang).
+37 misi lain (kebanyakan kuis) disimpan di kode tetapi tidak ditampilkan. Daftar lengkap dan cara menampilkannya lagi ada di [docs/LEVELS.md](docs/LEVELS.md).
+
+- Setiap misi memberi 3 nyawa, dan sisa nyawa menjadi jumlah bintang (maksimal 120 bintang).
 - Papan peringkat latihan di Peta Kepulauan menampilkan bintangmu bersama tokoh latihan. Selama misi belum tuntas, peringkat 1 selalu 3 bintang di atasmu. Setelah semua misi tuntas, kamu menjadi juara satu.
 - Setiap jawaban disertai penjelasan, dan setiap misi ditutup dengan rangkuman.
-- Pulau Simulasi berisi 6 simulasi interaktif: pemain mengatur kontrol (magnitudo, kedalaman, kekuatan letusan, kemiringan lereng, ukuran meteor, jarak) lalu melihat animasi dan perhitungan. Kecepatan gelombang memakai rumus perairan dangkal akar(9,81 × kedalaman), dan tingginya memakai hukum Green yang disederhanakan.
+- Pulau Simulasi berisi 5 simulasi interaktif: pemain mengatur kontrol (magnitudo, kedalaman, kekuatan letusan, kemiringan lereng, ukuran meteor, jarak) lalu melihat animasi dan perhitungan. Kecepatan gelombang memakai rumus perairan dangkal akar(9,81 × kedalaman), dan tingginya memakai hukum Green yang disederhanakan.
 - Setelah semua pulau tuntas, pemain bisa mencetak sertifikat.
-- **Jalur Inti**: 17 misi bertanda *Inti* adalah jalur wajib untuk 1–2 kali pelajaran di kelas. Misi lain adalah bonus.
+- **Jalur Inti**: 16 misi bertanda *Inti* adalah jalur wajib untuk 1–2 kali pelajaran di kelas. Misi lain adalah bonus.
 - **Tuti bicara**: Tuti si Penyu membacakan secara otomatis dengan suara Google Bahasa Indonesia yang pelafalannya jelas (tempo sedikit pelan supaya mudah diikuti anak; di browser tanpa suara Google dipakai suara Indonesia lain di perangkat): sambutan, pilih pemain, peta, cara bermain tiap misi, soal dan kartu, umpan balik, petunjuk, hasil menang atau gagal, hasil simulasi, cerita pembuka, animasi penjelasan, dan sertifikat. Suara mulai setelah layar pertama kali disentuh (aturan browser), berhenti saat anak mengetuk, dan bisa dimatikan lewat tombol *Tuti bicara* di beranda.
 - **Ramah anak**: tombol speaker kuning membacakan ulang soal dan penjelasan, kuis berwaktu memberi waktu baca 5 detik, dan *Mode santai* di beranda mematikan semua batas waktu. Setelah dua kesalahan, Tuti memberi petunjuk. Misi yang membahas korban atau kehilangan diawali catatan penenang.
 - **Sertifikat per pulau**: setiap pulau yang tuntas langsung memberi sertifikat pulau itu, tanpa harus menunggu semua misi selesai. Koleksi sertifikat (8 pulau, Jalur Inti, dan Pahlawan Siaga) tampil di Peta Kepulauan dan bisa dicetak.
 - **Login dan database online (opsional)**: masuk dengan Google atau email lewat Firebase Authentication, progres tersimpan di Cloud Firestore, dan Papan Peringkat Online berubah langsung (realtime). Aktifkan dengan mengikuti [SETUP-FIREBASE.md](SETUP-FIREBASE.md). Tanpa konfigurasi, game tetap berjalan dalam mode tamu.
 - **Profil siswa**: beberapa siswa bisa bermain bergantian di satu perangkat. Bintang, tes, dan laporan disimpan per siswa. Simpanan versi lama otomatis menjadi profil pertama.
 - **Tes Siaga dan Laporan Belajar** (pengolahan informasi untuk guru): tes awal (paket A) dan tes akhir (paket B) masing-masing 8 soal dengan topik setara, kenaikan skor per topik, rekap penguasaan per pulau, misi yang perlu diulang, kenaikan skor, serta unduhan CSV dan cetak. **Laporan Kelas** merekap semua siswa di perangkat (rata-rata tes awal, tes akhir, kenaikan, dan misi yang paling banyak salah) dengan unduhan CSV kelas. Tes Akhir terbuka setelah Tes Awal dan semua misi Jalur Inti tuntas. Semua data tersimpan di perangkat, tanpa server.
-- **Sertifikat Jalur Inti** terbuka setelah 17 misi Inti tuntas. Pulau Juara terbuka setelah semua misi Inti tuntas atau 4 pulau lain tuntas.
+- **Sertifikat Jalur Inti** terbuka setelah 16 misi Inti tuntas. Pulau Juara terbuka setelah semua misi Inti tuntas atau 4 pulau lain tuntas.
 - **Mode usia 9–10 tahun** di beranda menyembunyikan soal yang terlalu berat untuk anak kelas 4 (radiasi nuklir).
 - Progres tersimpan otomatis di browser.
 
@@ -47,6 +49,10 @@ Tidak perlu instalasi atau proses build.
 - **Lokal:** buka `index.html` di browser (Chrome, Edge, atau Firefox).
 
 Pada kunjungan pertama dibutuhkan internet untuk memuat font Fredoka dan Three.js r128 (untuk cerita 3D) dari CDN.
+
+## Untuk pengembang
+
+Mulai dari [CLAUDE.md](CLAUDE.md), lalu [docs/PROGRESS.md](docs/PROGRESS.md) (status dan rencana), [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) (peta kode), dan [docs/LEVELS.md](docs/LEVELS.md) (katalog misi).
 
 ## Struktur file
 

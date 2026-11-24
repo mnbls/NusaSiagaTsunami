@@ -1,4 +1,4 @@
-/* Nusa Siaga — game edukasi mitigasi bencana tsunami (8 pulau, 77 misi). */
+/* Nusa Siaga — game edukasi mitigasi bencana tsunami (8 pulau, 5 misi tampil per pulau). Panduan: CLAUDE.md dan docs/. */
 (() => {
   'use strict';
 
@@ -920,7 +920,20 @@
   RECOVERY_LEVELS.forEach(lv => { lv.island = 'recovery'; lv.phaseKey = 'post'; });
   HISTORY_LEVELS.forEach(lv => { lv.island = 'history'; lv.phaseKey = 'hist'; });
   FINAL_LEVELS.forEach(lv => { lv.island = 'final'; lv.phaseKey = 'final'; });
-  const LEVELS = [...BASIC_LEVELS, ...STRUCT_LEVELS, ...NONSTRUCT_LEVELS, ...RESPONSE_LEVELS, ...RECOVERY_LEVELS, ...HISTORY_LEVELS, ...SIM_LEVELS, ...FINAL_LEVELS];
+  const ALL_LEVELS = [...BASIC_LEVELS, ...STRUCT_LEVELS, ...NONSTRUCT_LEVELS, ...RESPONSE_LEVELS, ...RECOVERY_LEVELS, ...HISTORY_LEVELS, ...SIM_LEVELS, ...FINAL_LEVELS];
+  // Setiap pulau menampilkan 5 misi, mengutamakan game interaktif. Misi lain disimpan, tidak dihapus:
+  // untuk menampilkannya lagi, hapus id-nya dari daftar ini. Katalog lengkap: docs/LEVELS.md.
+  const HIDDEN_LEVELS = new Set([
+    'b5', 'b7', 'b8', 'b9', 'b10',
+    'm5',
+    's4', 's6', 's7', 's9', 's10',
+    'n2', 'n3', 'n5', 'n8', 'n11', 'n10',
+    '4', '6', 'r7', 'r8', 'r9',
+    'p3', 'p5', 'p7', 'p9', 'p10',
+    'h4', 'h5', 'h6', 'h7', 'h10',
+    'f1', 'f3', 'f5', 'f8', 'f9'
+  ]);
+  const LEVELS = ALL_LEVELS.filter(lv => !HIDDEN_LEVELS.has(String(lv.id)));
   const LEVEL_BY_ID = Object.fromEntries(LEVELS.map(lv => [String(lv.id), lv]));
   const MAX_STARS = LEVELS.length * 3;
   const islandOf = lv => ISLANDS.find(is => is.id === lv.island);
@@ -1321,7 +1334,7 @@
     }
   ];
 
-  /* --- Materi tambahan (setiap pulau 10 misi) --- */
+  /* --- Materi tambahan --- */
 
   const DEEP_ITEMS = [
     { ic: 'boat', short: 'Kapal hampir tak terasa', label: 'Kapal nelayan di tengah laut hampir tidak merasakan gelombangnya.', zone: 'deep', why: 'Di laut dalam, tinggi tsunami biasanya hanya sekitar satu meter atau kurang, jadi kapal hampir tidak merasakannya.' },
@@ -4922,7 +4935,7 @@
   const quizSeconds = s => (!s || save.relaxed ? 0 : s + 10);
 
   // Jalur inti: misi wajib untuk satu-dua kali pelajaran di kelas. Misi lain bonus.
-  const CORE = new Set(['b1', 'b3', 'b6', 'm1', 'm6', 's1', 's2', 'n1', 'n6', 'n7', '1', '2', '3', '4', '6', 'p4', 'h3']);
+  const CORE = new Set(['b1', 'b3', 'b6', 'm1', 'm6', 's1', 's2', 'n1', 'n6', 'n7', '1', '2', '3', '5', 'p4', 'h3']);
   // Misi yang membahas korban atau kehilangan diberi catatan penenang sebelum mulai.
   const GENTLE = new Set(['b5', 'b9', 'p6', 'h5', 'h9']);
   let currentLv = null;
@@ -5360,7 +5373,7 @@
 
 
   /* ----- Profil siswa: beberapa pemain di satu perangkat ----- */
-  const starsSum = p => Object.values(p.stars).reduce((a, n) => a + (Number(n) || 0), 0);
+  const starsSum = p => LEVELS.reduce((a, lv) => a + (Number(p.stars[lv.id]) || 0), 0);
 
   function showProfiles() {
     // Profil akun online tidak ditampilkan di daftar; aksesnya lewat kartu akun.
