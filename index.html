@@ -20,7 +20,11 @@
 </div>
 
 <header class="topbar">
-  <button class="logo" id="logoBtn" type="button"><span class="logo-ico" data-ico="wave" aria-hidden="true"></span> Nusa Siaga</button>
+  <div class="top-left">
+    <button class="pill nav-btn" id="backBtn" type="button" hidden aria-label="Kembali"><span data-ico="arrow-left" aria-hidden="true"></span><span class="nav-lbl">Kembali</span></button>
+    <button class="pill nav-btn" id="homeBtn" type="button" hidden aria-label="Beranda"><span data-ico="house" aria-hidden="true"></span><span class="nav-lbl">Beranda</span></button>
+    <button class="logo" id="logoBtn" type="button"><span class="logo-ico" data-ico="wave" aria-hidden="true"></span> Nusa Siaga</button>
+  </div>
   <div class="top-right">
     <span class="pill" title="Total bintang"><span data-ico="star" aria-hidden="true"></span> <b id="starTotal">0</b>/<span id="starMax">0</span></span>
     <button class="pill icon" id="soundBtn" type="button" aria-pressed="true" aria-label="Suara"></button>

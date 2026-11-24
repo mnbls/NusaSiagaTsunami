@@ -2618,6 +2618,28 @@
     hideFeedback();
   }
   const music = window.SiagaMusic || { play() {}, stop() {}, mood() {} };
+  /* ----- Navigasi: tombol Kembali dan Beranda di bilah atas ----- */
+  // Setiap layar utama mencatat dirinya. Kembali membuka layar sebelumnya, Beranda membuka layar awal.
+  let navStack = [];
+  function navMark(key, fn) {
+    const top = navStack[navStack.length - 1];
+    if (top && top.key === key) top.fn = fn;
+    else navStack.push({ key, fn });
+    if (navStack.length > 30) navStack.shift();
+    updateNav();
+  }
+  function navBack() {
+    navStack.pop();
+    const prev = navStack.pop();
+    if (prev) prev.fn(); else showHome();
+  }
+  function updateNav() {
+    const onHome = navStack.length <= 1 && (!navStack[0] || navStack[0].key === 'home');
+    const back = document.getElementById('backBtn'), home = document.getElementById('homeBtn');
+    if (back) back.hidden = onHome;
+    if (home) home.hidden = onHome;
+  }
+
   function render(html) {
     screenName = '';
     clearScreen();
@@ -2745,6 +2767,8 @@
   /* ================= Layar ================= */
 
   function showHome() {
+    navStack = [{ key: 'home', fn: showHome }];
+    updateNav();
     render(`<section class="screen home">
       <div class="hero card">
         <div class="hero-art">${mascot('happy', 'big bob')}</div>
@@ -2909,6 +2933,7 @@
   }
   function showMap() {
     if (needAccount()) { askAccount(); return; }
+    navMark('map', showMap);
     const done = allDone();
     render(`<section class="screen">
       <div class="screen-head">
@@ -2983,6 +3008,7 @@
 
   // Layar satu pulau: daftar misinya.
   function showIsland(id) {
+    navMark('island:' + id, () => showIsland(id));
     const is = ISLANDS.find(x => x.id === id);
     const list = levelsOf(id);
     render(`<section class="screen">
@@ -3055,6 +3081,7 @@
     const lv = LEVEL_BY_ID[String(id)];
     if (!lv || !isUnlocked(lv)) return;
     if (needAccount()) { askAccount(); return; }
+    navMark('level:' + lv.id, () => startLevel(lv.id));
     render(`<section class="screen level">
       <div class="hud card">
         <button class="btn ghost small" id="backMap" type="button">${ic('arrow-left')} Pulau</button>
@@ -3166,6 +3193,7 @@
   }
 
   function showCert(kind = 'full') {
+    navMark('cert:' + kind, () => showCert(kind));
     const info = certInfo(kind);
     const name = () => save.name || 'Pahlawan Siaga';
     const date = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -5220,6 +5248,7 @@
   }
 
   function showTestMenu() {
+    navMark('tests', showTestMenu);
     const t = save.tests;
     const line = (key, label) => t[key]
       ? `<b>${label}:</b> ${t[key].score} dari ${t[key].total} benar <small>(${esc(t[key].date)})</small>`
@@ -5246,6 +5275,7 @@
   }
 
   function showTest(kind) {
+    navMark('test:' + kind, () => showTest(kind));
     const QS = testSet(kind);
     const label = kind === 'pre' ? 'Tes Awal' : 'Tes Akhir';
     const answers = [];
@@ -5311,6 +5341,7 @@
   }
 
   function showReport() {
+    navMark('report', showReport);
     const d = reportData();
     const pct = (a, b) => (b ? Math.round(a / b * 100) : 0);
     const testCell = t => (t ? `${t.score}/${t.total} (${pct(t.score, t.total)}%)` : 'belum');
@@ -5384,6 +5415,7 @@
   const starsSum = p => LEVELS.reduce((a, lv) => a + (Number(p.stars[lv.id]) || 0), 0);
 
   function showProfiles() {
+    navMark('profiles', showProfiles);
     // Profil akun online tidak ditampilkan di daftar; aksesnya lewat kartu akun.
     const guestOk = !(REQUIRE_ACCOUNT && cloudOn());
     const list = guestOk ? Object.entries(store.profiles).filter(([id]) => !id.startsWith('g_')) : [];
@@ -5472,6 +5504,7 @@
   }
 
   function showClassReport() {
+    navMark('classReport', showClassReport);
     const d = classData();
     const cell = v => (v === null ? '-' : `${v}%`);
     const gainCell = v => (v === null ? '-' : `${v >= 0 ? '+' : ''}${v} poin`);
@@ -5757,6 +5790,8 @@
   // Muat gambar ikon kanvas lebih awal supaya level lari langsung siap.
   if (window.SiagaIcons) ['rock', 'log', 'barrier', 'palm', 'house', 'flag'].forEach(n => window.SiagaIcons.image(n));
   $('#logoBtn').addEventListener('click', showHome);
+  $('#homeBtn').addEventListener('click', () => { sfx.click(); showHome(); });
+  $('#backBtn').addEventListener('click', () => { sfx.click(); navBack(); });
   $('#soundBtn').addEventListener('click', () => {
     save.sound = !save.sound;
     persist();

@@ -37,6 +37,7 @@ Perbarui berkas ini setiap selesai satu pekerjaan: isi **Status sekarang**, tamb
 | 18 Nov 2026 | Tombol mute ikut mematikan suara Tuti. Jalur MP3 suara AI (belum diisi). |
 | 24 Nov 2026 | Dokumen progres dan panduan pengembangan dibuat. Tiap pulau menjadi 5 misi; misi lain disembunyikan. Jalur Inti 16 misi. |
 | 24 Nov 2026 | Login Google dimatikan (kode disimpan). Akun wajib dengan username + kata sandi sebelum bermain. Daftar pemain tamu di perangkat disembunyikan selama layanan online aktif. |
+| 24 Nov 2026 | Tombol **Kembali** dan **Beranda** di bilah atas semua layar (kecuali beranda). Kembali mengikuti riwayat layar (navStack). |
 
 ## Berikutnya (usulan)
 

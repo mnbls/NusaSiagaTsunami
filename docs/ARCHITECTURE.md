@@ -30,6 +30,7 @@ Cari penanda dengan Grep, misalnya `Grep "Mesin simulasi" game.js`.
 | `Materi tambahan`, `Pulau Pulih`, `Pulau Sejarah`, `Pulau Juara` | Data soal dan kartu untuk mesin game. |
 | `const PLAY = {` | Peta `type` misi ke fungsi mesin game. |
 | `Simpanan & suara` | `store`, `save`, `useProfile`, `persist`, efek bunyi `sfx`. |
+| `Navigasi` | `navMark(key, fn)` dipanggil di awal setiap layar utama; `navBack()` untuk tombol Kembali, `showHome()` mengosongkan riwayat. Layar baru wajib memanggil `navMark`. |
 | `Layar` | `showHome`, `showMap`, `showIsland`, `startLevel`, `winLevel`, `failLevel`, sertifikat (`certInfo`, `showCert`). |
 | `Mesin "pasangkan"` dst. | Mesin game. Lihat daftar di bawah. |
 | `Pendukung belajar anak` | `CORE` (Jalur Inti), `GENTLE` (catatan penenang). |
