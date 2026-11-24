@@ -2774,7 +2774,7 @@
           <b>Pulau ${is.no}: ${esc(is.name)}</b><span>${esc(is.theme)}</span></li>`).join('')}
       </ul>
     </section>`);
-    $('#playBtn').onclick = () => { sfx.click(); if (store.current) showMap(); else showProfiles(); };
+    $('#playBtn').onclick = () => { sfx.click(); if (store.current && !needAccount()) showMap(); else showProfiles(); };
     $('#switchBtn').onclick = () => { sfx.click(); showProfiles(); };
     $('#youngBtn').onclick = () => {
       save.young = !save.young;
@@ -2902,7 +2902,13 @@
     </section>`;
   }
 
+  // Akun wajib: tanpa akun, pemain diarahkan ke layar masuk atau daftar.
+  function askAccount() {
+    showProfiles();
+    showFeedback({ good: false, title: 'Masuk dulu, ya!', text: 'Buat akun atau masuk dengan username dan kata sandi supaya levelmu tersimpan dan bisa dilanjutkan.' });
+  }
   function showMap() {
+    if (needAccount()) { askAccount(); return; }
     const done = allDone();
     render(`<section class="screen">
       <div class="screen-head">
@@ -3048,6 +3054,7 @@
   function startLevel(id) {
     const lv = LEVEL_BY_ID[String(id)];
     if (!lv || !isUnlocked(lv)) return;
+    if (needAccount()) { askAccount(); return; }
     render(`<section class="screen level">
       <div class="hud card">
         <button class="btn ghost small" id="backMap" type="button">${ic('arrow-left')} Pulau</button>
@@ -4977,6 +4984,7 @@
     cert: (n, say) => `Selamat, ${n}! ${say} Jangan lupa ceritakan ilmumu kepada keluarga, ya.`,
     quiz: (q, opts) => `${q.text} Pilihannya. ${opts.map((o, k) => `${k + 1}, ${o.text}`).join('. ')}.`,
     quizBtn: (q, opts) => `${q.text} Pilihannya. ${opts.map(o => o.text).join('. ')}`,
+    account: 'Halo! Masuk dengan username dan kata sandimu untuk melanjutkan level. Belum punya akun? Pilih Daftar, lalu buat username dan kata sandi.',
     profiles: any => (any ? 'Halo! Siapa yang mau bermain? Ketuk namamu. Kalau belum ada, tulis nama dan kelasmu, lalu tekan Tambah dan main.'
       : 'Halo, teman baru! Tulis nama dan kelasmu, lalu tekan Tambah dan main.')
   };
@@ -5102,7 +5110,7 @@
     walk(ISLANDS); walk(LEVELS); walk(TEST_A); walk(TEST_B);
     CHEERS.forEach(add);
     ['', 'Pahlawan Siaga'].forEach(n => add(SAY.home(n)));
-    add(SAY.talkOn); add(SAY.map); add(SAY.profiles(true)); add(SAY.profiles(false));
+    add(SAY.talkOn); add(SAY.map); add(SAY.account); add(SAY.profiles(true)); add(SAY.profiles(false));
     add('Tidak apa-apa.');
     ISLANDS.forEach(is => { add(SAY.islandHover(is)); add(SAY.islandWelcome(is)); add(certInfo(is.id).say); });
     ['full', 'core'].forEach(k => add(certInfo(k).say));
@@ -5377,13 +5385,15 @@
 
   function showProfiles() {
     // Profil akun online tidak ditampilkan di daftar; aksesnya lewat kartu akun.
-    const list = Object.entries(store.profiles).filter(([id]) => !id.startsWith('g_'));
+    const guestOk = !(REQUIRE_ACCOUNT && cloudOn());
+    const list = guestOk ? Object.entries(store.profiles).filter(([id]) => !id.startsWith('g_')) : [];
     render(`<section class="screen profiles">
       <div class="screen-head">
-        <h2>${ic('family')} Siapa yang bermain?</h2>
-        <p>Pilih namamu. Setiap siswa punya bintang, tes, dan laporan sendiri.</p>
+        <h2>${ic('family')} ${guestOk ? 'Siapa yang bermain?' : 'Masuk atau buat akun'}</h2>
+        <p>${guestOk ? 'Pilih namamu. Setiap siswa punya bintang, tes, dan laporan sendiri.' : 'Supaya levelmu tersimpan dan bisa dilanjutkan, masuk dengan username dan kata sandimu.'}</p>
       </div>
       ${accountCardHtml()}
+      ${guestOk ? `
       ${list.length ? `<h3 class="pf-sub">${ic('kid')} Pemain di perangkat ini <small>(tanpa akun)</small></h3>` : ''}
       ${list.length ? `<ul class="profile-list">${list.map(([id, p]) => `<li class="${id === store.current ? 'active' : ''}">
           <button class="profile-pick card" data-id="${id}" type="button">
@@ -5401,9 +5411,9 @@
         </div>
         <button class="btn green" type="submit">${ic('check')} Tambah dan main</button>
       </form>
-      ${list.length ? `<div class="row center"><button class="btn blue" id="classRepBtn" type="button">${ic('monitor')} Laporan Kelas</button></div>` : ''}
+      ${list.length ? `<div class="row center"><button class="btn blue" id="classRepBtn" type="button">${ic('monitor')} Laporan Kelas</button></div>` : ''}` : ''}
     </section>`);
-    autoSay(SAY.profiles(list.length > 0));
+    autoSay(guestOk ? SAY.profiles(list.length > 0) : SAY.account);
     const enter = () => {
       persist();
       updateHeader();
@@ -5427,7 +5437,7 @@
         showProfiles();
       };
     }));
-    $('#pfForm').addEventListener('submit', e => {
+    if ($('#pfForm')) $('#pfForm').addEventListener('submit', e => {
       e.preventDefault();
       const name = $('#pfName').value.trim();
       if (!name) return;
@@ -5519,7 +5529,18 @@
   const cloudOn = () => !!(cloud() && cloud().enabled);
   const cloudId = uid => 'g_' + uid;
   let screenName = '';
-  let pendingLogin = false, linking = false, emailMode = 'masuk';
+  let pendingLogin = false, linking = false, emailMode = 'masuk', pendingCls = '';
+  // Login Google disimpan tetapi tidak ditampilkan. Ubah ke true untuk menampilkannya lagi.
+  const AUTH_GOOGLE = false;
+  // Pemain wajib punya akun (username + kata sandi) sebelum masuk peta dan bermain misi.
+  // Kalau layanan online tidak tersedia (misalnya tanpa internet), game tetap bisa dimainkan sebagai tamu.
+  const REQUIRE_ACCOUNT = true;
+  // Firebase memakai akun email; username diubah menjadi alamat buatan ini (tidak pernah dikirimi email).
+  const USER_DOMAIN = 'pemain.nusasiaga.id';
+  const USERNAME_RE = /^[a-z0-9._]{3,20}$/;
+  const usernameOf = email => String(email || '').replace('@' + USER_DOMAIN, '');
+  const accountActive = () => !!(cloudOn() && cloud().user && store.current === cloudId(cloud().user.uid));
+  const needAccount = () => REQUIRE_ACCOUNT && cloudOn() && !accountActive();
 
   function cloudPayload() {
     const p = store.profiles[store.current];
@@ -5549,7 +5570,8 @@
     try {
       const id = cloudId(u.uid);
       const guestId = store.current && !store.current.startsWith('g_') ? store.current : null;
-      if (!store.profiles[id]) store.profiles[id] = blankProfile((u.name || 'Pemain').slice(0, 40), '');
+      if (!store.profiles[id]) store.profiles[id] = blankProfile((u.name || usernameOf(u.email) || 'Pemain').slice(0, 40), pendingCls);
+      pendingCls = '';
       let d = null;
       try { d = await cloud().loadProgress(); } catch (e) {
         showFeedback({ good: false, title: 'Progres online belum bisa dimuat', text: cloud().errorText(e) });
@@ -5611,7 +5633,7 @@
         return;
       }
       if (screenName === 'profiles') showProfiles();
-      if (screenName === 'map') refreshLeader();
+      if (screenName === 'map') { if (needAccount()) askAccount(); else refreshLeader(); }
     } else if (type === 'board') {
       if (screenName === 'map') refreshLeader();
     } else if (type === 'error' && c.user && c.state.error) {
@@ -5655,30 +5677,34 @@
     }
     if (!c.state.ready) return `<div class="acct card"><p>${ic('timer')} Memeriksa akun...</p></div>`;
     if (c.user) {
+      const uname = usernameOf(c.user.email);
       return `<div class="acct card signed">
-        <span class="lb-ava" aria-hidden="true">${esc((c.user.name || '?').charAt(0).toUpperCase())}</span>
-        <div class="acct-who"><b>${esc(c.user.name || 'Pemain')}</b><small>${esc(c.user.email)} · tersimpan online</small></div>
+        <span class="lb-ava" aria-hidden="true">${esc((c.user.name || uname || '?').charAt(0).toUpperCase())}</span>
+        <div class="acct-who"><b>${esc(c.user.name || uname || 'Pemain')}</b><small>${c.user.email.endsWith('@' + USER_DOMAIN) ? `username: ${esc(uname)}` : esc(c.user.email)} · tersimpan online</small></div>
         <div class="acct-actions"><button class="btn green" id="acctPlay" type="button">${ic('play')} Main dengan akun ini</button>
           <button class="btn ghost small" id="acctOut" type="button">Keluar</button></div>
       </div>`;
     }
     const daftar = emailMode === 'daftar';
     return `<div class="acct card">
-      <h3>${ic('verified')} Masuk supaya bintangmu tersimpan online</h3>
-      <p class="acct-tip">Dengan akun, progresmu aman walau ganti perangkat, dan namamu tampil di Papan Peringkat Online. Anak di bawah 13 tahun: minta bantuan guru atau orang tua.</p>
-      <button class="btn google" id="googleBtn" type="button">${googleLogo()} Masuk dengan Google</button>
-      <div class="acct-or"><span>atau pakai email</span></div>
+      <h3>${ic('verified')} ${daftar ? 'Buat akun baru' : 'Masuk ke akunmu'}</h3>
+      <p class="acct-tip">${daftar
+        ? 'Buat username dan kata sandi. Dengan akun, levelmu tersimpan dan bisa dilanjutkan kapan saja, di perangkat mana saja, dan namamu tampil di Papan Peringkat Online.'
+        : 'Masuk dengan username dan kata sandimu untuk melanjutkan level. Belum punya akun? Pilih <b>Daftar</b>.'}</p>
+      ${AUTH_GOOGLE ? `<button class="btn google" id="googleBtn" type="button">${googleLogo()} Masuk dengan Google</button>
+      <div class="acct-or"><span>atau pakai username</span></div>` : ''}
       <div class="acct-tabs" role="tablist">
         <button type="button" role="tab" data-mode="masuk" aria-selected="${!daftar}">Masuk</button>
         <button type="button" role="tab" data-mode="daftar" aria-selected="${daftar}">Daftar</button>
       </div>
       <form id="emailForm" class="acct-form">
-        ${daftar ? '<label>Nama panggilan <input id="acName" class="name-input" maxlength="40" required autocomplete="nickname"></label>' : ''}
-        <label>Email <input id="acEmail" class="name-input" type="email" required autocomplete="email"></label>
+        <label>Username <input id="acUser" class="name-input" maxlength="20" required autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="contoh: budi_5a"></label>
+        ${daftar ? '<label>Kelas <input id="acCls" class="name-input" maxlength="20" autocomplete="off" placeholder="contoh: 5A"></label>' : ''}
         <label>Kata sandi <input id="acPass" class="name-input" type="password" minlength="6" required autocomplete="${daftar ? 'new-password' : 'current-password'}"></label>
+        ${daftar ? '<label>Ulangi kata sandi <input id="acPass2" class="name-input" type="password" minlength="6" required autocomplete="new-password"></label>' : ''}
+        <p class="acct-hint">${daftar ? 'Username 3–20 huruf kecil, angka, titik, atau garis bawah. Kata sandi minimal 6 karakter. Catat dan simpan baik-baik, ya!' : 'Lupa kata sandi? Minta guru menghubungi pengelola game untuk mengatur ulang.'}</p>
         <p class="acct-err" id="acErr" role="alert"></p>
-        <div class="row"><button class="btn" type="submit">${daftar ? `${ic('check')} Daftar dan main` : `${ic('play')} Masuk`}</button>
-          ${daftar ? '' : '<button class="btn ghost small" id="forgotBtn" type="button">Lupa kata sandi?</button>'}</div>
+        <div class="row"><button class="btn" type="submit">${daftar ? `${ic('check')} Daftar dan main` : `${ic('play')} Masuk`}</button></div>
       </form>
     </div>`;
   }
@@ -5713,17 +5739,16 @@
     if (form) form.addEventListener('submit', e => {
       e.preventDefault();
       err('');
-      const email = $('#acEmail').value.trim(), pass = $('#acPass').value;
-      if (emailMode === 'daftar') go(() => c.signUpEmail(email, pass, $('#acName').value.trim()), true);
-      else go(() => c.signInEmail(email, pass), true);
+      const uname = $('#acUser').value.trim().toLowerCase(), pass = $('#acPass').value;
+      if (!USERNAME_RE.test(uname)) { err('Username harus 3–20 karakter: huruf kecil, angka, titik, atau garis bawah. Tanpa spasi.'); return; }
+      if (pass.length < 6) { err('Kata sandi minimal 6 karakter.'); return; }
+      const email = `${uname}@${USER_DOMAIN}`;
+      if (emailMode === 'daftar') {
+        if (pass !== $('#acPass2').value) { err('Kedua kata sandi belum sama. Ketik ulang, ya.'); return; }
+        pendingCls = $('#acCls').value.trim().slice(0, 20);
+        go(() => c.signUpEmail(email, pass, uname), true);
+      } else go(() => c.signInEmail(email, pass), true);
     });
-    const forgot = $('#forgotBtn');
-    if (forgot) forgot.onclick = async () => {
-      const email = $('#acEmail').value.trim();
-      if (!email) { err('Tulis email dulu, lalu tekan Lupa kata sandi.'); return; }
-      try { await c.resetPassword(email); err('Tautan untuk mengganti kata sandi sudah dikirim ke email.'); }
-      catch (e) { err(c.errorText(e)); }
-    };
   }
 
   /* ================= Mulai ================= */

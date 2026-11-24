@@ -30,13 +30,13 @@ window.SiagaCloud = api;
 
 // Pesan kesalahan Firebase yang sering muncul, dalam bahasa yang mudah dipahami.
 const ERRORS = {
-  'auth/invalid-email': 'Alamat email tidak valid.',
+  'auth/invalid-email': 'Username tidak valid. Pakai huruf kecil, angka, titik, atau garis bawah.',
   'auth/missing-password': 'Kata sandi belum diisi.',
   'auth/weak-password': 'Kata sandi minimal 6 karakter.',
-  'auth/email-already-in-use': 'Email ini sudah terdaftar. Pilih Masuk.',
-  'auth/invalid-credential': 'Email atau kata sandi salah.',
-  'auth/wrong-password': 'Email atau kata sandi salah.',
-  'auth/user-not-found': 'Akun belum terdaftar. Pilih Daftar.',
+  'auth/email-already-in-use': 'Username ini sudah dipakai. Pilih username lain, atau pilih Masuk kalau itu akunmu.',
+  'auth/invalid-credential': 'Username atau kata sandi salah.',
+  'auth/wrong-password': 'Username atau kata sandi salah.',
+  'auth/user-not-found': 'Username belum terdaftar. Pilih Daftar untuk membuat akun.',
   'auth/too-many-requests': 'Terlalu banyak percobaan. Tunggu sebentar, lalu coba lagi.',
   'auth/popup-closed-by-user': 'Jendela login ditutup sebelum selesai.',
   'auth/popup-blocked': 'Jendela login diblokir browser. Izinkan pop-up untuk situs ini.',

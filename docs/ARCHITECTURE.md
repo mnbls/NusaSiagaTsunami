@@ -37,7 +37,7 @@ Cari penanda dengan Grep, misalnya `Grep "Mesin simulasi" game.js`.
 | `Tes Siaga` | `TEST_A` (tes awal), `TEST_B` (tes akhir), `topicScores`. |
 | `Laporan Belajar`, `Laporan Kelas` | Pengolahan data untuk guru, unduhan CSV. |
 | `Profil siswa` | Banyak pemain di satu perangkat. |
-| `Akun online` | Penghubung ke `cloud.js`: login, `pushCloud`, `mergeProgress`, papan peringkat online. |
+| `Akun online` | Penghubung ke `cloud.js`: `AUTH_GOOGLE`, `REQUIRE_ACCOUNT`, `USER_DOMAIN`, login username, `pushCloud`, `mergeProgress`, papan peringkat online. |
 | `Mulai` | Boot: tombol suara, sentuhan pertama, layar awal. |
 
 ## Mesin game
@@ -77,5 +77,5 @@ localStorage `siaga-tsunami-v1`:
 
 ## Firebase
 
-Proyek `nusa-siaga-bencanusa-siagana` (paket Spark gratis). Auth Google + Email/Password. Firestore lokasi Jakarta:
+Proyek `nusa-siaga-bencanusa-siagana` (paket Spark gratis). Auth Email/Password dipakai untuk username: `username@pemain.nusasiaga.id` (alamat buatan, tidak pernah dikirimi email). Google masih aktif di Console tetapi tombolnya disembunyikan (`AUTH_GOOGLE`). Akun wajib diatur `REQUIRE_ACCOUNT`; penjaganya `needAccount()` di `showMap`, `startLevel`, dan tombol Main. Firestore lokasi Jakarta:
 `users/{uid}` progres pribadi, `leaderboard/{uid}` nama, kelas, bintang, misi tuntas. Domain yang diizinkan: `localhost`, `mnbls.github.io`.
