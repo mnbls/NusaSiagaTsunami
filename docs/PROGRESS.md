@@ -17,7 +17,7 @@ Perbarui berkas ini setiap selesai satu pekerjaan: isi **Status sekarang**, tamb
 | Pulau | Ilmu, Simulasi (5 simulasi tampil, penyebab tsunami), Benteng (struktural), Siaga Warga (non-struktural), Tanggap, Pulih (pascabencana), Sejarah, Juara (ujian akhir). |
 | Ramah anak | Tuti bicara otomatis, tombol dengarkan, mode santai tanpa batas waktu, mode usia 9–10, petunjuk setelah 2 kesalahan, catatan penenang. |
 | Sertifikat | Per pulau, Jalur Inti, dan Pahlawan Siaga (semua misi tampil tuntas). |
-| Perayaan | Upacara medali dengan nama pemain setiap kali satu pulau tuntas. Film cerita 9 adegan setelah misi terakhir (Pulau Juara tuntas). Keduanya bisa diputar ulang dari halaman pulau. |
+| Perayaan | Upacara medali dengan nama pemain dan latar sesuai tema pulau setiap kali satu pulau tuntas. Film kartun bersambung (kamera mengikuti tokoh, tanpa slide) setelah misi terakhir, ditutup rekap hasil main pemain. Keduanya bisa diputar ulang dari halaman pulau. |
 | Pengolahan informasi (SIMB) | Tes Siaga awal (A) dan akhir (B), Laporan Belajar per siswa, Laporan Kelas dengan unduhan CSV, profil banyak siswa di satu perangkat. |
 | Online | Firebase Auth (username + kata sandi; Google disimpan tetapi dimatikan), Firestore `users/{uid}` dan `leaderboard/{uid}`, papan peringkat realtime, aturan keamanan terbit. |
 | Suara | Mute mematikan musik, efek, dan suara Tuti. Jalur MP3 per kalimat dengan cadangan suara browser; skrip `tools/make-voice.mjs` mendukung Azure dan Google. |
@@ -41,6 +41,7 @@ Perbarui berkas ini setiap selesai satu pekerjaan: isi **Status sekarang**, tamb
 | 24 Nov 2026 | Tombol **Kembali** dan **Beranda** di bilah atas semua layar (kecuali beranda). Kembali mengikuti riwayat layar (navStack). |
 | 27 Nov 2026 | Upacara medali per pulau (nama pemain, medali jatuh ke leher, konfeti) dan film cerita penutup "Kisah [nama], Pahlawan Siaga" setelah misi terakhir. Modul baru `celebrate.js`. |
 | 27 Nov 2026 | Perbaikan: memuat ulang halaman saat masuk dengan akun tidak lagi menghapus progres di perangkat (keluar baru dianggap terjadi setelah Firebase selesai memeriksa login). Akun uji `razka` dibuat pemilik, diisi 39 dari 40 misi (sisa misi f10). |
+| 27 Nov 2026 | Film diubah menjadi kartun bersambung berdurasi sekitar 80 detik (waktu mengikuti jam, kamera mengikuti tokoh, zoom, langit pagi–senja–mendung, kilat cahaya) dengan rekap pribadi di akhir (`playSummary` di game.js). Medali punya latar tema per pulau (`THEMES` di celebrate.js). |
 
 ## Berikutnya (usulan)
 

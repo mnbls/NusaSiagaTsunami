@@ -3174,12 +3174,33 @@
     if (id === 'final' && fresh) playMovie(showMedal);
     else showMedal();
   }
+  // Ringkasan hasil main untuk bagian akhir film: medali, bintang per pulau, pulau terbaik, misi tersulit, kenaikan Tes Siaga.
+  function playSummary() {
+    const islands = ISLANDS.map(is => {
+      const list = levelsOf(is.id);
+      return { id: is.id, no: is.no, name: is.name, stars: totalStars(list), max: list.length * 3, done: islandDone(is.id) };
+    });
+    const miss = lv => { const st = save.stats[String(lv.id)]; return st ? (st.mistakes || 0) + (st.fails || 0) * 3 : 0; };
+    const ranked = islands.filter(i => i.done).map(i => ({ i, ratio: i.stars / i.max, m: levelsOf(i.id).reduce((a, lv) => a + miss(lv), 0) }))
+      .sort((a, b) => b.ratio - a.ratio || a.m - b.m);
+    const hardLv = LEVELS.filter(lv => starsOf(lv) > 0 && miss(lv) > 0).sort((a, b) => miss(b) - miss(a))[0];
+    const pct = x => x && x.total ? Math.round(x.score / x.total * 100) : null;
+    const pre = pct(save.tests.pre), post = pct(save.tests.post);
+    return {
+      cls: save.cls || '', islands,
+      stars: totalStars(), max: MAX_STARS,
+      done: LEVELS.filter(lv => starsOf(lv) > 0).length, count: LEVELS.length,
+      best: ranked.length ? ranked[0].i.name : '',
+      hard: hardLv ? hardLv.title : '',
+      testGain: pre != null && post != null ? post - pre : null
+    };
+  }
   function playMovie(after) {
     const C = window.SiagaCelebrate;
     if (!C) return;
     music.mood('mission');
     C.movie({
-      name: celebrateName(), mascot: mascot('happy'),
+      name: celebrateName(), mascot: mascot('happy'), summary: playSummary(),
       sound: () => sfx.win(),
       onClose: () => { music.mood('calm'); if (after) after(); }
     });

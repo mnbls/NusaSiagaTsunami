@@ -1504,3 +1504,54 @@ body.cel-open { overflow: hidden; }
   .cel *, .cm * { animation-duration: .01s !important; animation-iteration-count: 1 !important; animation-delay: 0s !important; }
   .cel-rays, .cel-confetti { display: none; }
 }
+
+/* Latar medali per pulau */
+.cel-theme { opacity: .95; }
+.th-page { transform-box: fill-box; transform-origin: 100% 50%; animation: thFlip 1.6s ease-in-out .6s infinite alternate; }
+@keyframes thFlip { to { transform: scaleX(-1); } }
+.th-glow { transform-box: fill-box; transform-origin: center; animation: thGlow 1.1s ease-in-out infinite alternate; }
+@keyframes thGlow { from { transform: scale(.9); filter: drop-shadow(0 0 0 #ffe27a); } to { transform: scale(1.08); filter: drop-shadow(0 0 10px #ffe27a); } }
+.th-float { animation: thFloat 2.2s ease-in-out infinite alternate; }
+.th-float.f2 { animation-delay: .7s; }
+@keyframes thFloat { to { translate: 0 -14px; } }
+.th-draw { stroke-dasharray: 240; stroke-dashoffset: 240; animation: thDraw 2.2s ease .5s infinite; }
+@keyframes thDraw { 70%, 100% { stroke-dashoffset: 0; } }
+.th-bubble { animation: thBubble 1.8s ease-in infinite; }
+@keyframes thBubble { from { translate: 0 0; opacity: 1; } to { translate: 6px -90px; opacity: 0; } }
+.th-rise { animation: thRise 1s cubic-bezier(.3, 1.4, .5, 1) .4s both; }
+@keyframes thRise { from { translate: 0 100px; opacity: 0; } to { translate: 0 0; opacity: 1; } }
+.th-splash { animation: thSplash 2.4s ease-in-out 1.2s infinite; }
+@keyframes thSplash { 0% { translate: -40px 0; } 50% { translate: 20px 0; } 100% { translate: -40px 0; } }
+.th-grow { animation: thRise .9s cubic-bezier(.3, 1.4, .5, 1) both; }
+.th-pop { animation: celFade .5s ease both; }
+.th-pulse { transform-box: fill-box; transform-origin: center; animation: thGlow .8s ease-in-out infinite alternate; }
+.th-arcs { animation: celGlint 1s ease-in-out infinite; }
+.th-flag { transform-box: fill-box; transform-origin: 0 50%; animation: thFlag .5s ease-in-out infinite alternate; }
+@keyframes thFlag { to { transform: skewY(8deg) scaleX(.9); } }
+.th-bounce { animation: thBounce .7s ease-in-out infinite alternate; }
+.th-bounce.d2 { animation-delay: .35s; }
+@keyframes thBounce { to { translate: 0 -10px; } }
+.th-rainbow { animation: celFade 1.4s ease both; opacity: .8; }
+.th-unroll { transform-box: fill-box; transform-origin: 0 50%; animation: thUnroll 1s ease .3s both; }
+@keyframes thUnroll { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.th-burst { opacity: 0; animation: thBurst 1.6s ease-out infinite; }
+@keyframes thBurst { 0% { opacity: 0; scale: .2; } 20% { opacity: 1; } 100% { opacity: 0; scale: 1.3; } }
+.cel-theme .cm-siren-light { animation: cmBlink .45s steps(2) infinite; }
+
+/* Film bersambung */
+.cm-bar { flex: 1 1 140px; max-width: 320px; height: 10px; border-radius: 6px; background: rgba(255, 255, 255, .35); border: 2px solid #fff; overflow: hidden; }
+.cm-bar i { display: block; height: 100%; width: 0; background: var(--sun, #ffc93c); }
+#cmSiren .cm-siren-light, #cmSiren .cm-siren-waves { animation: none; opacity: 1; }
+#cmSiren .cm-siren-waves { opacity: 0; }
+#cmSiren.on .cm-siren-light { animation: cmBlink .45s steps(2) infinite; }
+#cmSiren.on .cm-siren-waves { animation: celGlint .9s ease-in-out infinite; }
+#cmBubble .cm-bubble.pop { animation: celFade .35s ease both; }
+.cm-fish-w .cm-fish { opacity: 1; animation: cmFlop .4s ease-in-out infinite alternate; }
+#cmRecap .cm-rc-medal, #cmRecap .cm-rc-line, #cmRecap .cm-rc-pop, #cmRecap .cm-rc-banner, #cmRecap .cm-rc-card { opacity: 0; }
+#cmRecap.go .cm-rc-banner { animation: celFade .8s ease .2s both; }
+#cmRecap.go .cm-rc-medal { animation: thRise .7s cubic-bezier(.3, 1.5, .5, 1) both; }
+#cmRecap.go .cm-rc-card { animation: celFade .8s ease 2s both; }
+#cmRecap.go .cm-rc-line { animation: celFade .6s ease both; }
+#cmRecap.go .cm-rc-pop { animation: celDrop 1s cubic-bezier(.3, 1.35, .5, 1) 1.2s both; }
+#cmRecap .cel-jump { animation: none; }
+#cmRecap.go .cel-jump { animation: celJump .5s ease-in-out 1.8s 6 alternate; }
