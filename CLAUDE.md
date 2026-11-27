@@ -19,6 +19,7 @@ Web statis tanpa build, di-host di GitHub Pages: https://mnbls.github.io/NusaSia
 - Utamakan game interaktif (simulasi, lari, rute, susun, pasangkan). Kuis dibatasi, paling banyak 1 per pulau.
 - Bahasa di game: Indonesia yang mudah dipahami anak. Kalimat pendek, tanpa istilah sulit tanpa penjelasan.
 - Setelah mengubah alur atau jumlah misi, perbarui `README.md` dan dokumen di `docs/`.
+- Sebelum push perubahan css/js, jalankan `node tools/bump-version.js` supaya browser pemain mengambil file terbaru (GitHub Pages menyimpan cache, tanda `?v=` di index.html memaksa unduh ulang).
 
 ## Menjalankan dan menguji
 
