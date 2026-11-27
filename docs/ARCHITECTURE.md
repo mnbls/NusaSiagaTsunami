@@ -12,6 +12,7 @@ Web statis: HTML, CSS, dan JavaScript biasa tanpa build. Semua logika permainan 
 | `icons.js` | Ikon dan ilustrasi SVG (`window.SiagaIcons`: `svg`, `image`, `art`). |
 | `intro.js` | Cerita pembuka 3D (Three.js r128), 9 adegan (`window.SiagaIntro`). |
 | `explain.js` | Animasi penjelasan di awal tiap pulau (`window.SiagaExplain`, data di `ISLAND_DATA`). |
+| `celebrate.js` | Perayaan: `medal()` upacara medali pulau, `movie()` film cerita penutup 9 adegan (SVG + animasi CSS, gaya berawalan `.cel-` dan `.cm-` di style.css). `window.SiagaCelebrate`. |
 | `music.js` | Musik latar Web Audio (`window.SiagaMusic`: `play`, `stop`, `mood`). |
 | `cloud.js` | Firebase Auth + Firestore (`window.SiagaCloud`, event `siaga-cloud`). |
 | `firebase-config.js` | Konfigurasi web Firebase (publik, bukan rahasia). |
@@ -31,6 +32,7 @@ Cari penanda dengan Grep, misalnya `Grep "Mesin simulasi" game.js`.
 | `const PLAY = {` | Peta `type` misi ke fungsi mesin game. |
 | `Simpanan & suara` | `store`, `save`, `useProfile`, `persist`, efek bunyi `sfx`. |
 | `Navigasi` | `navMark(key, fn)` dipanggil di awal setiap layar utama; `navBack()` untuk tombol Kembali, `showHome()` mengosongkan riwayat. Layar baru wajib memanggil `navMark`. |
+| `Perayaan pulau tuntas` | `celebrateIsland(id, fresh)` dan `playMovie()`. Dipicu di `finishLevel` saat pulau baru tuntas; Pulau Juara memutar film dulu lalu medali. |
 | `Layar` | `showHome`, `showMap`, `showIsland`, `startLevel`, `winLevel`, `failLevel`, sertifikat (`certInfo`, `showCert`). |
 | `Mesin "pasangkan"` dst. | Mesin game. Lihat daftar di bawah. |
 | `Pendukung belajar anak` | `CORE` (Jalur Inti), `GENTLE` (catatan penenang). |

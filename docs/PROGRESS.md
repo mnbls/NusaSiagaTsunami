@@ -17,6 +17,7 @@ Perbarui berkas ini setiap selesai satu pekerjaan: isi **Status sekarang**, tamb
 | Pulau | Ilmu, Simulasi (5 simulasi tampil, penyebab tsunami), Benteng (struktural), Siaga Warga (non-struktural), Tanggap, Pulih (pascabencana), Sejarah, Juara (ujian akhir). |
 | Ramah anak | Tuti bicara otomatis, tombol dengarkan, mode santai tanpa batas waktu, mode usia 9–10, petunjuk setelah 2 kesalahan, catatan penenang. |
 | Sertifikat | Per pulau, Jalur Inti, dan Pahlawan Siaga (semua misi tampil tuntas). |
+| Perayaan | Upacara medali dengan nama pemain setiap kali satu pulau tuntas. Film cerita 9 adegan setelah misi terakhir (Pulau Juara tuntas). Keduanya bisa diputar ulang dari halaman pulau. |
 | Pengolahan informasi (SIMB) | Tes Siaga awal (A) dan akhir (B), Laporan Belajar per siswa, Laporan Kelas dengan unduhan CSV, profil banyak siswa di satu perangkat. |
 | Online | Firebase Auth (username + kata sandi; Google disimpan tetapi dimatikan), Firestore `users/{uid}` dan `leaderboard/{uid}`, papan peringkat realtime, aturan keamanan terbit. |
 | Suara | Mute mematikan musik, efek, dan suara Tuti. Jalur MP3 per kalimat dengan cadangan suara browser; skrip `tools/make-voice.mjs` mendukung Azure dan Google. |
@@ -38,6 +39,7 @@ Perbarui berkas ini setiap selesai satu pekerjaan: isi **Status sekarang**, tamb
 | 24 Nov 2026 | Dokumen progres dan panduan pengembangan dibuat. Tiap pulau menjadi 5 misi; misi lain disembunyikan. Jalur Inti 16 misi. |
 | 24 Nov 2026 | Login Google dimatikan (kode disimpan). Akun wajib dengan username + kata sandi sebelum bermain. Daftar pemain tamu di perangkat disembunyikan selama layanan online aktif. |
 | 24 Nov 2026 | Tombol **Kembali** dan **Beranda** di bilah atas semua layar (kecuali beranda). Kembali mengikuti riwayat layar (navStack). |
+| 27 Nov 2026 | Upacara medali per pulau (nama pemain, medali jatuh ke leher, konfeti) dan film cerita penutup "Kisah [nama], Pahlawan Siaga" setelah misi terakhir. Modul baru `celebrate.js`. |
 
 ## Berikutnya (usulan)
 

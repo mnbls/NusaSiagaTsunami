@@ -2641,6 +2641,7 @@
   }
 
   function render(html) {
+    if (window.SiagaCelebrate && window.SiagaCelebrate.open) window.SiagaCelebrate.close(true);
     screenName = '';
     clearScreen();
     music.mood('calm');
@@ -3016,7 +3017,9 @@
         <div class="island-actions">
           <button class="btn ghost small" id="backWorld" type="button">${ic('arrow-left')} Peta Kepulauan</button>
           <button class="btn blue small" id="explainBtn" type="button">${ic('play')} Animasi penjelasan</button>
-          ${islandDone(id) ? `<button class="btn green small" id="islandCertBtn" type="button">${ic('trophy')} Sertifikat pulau</button>` : ''}
+          ${islandDone(id) ? `<button class="btn green small" id="islandCertBtn" type="button">${ic('trophy')} Sertifikat pulau</button>
+          <button class="btn small" id="islandMedalBtn" type="button">${ic('star')} Medali</button>${id === 'final' ? `
+          <button class="btn blue small" id="islandMovieBtn" type="button">${ic('play')} Tonton film</button>` : ''}` : ''}
         </div>
         <div class="island-head-main">
           <span class="island-head-art" aria-hidden="true">${art(is.art)}</span>
@@ -3046,7 +3049,11 @@
     </section>`);
     $('#backWorld').onclick = showMap;
     $('#explainBtn').onclick = () => { sfx.click(); openExplain(id); };
-    if (islandDone(id)) $('#islandCertBtn').onclick = () => { sfx.click(); showCert(id); };
+    if (islandDone(id)) {
+      $('#islandCertBtn').onclick = () => { sfx.click(); showCert(id); };
+      $('#islandMedalBtn').onclick = () => { sfx.click(); celebrateIsland(id); };
+      if ($('#islandMovieBtn')) $('#islandMovieBtn').onclick = () => { sfx.click(); playMovie(); };
+    }
     $$('.node').forEach(b => b.addEventListener('click', () => {
       const lv = LEVEL_BY_ID[b.dataset.id];
       if (isUnlocked(lv)) { sfx.click(); startLevel(lv.id); }
@@ -3111,6 +3118,7 @@
 
   function finishLevel(lv, stars) {
     stars = Math.max(1, Math.min(3, stars));
+    const wasDone = islandDone(lv.island);
     recordPlay(lv, 'win', 3 - stars);
     save.stars[lv.id] = Math.max(stars, starsOf(lv));
     persist();
@@ -3149,6 +3157,32 @@
     $('#mapBtn').onclick = () => showIsland(lv.island);
     $('#nextBtn').onclick = () => (nextLv ? startLevel(nextLv.id) : islandDone(lv.island) ? showCert(lv.island) : showMap());
     $('#nextBtn').focus({ preventScroll: true });
+    if (!wasDone && islandDone(lv.island)) later(() => celebrateIsland(lv.island, true), 1400);
+  }
+
+  /* ----- Perayaan pulau tuntas: medali dengan nama pemain, dan film penutup setelah misi terakhir (celebrate.js) ----- */
+  const celebrateName = () => (save.name || 'Pahlawan Siaga').trim();
+  function celebrateIsland(id, fresh = false) {
+    const C = window.SiagaCelebrate;
+    if (!C) return;
+    const is = ISLANDS.find(x => x.id === id);
+    const showMedal = () => C.medal({
+      name: celebrateName(), island: is, allDone: allDone(),
+      sound: () => sfx.win(),
+      onCert: () => showCert(id)
+    });
+    if (id === 'final' && fresh) playMovie(showMedal);
+    else showMedal();
+  }
+  function playMovie(after) {
+    const C = window.SiagaCelebrate;
+    if (!C) return;
+    music.mood('mission');
+    C.movie({
+      name: celebrateName(), mascot: mascot('happy'),
+      sound: () => sfx.win(),
+      onClose: () => { music.mood('calm'); if (after) after(); }
+    });
   }
 
   function failLevel(lv, title = 'Belum berhasil, ayo coba lagi!', text = 'Tidak apa-apa, belajar memang butuh mencoba. Baca petunjuk Tuti di bawah, lalu coba sekali lagi. Kamu pasti bisa!') {

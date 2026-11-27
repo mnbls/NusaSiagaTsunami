@@ -31,6 +31,7 @@ Game edukasi berbasis web tentang **mitigasi bencana tsunami**. Pemain ditemani 
 - **Jalur Inti**: 16 misi bertanda *Inti* adalah jalur wajib untuk 1–2 kali pelajaran di kelas. Misi lain adalah bonus.
 - **Tuti bicara**: Tuti si Penyu membacakan secara otomatis dengan suara Google Bahasa Indonesia yang pelafalannya jelas (tempo sedikit pelan supaya mudah diikuti anak; di browser tanpa suara Google dipakai suara Indonesia lain di perangkat): sambutan, pilih pemain, peta, cara bermain tiap misi, soal dan kartu, umpan balik, petunjuk, hasil menang atau gagal, hasil simulasi, cerita pembuka, animasi penjelasan, dan sertifikat. Suara mulai setelah layar pertama kali disentuh (aturan browser), berhenti saat anak mengetuk, dan bisa dimatikan lewat tombol *Tuti bicara* di beranda.
 - **Ramah anak**: tombol speaker kuning membacakan ulang soal dan penjelasan, kuis berwaktu memberi waktu baca 5 detik, dan *Mode santai* di beranda mematikan semua batas waktu. Setelah dua kesalahan, Tuti memberi petunjuk. Misi yang membahas korban atau kehilangan diawali catatan penenang.
+- **Medali dan film penutup**: setiap kali satu pulau tuntas, muncul upacara medali dengan nama pemain (tokoh anak di podium, medali jatuh ke lehernya, konfeti). Setelah misi terakhir di Pulau Juara, diputar film cerita 9 adegan "Kisah [nama], Pahlawan Siaga": gempa, air surut, sirene, lari ke bukit, selamat, pemulihan, dan penobatan. Medali dan film bisa diputar ulang dari halaman pulau.
 - **Sertifikat per pulau**: setiap pulau yang tuntas langsung memberi sertifikat pulau itu, tanpa harus menunggu semua misi selesai. Koleksi sertifikat (8 pulau, Jalur Inti, dan Pahlawan Siaga) tampil di Peta Kepulauan dan bisa dicetak.
 - **Akun wajib (username + kata sandi)**: sebelum masuk peta dan bermain misi, pemain membuat akun dengan username dan kata sandi (lewat Firebase Authentication), jadi levelnya tersimpan di Cloud Firestore dan bisa dilanjutkan di perangkat mana saja. Papan Peringkat Online berubah langsung (realtime). Login Google disimpan di kode tetapi dimatikan (`AUTH_GOOGLE` di `game.js`). Kalau layanan online tidak tersedia, misalnya tanpa internet, game tetap bisa dimainkan sebagai tamu. Lupa kata sandi diatur ulang oleh pengelola di Firebase Console. Panduan Firebase: [SETUP-FIREBASE.md](SETUP-FIREBASE.md).
 - **Profil siswa**: beberapa siswa bisa bermain bergantian di satu perangkat. Bintang, tes, dan laporan disimpan per siswa. Simpanan versi lama otomatis menjadi profil pertama.
@@ -63,6 +64,7 @@ Mulai dari [CLAUDE.md](CLAUDE.md), lalu [docs/PROGRESS.md](docs/PROGRESS.md) (st
 | `icons.js` | Ikon dan ilustrasi SVG buatan sendiri |
 | `intro.js` | Cerita pembuka dengan dunia 3D (Three.js) |
 | `explain.js` | Animasi penjelasan di awal tiap pulau (SVG + CSS, tanpa pustaka tambahan) |
+| `celebrate.js` | Upacara medali pulau dan film cerita penutup (SVG + animasi CSS) |
 | `music.js` | Musik latar yang disusun langsung dengan Web Audio (tanpa file lagu) |
 | `game.js` | Data pulau dan misi, serta seluruh logika permainan |
 | `cloud.js` | Login (Google/email) dan database online Firebase, termasuk papan peringkat realtime |

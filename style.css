@@ -1367,3 +1367,140 @@ body.xp-open { overflow: hidden; }
   .cert, .cert * { visibility: visible; }
   .cert { position: absolute; left: 0; right: 0; top: 40px; margin: 0 auto; }
 }
+
+/* ================= Perayaan: medali pulau dan film penutup (celebrate.js) ================= */
+body.cel-open { overflow: hidden; }
+.cel, .cm {
+  position: fixed; inset: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: center; padding: 16px;
+  background: rgba(20, 28, 60, .78); backdrop-filter: blur(4px);
+  animation: celFade .35s ease both;
+}
+@keyframes celFade { from { opacity: 0; } to { opacity: 1; } }
+.cel-rays {
+  position: absolute; width: 160vmax; height: 160vmax; left: 50%; top: 50%; margin: -80vmax 0 0 -80vmax;
+  background: repeating-conic-gradient(rgba(255, 226, 122, .22) 0 10deg, transparent 10deg 20deg);
+  animation: celSpin 18s linear infinite; pointer-events: none;
+}
+@keyframes celSpin { to { transform: rotate(360deg); } }
+.cel-card {
+  position: relative; width: min(460px, 100%); max-height: calc(100vh - 32px); overflow-y: auto;
+  background: var(--paper, #fffaf0); border: 4px solid var(--ink); border-radius: 26px;
+  padding: 18px 20px 20px; text-align: center; box-shadow: 0 10px 0 rgba(0, 0, 0, .25);
+  animation: celPopIn .55s cubic-bezier(.3, 1.5, .5, 1) both;
+}
+@keyframes celPopIn { from { transform: scale(.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.cel-kicker { margin: 0; font-weight: 700; color: #d9480f; letter-spacing: .5px; }
+.cel-svg { display: block; width: 100%; max-width: 300px; margin: 0 auto; overflow: visible; }
+.cel-name { margin: 4px 0 6px; font-size: 28px; line-height: 1.2; }
+.cel-letters span { display: inline-block; color: #e8590c; animation: celLetter .45s cubic-bezier(.3, 1.7, .5, 1) both; animation-delay: calc(1.3s + var(--i) * .07s); }
+@keyframes celLetter { from { transform: translateY(-30px) scale(.3); opacity: 0; } to { transform: none; opacity: 1; } }
+.cel-text { margin: 0 0 14px; }
+.cel-btns { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.cel-medal { animation: celDrop 1.1s cubic-bezier(.3, 1.35, .5, 1) .45s both; }
+@keyframes celDrop { 0% { transform: translateY(-300px) rotate(-25deg); opacity: 0; } 40% { opacity: 1; } 100% { transform: none; opacity: 1; } }
+.cel-glint { animation: celGlint 2.2s ease-in-out 1.8s infinite; }
+@keyframes celGlint { 0%, 70%, 100% { opacity: 0; } 80% { opacity: 1; } }
+.cel-jump { animation: celJump .5s ease-in-out 1.6s 4 alternate; }
+@keyframes celJump { to { transform: translateY(-16px); } }
+.cel-spark { transform-box: fill-box; transform-origin: center; animation: celTwinkle 1.4s ease-in-out infinite alternate; }
+.cel-spark.s2 { animation-delay: .4s; }
+.cel-spark.s3 { animation-delay: .8s; }
+.cel-spark.s4 { animation-delay: 1.1s; }
+@keyframes celTwinkle { from { transform: scale(.6) rotate(-10deg); opacity: .5; } to { transform: scale(1.15) rotate(10deg); opacity: 1; } }
+.cel-confetti { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.cel-confetti i { position: absolute; top: -20px; height: 14px; border-radius: 3px; animation: celFall 3.2s linear infinite; }
+@keyframes celFall { to { top: 110%; transform: translateX(40px) rotate(720deg); } }
+
+/* Tokoh di dalam SVG */
+.cm-kid .leg, .cm-kid .arm, .cm-kid .cape { transform-box: fill-box; }
+.cm-kid .leg { transform-origin: 50% 0; }
+.cm-kid .arm.l { transform-origin: 100% 0; }
+.cm-kid .arm.r { transform-origin: 0 0; }
+.cm-kid.run .leg.l, .cm-kid.run .arm.r { animation: cmSwing .3s ease-in-out infinite alternate; }
+.cm-kid.run .leg.r, .cm-kid.run .arm.l { animation: cmSwing .3s ease-in-out infinite alternate-reverse; }
+@keyframes cmSwing { from { transform: rotate(-30deg); } to { transform: rotate(30deg); } }
+.cm-kid.cheer .arm.l { animation: cmCheerL .45s ease-in-out infinite alternate; }
+.cm-kid.cheer .arm.r { animation: cmCheerR .45s ease-in-out infinite alternate; }
+@keyframes cmCheerL { from { transform: rotate(92deg); } to { transform: rotate(118deg); } }
+@keyframes cmCheerR { from { transform: rotate(-92deg); } to { transform: rotate(-118deg); } }
+.cm-kid.point .arm.r { transform: rotate(-110deg); }
+.cm-kid.bob { animation: cmBob 1.2s ease-in-out infinite alternate; }
+@keyframes cmBob { to { transform: translateY(-8px); } }
+.cm-kid.duck { transform: translateY(14px); animation: cmTremble .18s ease-in-out infinite alternate; }
+@keyframes cmTremble { from { translate: -1.5px 0; } to { translate: 1.5px 0; } }
+.cm-kid .cape { transform-origin: 50% 0; animation: cmCape .6s ease-in-out infinite alternate; }
+@keyframes cmCape { to { transform: skewX(8deg); } }
+
+/* Film */
+.cm-frame { width: min(860px, 100%); display: flex; flex-direction: column; gap: 10px; }
+.cm-screen { position: relative; border: 4px solid var(--ink); border-radius: 20px; overflow: hidden; background: #8fd3ff; box-shadow: 0 8px 0 rgba(0, 0, 0, .3); }
+.cm-svg { display: block; width: 100%; height: auto; }
+.cm-cap { margin: 0; min-height: 3.2em; padding: 10px 16px; background: var(--paper, #fffaf0); border: 3px solid var(--ink); border-radius: 16px; font-size: 19px; font-weight: 600; text-align: center; }
+.cm-ctrl { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
+.cm-dots { display: flex; gap: 6px; padding: 0 6px; }
+.cm-dots i { width: 12px; height: 12px; border-radius: 50%; background: rgba(255, 255, 255, .35); border: 2px solid #fff; }
+.cm-dots i.on { background: var(--sun, #ffc93c); }
+.cm.paused *, .cm.paused *::before, .cm.paused *::after { animation-play-state: paused !important; }
+
+.cm-svg .cm-bob { animation: cmBob 1.4s ease-in-out infinite alternate; }
+.cm-cloud { animation: cmDrift 14s linear infinite alternate; }
+.cm-cloud.slow { animation-duration: 22s; }
+@keyframes cmDrift { to { transform: translateX(60px); } }
+.cm-leaves { transform-box: fill-box; transform-origin: 50% 100%; animation: cmSway 2.4s ease-in-out infinite alternate; }
+@keyframes cmSway { from { transform: rotate(-5deg); } to { transform: rotate(5deg); } }
+.cm-sea .cm-foam { animation: cmFoam 2s ease-in-out infinite alternate; }
+@keyframes cmFoam { to { transform: translateX(18px); } }
+.cm-gull { animation: cmFly 7s linear infinite; }
+@keyframes cmFly { from { transform: translateX(-200px); } to { transform: translateX(420px); } }
+.cm-bubble.pop > g, .cm-bubble.pop { animation: celFade .5s ease 1.2s both; }
+
+.cm-svg.title .cm-title-1 { animation: celFade 1s ease .3s both; }
+.cm-svg.title .cm-title-2 { animation: celFade .9s ease 1.1s both; }
+.cm-svg.title .cm-title-3 { animation: celFade 1s ease 2s both; }
+.cm-twinkle { animation: celGlint 2s ease-in-out infinite; }
+.cm-peek { animation: cmPeek 1.2s cubic-bezier(.3, 1.4, .5, 1) 2.6s both; }
+@keyframes cmPeek { from { transform: translateY(160px); } to { transform: none; } }
+
+.cm-svg.shake { animation: cmShake .14s linear .3s 10 alternate; }
+@keyframes cmShake { 0% { transform: translate(0, 0); } 25% { transform: translate(-7px, 3px); } 50% { transform: translate(6px, -3px); } 75% { transform: translate(-4px, -2px); } 100% { transform: translate(5px, 2px); } }
+.cm-house.wobble { animation: cmWobble .2s ease-in-out .3s 12 alternate; }
+.cm-house.wobble.d2 { animation-delay: .4s; }
+@keyframes cmWobble { from { translate: -3px 0; } to { translate: 3px 0; } }
+.cm-crack { stroke-dasharray: 160; stroke-dashoffset: 160; animation: cmDraw 1.2s ease 1.4s forwards; }
+@keyframes cmDraw { to { stroke-dashoffset: 0; } }
+
+.cm-sea.out { animation: cmRecede 3s ease-in-out .4s both; }
+@keyframes cmRecede { to { transform: translateX(-230px); } }
+.cm-fish { opacity: 0; animation: cmFlop .4s ease-in-out 2.4s infinite alternate; }
+@keyframes cmFlop { from { opacity: 1; translate: 0 0; } to { opacity: 1; translate: 0 -8px; } }
+
+.cm-siren-light { animation: cmBlink .45s steps(2) infinite; }
+@keyframes cmBlink { 50% { fill: #ffe27a; } }
+.cm-siren-waves { animation: celGlint .9s ease-in-out infinite; }
+
+.cm-runners { animation: cmRun 6.5s ease-in-out .3s both; }
+.cm-runners.slow { animation-duration: 7s; }
+@keyframes cmRun { to { transform: translate(250px, -186px); } }
+.cm-wave.rise { animation: cmWaveRise 7s ease-out .2s both; }
+@keyframes cmWaveRise { from { transform: translateX(120px); } to { transform: translateX(430px); } }
+.cm-wave.hit { animation: cmWaveHit 4s ease-in-out .2s both; }
+@keyframes cmWaveHit { from { transform: translateX(260px); } 60% { transform: translateX(520px); } to { transform: translateX(470px); } }
+
+.cm-house.grow { animation: cmRise 1.2s cubic-bezier(.3, 1.4, .5, 1) .5s both; }
+.cm-house.grow.d2 { animation-delay: 1.1s; }
+@keyframes cmRise { from { opacity: 0; translate: 0 60px; } to { opacity: 1; translate: 0 0; } }
+.cm-sprout { animation: cmRise 1s cubic-bezier(.3, 1.4, .5, 1) both; }
+
+.cm-rainbow { animation: celFade 1.6s ease both; opacity: .85; }
+.cm-banner { animation: celFade .8s ease 1.6s both; }
+
+@media (max-width: 560px) {
+  .cm-cap { font-size: 16px; }
+  .cel-name { font-size: 23px; }
+  .cel-svg { max-width: 230px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cel *, .cm * { animation-duration: .01s !important; animation-iteration-count: 1 !important; animation-delay: 0s !important; }
+  .cel-rays, .cel-confetti { display: none; }
+}
