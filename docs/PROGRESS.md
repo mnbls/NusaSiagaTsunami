@@ -40,6 +40,7 @@ Perbarui berkas ini setiap selesai satu pekerjaan: isi **Status sekarang**, tamb
 | 24 Nov 2026 | Login Google dimatikan (kode disimpan). Akun wajib dengan username + kata sandi sebelum bermain. Daftar pemain tamu di perangkat disembunyikan selama layanan online aktif. |
 | 24 Nov 2026 | Tombol **Kembali** dan **Beranda** di bilah atas semua layar (kecuali beranda). Kembali mengikuti riwayat layar (navStack). |
 | 27 Nov 2026 | Upacara medali per pulau (nama pemain, medali jatuh ke leher, konfeti) dan film cerita penutup "Kisah [nama], Pahlawan Siaga" setelah misi terakhir. Modul baru `celebrate.js`. |
+| 27 Nov 2026 | Perbaikan: memuat ulang halaman saat masuk dengan akun tidak lagi menghapus progres di perangkat (keluar baru dianggap terjadi setelah Firebase selesai memeriksa login). Akun uji `razka` dibuat pemilik, diisi 39 dari 40 misi (sisa misi f10). |
 
 ## Berikutnya (usulan)
 

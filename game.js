@@ -5689,7 +5689,9 @@
         }
         return;
       }
-      if (!u && store.current && store.current.startsWith('g_')) {
+      // Hanya dianggap keluar setelah Firebase selesai memeriksa login (state.ready). Saat halaman baru dimuat,
+      // pengguna sempat terbaca kosong sebelum pemeriksaan selesai; tanpa syarat ini progres di perangkat ikut terhapus.
+      if (!u && c.state.ready && store.current && store.current.startsWith('g_')) {
         // Keluar: salinan data akun di perangkat dihapus (datanya tetap aman online).
         delete store.profiles[store.current];
         const first = Object.keys(store.profiles).find(id => !id.startsWith('g_')) || null;
